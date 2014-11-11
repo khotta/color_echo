@@ -1,4 +1,4 @@
-# ColorEcho
+# color_echo
 To add color to the command line output.  
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 required StringIO.   
@@ -37,7 +37,7 @@ Change the foreground color to the your specified color.
 ex.) CE::ch_fg :red #=> foreground color will be changed red  
 
 
-#### CE::ch_bg::symbol   
+#### CE::ch_bg :symbol   
 Change the background color to the your specified color.  
 
 * symbol list:    
