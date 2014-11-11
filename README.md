@@ -72,6 +72,8 @@ Turn off the function of this library.
 #
 # Example Code
 #
+require "color_echo"
+
 # change the foreground color to 'yellow'
 CE::ch_fg :yellow
 
@@ -95,6 +97,10 @@ CE::ch_tx :underscore
 ary = ["aaa", "bbb", "ccc"]
 p ary
 print ary
+
+CE::ch_bg :blue
+CE::ch_fg :white
+p "aaaaa", "bbbbb", "ccccc", "ddddd", "eeeee"
 
 # reset the color sequence
 CE::disable
