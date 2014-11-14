@@ -3,7 +3,7 @@ To add color to the command line output.
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 required StringIO.   
 
-Version: 0.1.0   
+Version: 0.1.1   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -66,17 +66,17 @@ ex.) CE::ch_tx :blink #=> text blink on
 
 #### CE::ch :foreground [,:background [,:text_attribute]]  
 Change collectively.  
-This method is available in version 0.1.0.   
+This method is available in version 0.1.0 on and after.   
 ex.) CE:ch :white, :green   
 
 #### CE::disable   
 Reset to set the color sequence.   
 Alias is, CE::off, CE::reset   
-This method alias is available in version 0.1.0.   
+This method alias is available in version 0.1.0 on and after.   
 
-#### CE::not_use    
+#### CE::unuse
 Force ignore the function of this library.    
-This method is available in version 0.1.0.   
+This method is available in version 0.1.0 on and after.   
 
 ### Example
 <pre>
@@ -86,7 +86,7 @@ This method is available in version 0.1.0.
 require "color_echo"
 
 # force ignore the function of this library
-#CE::not_use
+#CE::unuse
 
 # change the foreground color to 'yellow'
 CE::ch_fg :yellow
@@ -131,5 +131,3 @@ sed do eiusmod tempor incididunt
 ut labore et dolore magna aliqua. 
 EOM
 </pre>
-
-

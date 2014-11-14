@@ -4,7 +4,7 @@
 require "stringio"
 
 module CE
-    VERSION    = "0.1.0"
+    VERSION    = "0.1.1"
     CODE_RESET = "\e[0m"
 
     @@use            = true
@@ -64,7 +64,7 @@ module CE
         disable
     end
 
-    def not_use
+    def unuse
         @@use = false
     end
 
