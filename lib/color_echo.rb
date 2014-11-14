@@ -4,9 +4,10 @@
 require "stringio"
 
 module CE
-    VERSION    = "0.0.1"
+    VERSION    = "0.1.0"
     CODE_RESET = "\e[0m"
 
+    @@use            = true
     @@enable         = false
     @@code_bg_color  = ""
     @@code_fg_color  = ""
@@ -44,8 +45,8 @@ module CE
     end
 
     module_function
-    def enable
-        return @@enable
+    def enable?
+        return @@enable && @@use
     end
 
     def disable
@@ -55,19 +56,40 @@ module CE
         @@code_text_attr = ""
     end
 
+    def off
+        disable
+    end
+
+    def reset
+        disable
+    end
+
+    def not_use
+        @@use = false
+    end
+
     def ch_fg(name)
+        return nil if !name.instance_of?(Symbol)
         @@enable        = true if !@@enable
         @@code_fg_color = get_code("ForeGround", name)
     end
 
     def ch_bg(name)
+        return nil if !name.instance_of?(Symbol)
         @@enable        = true if !@@enable
         @@code_bg_color = get_code("BackGround", name)
     end
 
     def ch_tx(name)
+        return nil if !name.instance_of?(Symbol)
         @@enable         = true if !@@enable
         @@code_text_attr = get_code("TextAttr", name)
+    end
+
+    def ch(fg, bg=nil, tx=nil)
+        ch_fg(fg)
+        ch_bg(bg)
+        ch_tx(tx)
     end
 
     def get_color_code
@@ -89,18 +111,7 @@ module CE
 end
 
 def print(*arg)
-    if CE::enable
-        $stdout.print(CE::get_color_code)
-        super
-        $stdout.print(CE::get_reset_code)
-
-    else
-        super
-    end
-end
-
-def p(*arg)
-    if CE::enable
+    if CE::enable?
         # change output destination to StringIO Object
         strio   = StringIO.new
         $stdout = strio
@@ -113,15 +124,36 @@ def p(*arg)
         # change output destination to STDOUT
         $stdout = STDOUT
 
-        # add reset sequence
-        if (/#{$/}$/ =~ strio.string)
-            output = strio.string.chomp
-            output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
-            output += CE::get_reset_code + $/
-        else
-            output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
-            output += $/
-        end
+        # add reset & start code to line feed code
+        output = strio.string
+        output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
+        output += CE::get_reset_code
+
+        # output to STDOUT
+        $stdout.print(output)
+    else
+        super
+    end
+end
+
+def p(*arg)
+    if CE::enable?
+        # change output destination to StringIO Object
+        strio   = StringIO.new
+        $stdout = strio
+
+        # output color sequence
+        $stdout.print(CE::get_color_code)
+
+        super
+
+        # change output destination to STDOUT
+        $stdout = STDOUT
+
+        # add reset & start code to line feed code
+        output = strio.string
+        output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
+        output += CE::get_reset_code
 
         # output to STDOUT
         $stdout.print(output)
@@ -131,7 +163,7 @@ def p(*arg)
 end
 
 def puts(*arg)
-    if CE::enable
+    if CE::enable?
         # change output destination to StringIO Object
         strio   = StringIO.new
         $stdout = strio
@@ -144,15 +176,10 @@ def puts(*arg)
         # change output destination to STDOUT
         $stdout = STDOUT
 
-        # add reset sequence
-        if (/#{$/}$/ =~ strio.string)
-            output = strio.string.chomp
-            output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
-            output += CE::get_reset_code + $/
-        else
-            output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
-            output += $/
-        end
+        # add reset & start code to line feed code
+        output = strio.string
+        output.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_color_code)
+        output += CE::get_reset_code
 
         # output to STDOUT
         $stdout.print(output)
