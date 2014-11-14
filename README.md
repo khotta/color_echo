@@ -88,42 +88,25 @@ require "color_echo"
 # force ignore the function of this library
 #CE::unuse
 
-# change the foreground color to 'yellow'
-CE::ch_fg :yellow
-
+CE::ch :yellow
 puts "fooooooooo"
 puts "baaaaaaaar"
 
-# change the foreground color to 'white'
-CE::ch_fg :white
-# change the foreground color to 'red'
-CE::ch_bg :red
-
+CE::ch :white, :red
 print "testtesttest"
 
-# change the foreground color to 'black'
-CE::ch_fg :black
-# change the foreground color to 'cyan'
-CE::ch_bg :cyan
-# change the text attribute 'underscore'
-CE::ch_tx :underscore
-
+CE::ch :black, :cyan, :underscore
 ary = ["aaa", "bbb", "ccc"]
 p ary
 print ary
 
-CE::ch_bg :blue
-CE::ch_fg :white
+CE::ch :white, :blue
 p "aaaaa", "bbbbb", "ccccc", "ddddd", "eeeee"
 
-# reset the color sequence
 CE::off
-
 puts "hogehoge"
 
-# to change collectively
 CE::ch :black, :white, :blink
-
 puts &lt;&lt;EOM
 Lorem ipsum dolor sit amet,
 consectetur adipisicing elit,
