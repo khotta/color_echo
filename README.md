@@ -124,7 +124,7 @@ puts "hogehoge"
 # to change collectively
 CE::ch :black, :white, :blink
 
-puts <<EOM
+puts &lt;&lt;EOM
 Lorem ipsum dolor sit amet,
 consectetur adipisicing elit,
 sed do eiusmod tempor incididunt
