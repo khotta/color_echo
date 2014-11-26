@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name                  = "color_echo"
   spec.version               = CE::VERSION
   spec.summary               = %q{To add color to the command line output.}
-  spec.description           = %q{This Library will extend the Kernel module's functions(#print, #puts, #p). required StringIO.}
+  spec.description           = %q{To add color to the command line output.This Library will extend the Kernel module's functions(#print, #puts, #p). required StringIO.}
   spec.homepage              = docs_page
   spec.authors               = ["nyanko"]
   spec.email                 = ["nyanko@dammy"]
