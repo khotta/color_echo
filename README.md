@@ -76,9 +76,9 @@ Change collectively.
 This method is available in version 0.1.0 on and after.   
 ex.) CE.ch :white, :green   
 
-#### CE.disable   
+#### CE.reset
 Reset to set the color sequence.   
-Alias is, CE::off, CE::reset   
+Alias is, CE::off, CE::disable      
 This method alias is available in version 0.1.0 on and after.   
 
 #### CE.unuse
