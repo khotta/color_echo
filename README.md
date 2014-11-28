@@ -3,7 +3,7 @@ To add color to the command line output.
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 required StringIO.   
 
-Version: 0.2.1   
+Version: 0.2.2   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -137,6 +137,14 @@ CE.rainbow
 puts "String will be rainbow! You can specify the argument only one."
 puts ["rainbow", "is", "String", "only"]
 puts "this is rainbow.", "This argument is ignored when rainbow mode."
+
+CE.rainbow
+puts &lt;&lt;EOS
+aaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaa
+EOS
+
 CE.off
 puts "Disable rainbow mode."
 </pre>

@@ -1,12 +1,12 @@
 module CE
     module ForeGround
-        BLACK   = 30
-        RED     = 31
-        GREEN   = 32
-        YELLOW  = 33
-        BLUE    = 34
-        MAGENTA = 35
-        CYAN    = 36
-        WHITE   = 37
+        BLACK   = "\e[30m"
+        RED     = "\e[31m"
+        GREEN   = "\e[32m"
+        YELLOW  = "\e[33m"
+        BLUE    = "\e[34m"
+        MAGENTA = "\e[35m"
+        CYAN    = "\e[36m"
+        WHITE   = "\e[37m"
     end
 end

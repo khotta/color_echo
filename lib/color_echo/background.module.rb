@@ -1,12 +1,12 @@
 module CE
     module BackGround
-        BLACK    = 40
-        RED      = 41
-        GREEN    = 42
-        YELLOW   = 43
-        BLUE     = 44
-        MAGENTA  = 45
-        CYAN     = 46
-        WHITE    = 47
+        BLACK    = "\e[40m"
+        RED      = "\e[41m"
+        GREEN    = "\e[42m"
+        YELLOW   = "\e[43m"
+        BLUE     = "\e[44m"
+        MAGENTA  = "\e[45m"
+        CYAN     = "\e[46m"
+        WHITE    = "\e[47m"
     end
 end

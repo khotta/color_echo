@@ -3,10 +3,11 @@
 # To add color to the command line output.
 # This Library will extend the Kernel module's functions(#print, #puts, #p).
 # @autor: Kazuya Hotta (nyanko)
+
 begin
     require "stringio"
 rescue LoadError
-    warn "color_echo required 'stringio.'"
+    warn "color_echo required 'stringio'."
 end
 
 require_relative "color_echo/version.rb"

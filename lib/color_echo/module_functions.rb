@@ -74,27 +74,31 @@ module CE
         cnt    = 0
         output = ""
         text.each_char do |char|
-            output += $/ if char == $/
+            if char == $/
+                output += $/
+                next
+            end
 
             case cnt
             when 0
-                output += "\e[31m" + char + "\e[0m"
+                output += ForeGround::RED + char + CODE_RESET
             when 1
-                output += "\e[32m" + char + "\e[0m"
+                output += ForeGround::GREEN + char + CODE_RESET
             when 2
-                output += "\e[33m" + char + "\e[0m"
+                output += ForeGround::YELLOW + char + CODE_RESET
             when 3
-                output += "\e[34m" + char + "\e[0m"
+                output += ForeGround::BLUE + char + CODE_RESET
             when 4
-                output += "\e[35m" + char + "\e[0m"
+                output += ForeGround::MAGENTA + char + CODE_RESET
             when 5
-                output += "\e[36m" + char + "\e[0m"
+                output += ForeGround::CYAN + char + CODE_RESET
             when 6
-                output += "\e[37m" + char + "\e[0m"
+                output += ForeGround::WHITE + char + CODE_RESET
             end
             cnt += 1
             cnt  = 0 if cnt >= 7
         end
+
         return output
     end
 
@@ -104,7 +108,7 @@ module CE
         rescue NameError
             raise(NameError ,%{:#{name} is not defined! Please check reference.})
         end
-        return "\e[#{code}m"
+        return code
     end
 
     def task

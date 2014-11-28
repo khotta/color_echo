@@ -1,10 +1,9 @@
 module CE
     module TextAttr
-        OFF           = 0
-        BOLD          = 1
-        UNDERSCORE    = 4
-        BLINK         = 5
-        REVERSE_VIDEO = 7
-        CONCEALED     = 8
+        BOLD          = "\e[1m"
+        UNDERSCORE    = "\e[4m"
+        BLINK         = "\e[5m"
+        REVERSE_VIDEO = "\e[7m"
+        CONCEALED     = "\e[8m"
     end
 end
