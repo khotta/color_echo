@@ -3,7 +3,7 @@ To add color to the command line output.
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 required StringIO.   
 
-Version: 0.1.1   
+Version: 0.2.1   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo

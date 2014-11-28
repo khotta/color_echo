@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.files  = Dir["*.txt"]
   spec.files += Dir["*.md"]
   spec.files += Dir['lib/*.rb']
+  spec.files += Dir['lib/color_echo/*.rb']
 
   # The platform this gem runs on.
   #spec.platform = Gem::Platform.local
