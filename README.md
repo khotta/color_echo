@@ -105,54 +105,37 @@ puts "fooooooooo"
 puts "baaaaaaaar"
 puts "AAAAA", "BBBBB", "CCCCC"
 
-$stdout.puts "\n" + "-"*100
-
 CE.ch :white, :red
 print "fooooooooo"
 print "baaaaaaaar"
 print "AAAAA", "BBBBB", "CCCCC"
-
-$stdout.puts "\n" + "-"*100
 
 CE.ch :black, :magenta, :underscore
 p "fooooooooo"
 p "baaaaaaaar"
 p "AAAAA", "BBBBB", "CCCCC"
 
-$stdout.puts "\n" + "-"*100
-
 ary = ["Duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate"]
 
 CE.off
-
 puts "turn off all colors and attribute."
-
-$stdout.puts "\n" + "-"*100
 
 CE.fg :red
 puts ary
 
-$stdout.puts "\n" + "-"*100
-
 CE.bg :cyan
 print ary
-
-$stdout.puts "\n" + "-"*100
 
 CE.tx :underscore
 p ary
 
-$stdout.puts "\n" + "-"*100
-
 CE.ch :black, :white, :blink
-puts &lt;&lt;EOM
+puts <<EOM
 Lorem ipsum dolor sit amet,
 consectetur adipisicing elit,
 sed do eiusmod tempor incididunt
 ut labore et dolore magna aliqua.
 EOM
-
-$stdout.puts "\n" + "-"*100
 
 CE.rainbow
 puts "fooooooooo"
@@ -160,23 +143,17 @@ puts "baaaaaaaar"
 puts "AAAAA", "BBBBB", "CCCCC"
 puts ary
 
-$stdout.puts "\n" + "-"*100
-
 print "fooooooooo"
 print "baaaaaaaar"
 print "AAAAA", "BBBBB", "CCCCC"
 print ary
-
-$stdout.puts "\n" + "-"*100
 
 p "fooooooooo"
 p "baaaaaaaar"
 p "AAAAA", "BBBBB", "CCCCC"
 p ary
 
-$stdout.puts "\n" + "-"*100
-
-puts &lt;&lt;EOM
+puts <<EOM
 Lorem ipsum dolor sit amet,
 consectetur adipisicing elit,
 sed do eiusmod tempor incididunt
@@ -184,11 +161,13 @@ ut labore et dolore magna aliqua.
 EOM
 
 CE.off
-
-$stdout.puts "\n" + "-"*100
-
 puts "Disable rainbow mode."
 ```
+
+#### Result
+
+![screen shot](/images/screenshot.png)
+
 
 ## Release Note
 * v0.2.3, 2014-12-02, Fixed small bugs.
