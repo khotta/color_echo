@@ -23,7 +23,7 @@ Or install it yourself as:
 ### module functions
 #### CE.ch_fg :symbol
 Change the foreground color to the your specified color.  
-Alias is, CE.fg   
+Alias is, fg   
 This method alias is available in version 0.2.0 on and after.   
 
 * symbol list:    
@@ -40,7 +40,7 @@ ex.) CE.ch_fg :red #=> foreground color will be changed red
 
 #### CE.ch_bg :symbol   
 Change the background color to the your specified color.  
-Alias is, CE.bg   
+Alias is, bg   
 This method alias is available in version 0.2.0 on and after.   
 
 
@@ -67,9 +67,8 @@ Change the text attribute to the your specified decoration.
     * concealed   
 
 ex.) CE.ch_tx :blink #=> text blink on
-Alias is, CE.tx   
+Alias is, tx   
 This method alias is available in version 0.2.0 on and after.   
-
 
 #### CE.ch :foreground [,:background [,:text_attribute]]  
 Change collectively.  
@@ -78,7 +77,7 @@ ex.) CE.ch :white, :green
 
 #### CE.reset
 Reset to set the color sequence.   
-Alias is, CE::off, CE::disable      
+Alias is, off, disable      
 This method alias is available in version 0.1.0 on and after.   
 
 #### CE.unuse
@@ -86,65 +85,110 @@ Force ignore the function of this library.
 This method is available in version 0.1.0 on and after.   
 
 #### CE.rainbow
-Enjoy rainbow.     
+Text color will change to rainbow color.   
+String Object only.   
+Non-string object is excluded.    
 This method is available in version 0.2.0 on and after.   
 
 ### Example
-<pre>
+```ruby
 #
 # Example Code
 #
 require "color_echo"
 
 # force ignore the function of this library
-#CE::unuse
+#CE.unuse
 
 CE.ch :yellow
 puts "fooooooooo"
 puts "baaaaaaaar"
+puts "AAAAA", "BBBBB", "CCCCC"
+
+$stdout.puts "\n" + "-"*100
 
 CE.ch :white, :red
-print "testtesttest"
+print "fooooooooo"
+print "baaaaaaaar"
+print "AAAAA", "BBBBB", "CCCCC"
 
-CE.ch :black, :cyan, :underscore
+$stdout.puts "\n" + "-"*100
+
+CE.ch :black, :magenta, :underscore
+p "fooooooooo"
+p "baaaaaaaar"
+p "AAAAA", "BBBBB", "CCCCC"
+
+$stdout.puts "\n" + "-"*100
+
 ary = ["Duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate"]
-p ary
-print ary
 
 CE.off
 
-CE.fg :white
-p "aaaaa", "bbbbb", "ccccc", "ddddd", "eeeee"
+puts "turn off all colors and attribute."
 
-CE.bg :magenta
+$stdout.puts "\n" + "-"*100
+
+CE.fg :red
+puts ary
+
+$stdout.puts "\n" + "-"*100
+
+CE.bg :cyan
 print ary
 
-CE.reset
-puts "hogehoge"
+$stdout.puts "\n" + "-"*100
 
 CE.tx :underscore
-puts "hogehoge"
+p ary
+
+$stdout.puts "\n" + "-"*100
 
 CE.ch :black, :white, :blink
 puts &lt;&lt;EOM
 Lorem ipsum dolor sit amet,
 consectetur adipisicing elit,
 sed do eiusmod tempor incididunt
-ut labore et dolore magna aliqua. 
+ut labore et dolore magna aliqua.
 EOM
 
-CE.rainbow
-puts "String will be rainbow! You can specify the argument only one."
-puts ["rainbow", "is", "String", "only"]
-puts "this is rainbow.", "This argument is ignored when rainbow mode."
+$stdout.puts "\n" + "-"*100
 
 CE.rainbow
-puts &lt;&lt;EOS
-aaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaa
-EOS
+puts "fooooooooo"
+puts "baaaaaaaar"
+puts "AAAAA", "BBBBB", "CCCCC"
+puts ary
+
+$stdout.puts "\n" + "-"*100
+
+print "fooooooooo"
+print "baaaaaaaar"
+print "AAAAA", "BBBBB", "CCCCC"
+print ary
+
+$stdout.puts "\n" + "-"*100
+
+p "fooooooooo"
+p "baaaaaaaar"
+p "AAAAA", "BBBBB", "CCCCC"
+p ary
+
+$stdout.puts "\n" + "-"*100
+
+puts &lt;&lt;EOM
+Lorem ipsum dolor sit amet,
+consectetur adipisicing elit,
+sed do eiusmod tempor incididunt
+ut labore et dolore magna aliqua.
+EOM
 
 CE.off
+
+$stdout.puts "\n" + "-"*100
+
 puts "Disable rainbow mode."
-</pre>
+```
+
+## Release Note
+* v0.2.3, 2014-12-02, Fixed small bugs.
