@@ -13,10 +13,18 @@ module CE
     @@task = lambda do |*arg|
         if available?
             if @@rainbow && arg.first.instance_of?(String)
-                arg = add_rainbow(arg.first)
+                # change output destination to StringIO Object
+                strio   = StringIO.new
+                $stdout = strio
 
                 # call original method
-                eval("@@#{caller_locations(2).first.label}").call(arg)
+                eval("@@#{caller_locations(2).first.label}").call(*arg)
+
+                # change output destination to STDOUT
+                $stdout = STDOUT
+
+                # output to STDOUT
+                $stdout.print add_rainbow(strio.string)
 
             else
                 # change output destination to StringIO Object
@@ -27,7 +35,7 @@ module CE
                 $stdout.print get_start_code
 
                 # call original method
-                eval("@@#{caller_locations(2).first.label}").call(arg)
+                eval("@@#{caller_locations(2).first.label}").call(*arg)
 
                 # change output destination to STDOUT
                 $stdout = STDOUT
@@ -39,7 +47,7 @@ module CE
         # no available "color echo"
         else
             # call original method
-            eval("@@#{caller_locations(2).first.label}").call(arg)
+            eval("@@#{caller_locations(2).first.label}").call(*arg)
         end
     end
 end
