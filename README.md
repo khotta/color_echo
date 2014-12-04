@@ -3,7 +3,7 @@ To add color to the command line output.
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 required StringIO.   
 
-Version: 0.2.3   
+Version: 0.2.4   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -86,8 +86,8 @@ This method is available in version 0.1.0 on and after.
 
 #### CE.rainbow
 Text color will change to rainbow color.   
-String Object only.   
-Non-string object is excluded.    
+~~String Object only. Non-string object is excluded.~~ ->
+Be able to specify a non-string when rainbow mode at version 0.2.4 on and after.    
 This method is available in version 0.2.0 on and after.   
 
 ### Example
@@ -160,6 +160,13 @@ sed do eiusmod tempor incididunt
 ut labore et dolore magna aliqua.
 EOM
 
+CE.tx :underscore
+CE.bg :black
+CE.rainbow
+hash = {:foo => [111, 222, 333], :bar => {:str => String}}
+p hash
+p "fooooooo", ["AAA", "BBB", "CCC"]
+
 CE.off
 puts "Disable rainbow mode."
 ```
@@ -170,4 +177,9 @@ puts "Disable rainbow mode."
 
 
 ## Release Note
-* v0.2.3, 2014-12-02, Fixed small bugs.
+* v0.2.3, 2014-12-02
+    * Fixed small bugs.
+
+* v0.2.4, 2014-12-04
+    * Be able to specify a non-string when rainbow mode.
+    * Be able to take over the setting of other types of sequence when rainbow mode.
