@@ -137,6 +137,7 @@ sed do eiusmod tempor incididunt
 ut labore et dolore magna aliqua.
 EOM
 
+CE.off
 CE.rainbow
 puts "fooooooooo"
 puts "baaaaaaaar"

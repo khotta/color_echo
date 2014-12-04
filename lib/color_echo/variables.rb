@@ -4,6 +4,7 @@ module CE
     @@code_bg_color  = ""
     @@code_fg_color  = ""
     @@code_text_attr = ""
+    @@code_rainbow   = ""
     @@rainbow        = false
 
     @@print = method :print
@@ -12,35 +13,23 @@ module CE
 
     @@task = lambda do |*arg|
         if available?
-            if @@rainbow && arg.first.instance_of?(String)
-                # change output destination to StringIO Object
-                strio   = StringIO.new
-                $stdout = strio
+            # change output destination to StringIO Object
+            strio   = StringIO.new
+            $stdout = strio
 
-                # call original method
-                eval("@@#{caller_locations(2).first.label}").call(*arg)
+            # output color sequence
+            $stdout.print get_start_code if !@@rainbow
 
-                # change output destination to STDOUT
-                $stdout = STDOUT
+            # call original method
+            eval("@@#{caller_locations(2).first.label}").call(*arg)
 
-                # output to STDOUT
+            # change output destination to STDOUT
+            $stdout = STDOUT
+
+            # output to STDOUT
+            if @@rainbow
                 $stdout.print add_rainbow(strio.string)
-
             else
-                # change output destination to StringIO Object
-                strio   = StringIO.new
-                $stdout = strio
-
-                # output color sequence
-                $stdout.print get_start_code
-
-                # call original method
-                eval("@@#{caller_locations(2).first.label}").call(*arg)
-
-                # change output destination to STDOUT
-                $stdout = STDOUT
-
-                # output to STDOUT
                 $stdout.print add_reset_line_feed(strio.string)
             end
 
