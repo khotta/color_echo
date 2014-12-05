@@ -86,8 +86,8 @@ This method is available in version 0.1.0 on and after.
 
 #### CE.rainbow
 Text color will change to rainbow color.   
-~~String Object only. Non-string object is excluded.~~ ->
-Be able to specify a non-string when rainbow mode at version 0.2.4 on and after.    
+~~String Object only. Non-string object is excluded.~~
+-> Can v0.2.4 on and after be able to specify a non-string when rainbow mode.   
 This method is available in version 0.2.0 on and after.   
 
 ### Example
@@ -178,9 +178,9 @@ puts "Disable rainbow mode."
 
 
 ## Release Note
+* v0.2.4, 2014-12-04
+    * Can now be able to specify a non-string when rainbow mode.
+    * Cab now be able to take over the setting of other types of sequence when rainbow mode.
+
 * v0.2.3, 2014-12-02
     * Fixed small bugs.
-
-* v0.2.4, 2014-12-04
-    * Be able to specify a non-string when rainbow mode.
-    * Be able to take over the setting of other types of sequence when rainbow mode.
