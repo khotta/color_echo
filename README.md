@@ -37,7 +37,7 @@ return self.
     * cyan  
     * white   
     
-    available in version 0.2.0 on and after.    
+    available in version 0.3.0 on and after.    
     * gray   
     * h_red   
     * h_green   
@@ -66,7 +66,7 @@ return self.
     * cyan  
     * white  
     
-    available in version 0.2.0 on and after.    
+    available in version 0.3.0 on and after.    
     * gray   
     * h_red   
     * h_green   
