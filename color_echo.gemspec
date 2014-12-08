@@ -3,15 +3,20 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'color_echo'
 docs_page = "https://github.com/khotta/color_echo"
+description = <<EOS
+Using the ANSI escape sequence and give it a color on the command line output.
+This Library will extend the Kernel module's functions(#print, #puts, #p).
+Required StringIO.
+EOS
 
 Gem::Specification.new do |spec|
   spec.name                  = "color_echo"
   spec.version               = CE::VERSION
-  spec.summary               = %q{To add color to the command line output.}
-  spec.description           = %q{To add color to the command line output.This Library will extend the Kernel module's functions(#print, #puts, #p). required StringIO.}
+  spec.summary               = %q{Using the ANSI escape sequence and give it a color on the command line output.}
+  spec.description           = description
   spec.homepage              = docs_page
   spec.authors               = ["nyanko"]
-  spec.email                 = ["nyanko@dammy"]
+  spec.email                 = ["khotta@users.noreply.github.com"]
   spec.license               = "MIT"
   spec.post_install_message  = "#{$-0}\e[5mThank you for installing! (^-^)\e[0m"
   spec.post_install_message += "#{$-0}See also \e[31m\e[47m \e[4m#{docs_page} \e[0m#{$-0}#{$-0}"

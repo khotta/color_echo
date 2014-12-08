@@ -1,12 +1,12 @@
 module CE
     # @return bool
     def available?
-        return @@enable && @@isset
+        return @@enable && isset?
     end
 
     # @return bool
     def isset?
-        return @@isset
+        return get_start_code != "" || @@rainbow
     end
 
     # @return bool
@@ -19,51 +19,69 @@ module CE
         @@enable = false
     end
 
-    # @return void
-    def reset
-        @@isset          = false
-        @@rainbow        = false
-        @@code_bg_color  = ""
-        @@code_fg_color  = ""
-        @@code_text_attr = ""
-        @@code_rainbow   = ""
+    # @return self
+    def reset(target=nil)
+        if (target == :fg)
+            @@code_fg_color = ""
+
+        elsif (target == :bg)
+            @@code_bg_color = ""
+
+        else
+            @@code_bg_color  = ""
+            @@code_fg_color  = ""
+            @@code_text_attr = ""
+            @@code_rainbow   = ""
+            @@rainbow        = false
+        end
+
+        return self
     end
 
     # @param Symbol name
-    # @return void
+    # @return self
     def ch_fg(name)
         return nil if !name.instance_of?(Symbol)
-        @@isset         = true  if !@@isset
-        @@rainbow       = false if @@rainbow
+        @@rainbow = false if @@rainbow
         @@code_fg_color = convert_to_code("ForeGround", name)
+
+        return self
     end
 
     # @param Symbol name
-    # @return void
+    # @return self
     def ch_bg(name)
         return nil if !name.instance_of?(Symbol)
-        @@isset         = true if !@@isset
-        @@rainbow       = false if @@rainbow
+        @@rainbow = false if @@rainbow
         @@code_bg_color = convert_to_code("BackGround", name)
+
+        return self
     end
 
-    # @param Symbol name
-    # @return void
-    def ch_tx(name)
-        return nil if !name.instance_of?(Symbol)
-        @@isset          = true if !@@isset
-        @@rainbow        = false if @@rainbow
-        @@code_text_attr = convert_to_code("TextAttr", name)
+    # @param array name - array of Symbols
+    # @return self
+    def ch_tx(*names)
+        @@rainbow = false    if @@rainbow
+        names     = names[0] if names[0].instance_of?(Array)
+
+        names.each do |name|
+            return nil if !name.instance_of?(Symbol)
+            @@code_text_attr += convert_to_code("TextAttr", name)
+        end
+
+        return self
     end
 
     # @param Symbol fg
     # @param Symbol bg
-    # @param Symbol tx
-    # @return void
-    def ch(fg, bg=nil, tx=nil)
+    # @param array  txs
+    # @return self
+    def ch(fg, bg=nil, txs=nil)
         ch_fg(fg)
         ch_bg(bg)
-        ch_tx(tx)
+        ch_tx(*txs)
+
+        return self
     end
 
     # return start color sequence code
@@ -78,7 +96,7 @@ module CE
 
     # @return String
     def get_reset_code
-        return self::CODE_RESET
+        return self::Off::ALL
     end
 
     # add reset & start code to line feed code
@@ -92,7 +110,6 @@ module CE
     # change mode to rainbow
     # @return void
     def rainbow
-        @@isset        = true if !@@isset
         @@rainbow      = true
         @@code_rainbow = @@code_bg_color + @@code_text_attr
     end
@@ -112,19 +129,19 @@ module CE
 
             case cnt
             when 0
-                output += ForeGround::RED + char + CODE_RESET + get_start_code
+                output += ForeGround::RED + char + Off::ALL + get_start_code
             when 1
-                output += ForeGround::GREEN + char + CODE_RESET + get_start_code
+                output += ForeGround::GREEN + char + Off::ALL + get_start_code
             when 2
-                output += ForeGround::YELLOW + char + CODE_RESET + get_start_code
+                output += ForeGround::YELLOW + char + Off::ALL + get_start_code
             when 3
-                output += ForeGround::BLUE + char + CODE_RESET + get_start_code
+                output += ForeGround::BLUE + char + Off::ALL + get_start_code
             when 4
-                output += ForeGround::MAGENTA + char + CODE_RESET + get_start_code
+                output += ForeGround::MAGENTA + char + Off::ALL + get_start_code
             when 5
-                output += ForeGround::CYAN + char + CODE_RESET + get_start_code
+                output += ForeGround::CYAN + char + Off::ALL + get_start_code
             when 6
-                output += ForeGround::WHITE + char + CODE_RESET + get_start_code
+                output += ForeGround::WHITE + char + Off::ALL + get_start_code
             end
             cnt += 1
             cnt  = 0 if cnt >= 7
