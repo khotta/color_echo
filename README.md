@@ -3,7 +3,7 @@ Using the ANSI escape sequence and give it a color on the command line output.
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 Required StringIO.   
 
-Version: 0.3.0   
+Version: 0.4.0   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -47,6 +47,9 @@ return self.
     * h_cyan   
     * h_white   
 
+    available in version 0.4.0 on and after.   
+    * index[1-256]   
+
 ex.) CE.ch_fg :red #=> foreground color will be changed red  
 
 #### CE.ch_bg :symbol   
@@ -75,6 +78,9 @@ return self.
     * h_magenta   
     * h_cyan   
     * h_white   
+
+    available in version 0.4.0 on and after.   
+    * index[1-256]   
 
 ex.) CE.ch_bg :white #=> background color will be changed white  
 
@@ -125,6 +131,12 @@ Text color will change to rainbow color.
 ~~String Object only. Non-string object is excluded.~~    
 -> Can v0.2.4 on and after be able to specify a non-string when rainbow mode.   
 This method is available in version 0.2.0 on and after.   
+
+
+### Can to select 256 colors!    
+Please install color_echo and do `ruby test/check_color_index_list.rb`.    
+![screen shot](/images/color_index.png)
+
 
 ### Example
 ```ruby
@@ -212,6 +224,9 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v0.4.0, 2014-12-11
+    * Can to select 256 colors.   
+
 * v0.3.0, 2014-12-08
     * High color can now be selected.    
     * Multiple text attribute can now be selected.   
