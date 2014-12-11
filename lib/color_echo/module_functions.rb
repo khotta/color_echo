@@ -158,7 +158,15 @@ module CE
     # @return String
     def convert_to_code(module_name, name)
         begin
-            code = eval(%{#{module_name}::#{name.to_s.swapcase!}})
+            cname = name.to_s.swapcase
+
+            # specified color index
+            if cname.index("INDEX")
+                num = cname.sub("INDEX", "").to_i - 1
+                return eval(%{#{module_name}::INDEX}) + num.to_s + "m"
+            end
+
+            code = eval(%{#{module_name}::#{cname}})
         rescue NameError
             raise(NameError ,%{:#{name} is not defined! Please check reference.})
         end

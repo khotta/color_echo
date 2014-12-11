@@ -16,5 +16,6 @@ module CE
         H_MAGENTA = "\033[105m"
         H_CYAN    = "\033[106m"
         H_WHITE   = "\033[107m"
+        INDEX     = "\033[48;5;"
     end
 end

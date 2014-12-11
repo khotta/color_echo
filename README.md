@@ -135,6 +135,7 @@ This method is available in version 0.2.0 on and after.
 
 ### Can to select 256 colors!    
 Please install color_echo and do `ruby test/check_color_index_list.rb`.    
+ex.) CE.ch :index197, :index230    
 ![screen shot](/images/color_index.png)
 
 
