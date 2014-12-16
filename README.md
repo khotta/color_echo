@@ -3,7 +3,7 @@ Using the ANSI escape sequence and give it a color on the command line output.
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 Required StringIO.   
 
-Version: 0.4.0   
+Version: 0.5.0   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -22,10 +22,10 @@ Or install it yourself as:
 
 ### module functions
 #### CE.ch_fg :symbol
-Change the foreground color to the your specified color.  
-Alias is, fg   
-This method alias is available in version 0.2.0 on and after.   
-return self.   
+Change the foreground color to the your specified color.    
+* Alias -> fg (available in v0.2.0 on and after)     
+* Parameter -> Symbol    
+* Return -> self    
 
 * symbol list:    
     * black  
@@ -37,7 +37,7 @@ return self.
     * cyan  
     * white   
     
-    available in version 0.3.0 on and after.    
+    available in v0.3.0 on and after.    
     * gray   
     * h_red   
     * h_green   
@@ -47,17 +47,19 @@ return self.
     * h_cyan   
     * h_white   
 
-    available in version 0.4.0 on and after.   
+    available in v0.4.0 on and after.   
     * index[1-256]   
 
 ex.) CE.ch_fg :red #=> foreground color will be changed red  
 
-#### CE.ch_bg :symbol   
-Change the background color to the your specified color.  
-Alias is, bg   
-This method alias is available in version 0.2.0 on and after.   
-return self.   
 
+
+
+#### CE.ch_bg :symbol   
+Change the background color to the your specified color.     
+* Alias -> bg (available in v0.2.0 on and after)     
+* Parameter -> Symbol    
+* Return -> self    
 
 * symbol list:    
     * black  
@@ -69,7 +71,7 @@ return self.
     * cyan  
     * white  
     
-    available in version 0.3.0 on and after.    
+    available in v0.3.0 on and after.    
     * gray   
     * h_red   
     * h_green   
@@ -79,7 +81,7 @@ return self.
     * h_cyan   
     * h_white   
 
-    available in version 0.4.0 on and after.   
+    available in v0.4.0 on and after.   
     * index[1-256]   
 
 ex.) CE.ch_bg :white #=> background color will be changed white  
@@ -87,7 +89,10 @@ ex.) CE.ch_bg :white #=> background color will be changed white
 
 
 #### CE.ch_tx :symbol   
-Change the text attribute to the your specified decoration. 
+Change the text attribute to the your specified decoration.     
+* Alias -> tx (available in v0.2.0 on and after)     
+* Parameter -> Symbol    
+* Return -> self    
 
 * symbol list:    
     * bold  
@@ -96,41 +101,66 @@ Change the text attribute to the your specified decoration.
     * reverse_video 
     * concealed   
 
-Alias is, tx   
-This method alias is available in version 0.2.0 on and after.   
-return self.   
 ex.) CE.ch_tx :blink #=> text blink on   
 
 
-
 #### CE.ch foreground [,background [,text_attribute]]   
-Change collectively.  
+Change collectively.     
+This method is available in v0.1.0 on and after.   
+* Parameter foreground -> Symbol     
+* Parameter background -> Symbol     
+* Parameter text_attribute -> Symbol     
+* Return -> self    
+
 ex.) CE.ch :white, :green   
-This method is available in version 0.1.0 on and after.   
-return self.   
 
 
-#### CE.reset([target={:fg|:bg]})     
+#### CE.reset([target={:fg|:bg]})  
 Reset to set the escape sequence.   
-Alias is, off, disable      
-This method alias is available in version 0.1.0 on and after.   
-Parameters can v0.3.0 on and after be specified.   
+* Alias -> off, disable (available in v0.1.0 on and after)    
+* Parameter target -> Symbol (available in v0.3.0 on and after)     
+* Return -> self    
+
 ex.) CE.reset :fg #=> foreground color will be reset.    
 ex.) CE.reset :bg #=> background color will be reset.    
 ex.) CE.reset     #=> All reset the set escape sequence.    
-return self.   
 
+
+#### CE.once     
+Reset automatically after once output.     
+This method is available in v0.5.0 on and after.   
+* Return -> self    
+
+#### CE.times(cnt)
+Reset automatically after cnt times output.     
+This method is available in v0.5.0 on and after.   
+* Parameter cnt -> Integer    
+* Return -> self    
+
+```ruby   
+puts "decorated"
+puts "switch off"
+
+puts "\n"
+
+CE.times(3).rainbow
+puts "one"
+puts "two"
+puts "three"
+puts "switch off"
+```
+![screen shot](/images/result_off.png)
 
 #### CE.unuse
 Force ignore the function of this library.    
-This method is available in version 0.1.0 on and after.   
+This method is available in v0.1.0 on and after.   
 
 
 #### CE.rainbow
 Text color will change to rainbow color.   
 ~~String Object only. Non-string object is excluded.~~    
 -> Can v0.2.4 on and after be able to specify a non-string when rainbow mode.   
-This method is available in version 0.2.0 on and after.   
+This method is available in v0.2.0 on and after.   
 
 
 ### Can to select 256 colors!    
@@ -168,7 +198,7 @@ p "AAAAA", "BBBBB", "CCCCC"
 ary = ["Duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate"]
 
 CE.off
-puts "turn off all colors and attribute."
+puts "switch off all colors and attribute."
 
 CE.fg :red
 puts ary
@@ -226,6 +256,9 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v0.5.0, 2014-12-16
+    * added a new method -> \#once, \#times
+
 * v0.4.0, 2014-12-11
     * Can to select 256 colors.   
 
