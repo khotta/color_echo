@@ -138,6 +138,7 @@ This method is available in v0.5.0 on and after.
  - Return -> self    
 
 ```ruby   
+CE.once.ch :h_yellow, :h_red, :underscore
 puts "decorated"
 puts "switch off"
 

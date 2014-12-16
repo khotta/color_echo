@@ -38,6 +38,18 @@ module CE
         return self
     end
 
+    # auto off until output set count
+    # @params int cnt
+    # @return self
+    def times(cnt)
+        @@cnt_limit = cnt
+        return self
+    end
+
+    def once
+        times(1)
+    end
+
     # @param Symbol name
     # @return self
     def ch_fg(name)
@@ -187,6 +199,8 @@ module CE
                     :reset,
                     :off,
                     :disable,
+                    :times,
+                    :once,
                     :ch_fg,
                     :fg,
                     :ch_bg,

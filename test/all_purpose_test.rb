@@ -25,7 +25,7 @@ p "AAAAA", "BBBBB", "CCCCC"
 ary = ["Duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate"]
 
 CE.off
-puts "turn off all colors and attribute."
+puts "switch off all colors and attribute."
 
 CE.fg :red
 puts ary

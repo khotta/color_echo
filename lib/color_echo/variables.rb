@@ -6,6 +6,7 @@ module CE
     @@code_text_attr = ""
     @@code_rainbow   = ""
     @@rainbow        = false
+    @@cnt_limit      = 0
 
     @@print = method :print
     @@p     = method :p
@@ -31,6 +32,12 @@ module CE
                 $stdout.print add_rainbow(strio.string)
             else
                 $stdout.print add_reset_line_feed(strio.string)
+            end
+
+            # auto off
+            if @@cnt_limit > 0
+                @@cnt_limit -= 1
+                reset if @@cnt_limit == 0
             end
 
         # no available "color echo"

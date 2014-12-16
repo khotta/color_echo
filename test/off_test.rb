@@ -4,7 +4,19 @@
 #require_relative "../lib/color_echo.rb"
 require "color_echo"
 
-puts "* off - test\n\n"
+CE.once.ch :h_yellow, :h_red, :underscore
+puts "decorated"
+puts "switch off"
+
+puts "\n"
+
+CE.times(3).rainbow
+puts "one"
+puts "two"
+puts "three"
+puts "switch off"
+
+puts "\n"
 
 CE.ch :h_green, :h_red, :underscore
 puts "CE.ch :h_green, :h_red, :underscore"
