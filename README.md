@@ -23,9 +23,9 @@ Or install it yourself as:
 ### module functions
 #### CE.ch_fg :symbol
 Change the foreground color to the your specified color.    
-* Alias -> fg (available in v0.2.0 on and after)     
-* Parameter -> Symbol    
-* Return -> self    
+ - Alias -> fg (available in v0.2.0 on and after)     
+ - Parameter -> Symbol    
+ - Return -> self    
 
 * symbol list:    
     * black  
@@ -57,9 +57,9 @@ ex.) CE.ch_fg :red #=> foreground color will be changed red
 
 #### CE.ch_bg :symbol   
 Change the background color to the your specified color.     
-* Alias -> bg (available in v0.2.0 on and after)     
-* Parameter -> Symbol    
-* Return -> self    
+ - Alias -> bg (available in v0.2.0 on and after)     
+ - Parameter -> Symbol    
+ - Return -> self    
 
 * symbol list:    
     * black  
@@ -90,9 +90,9 @@ ex.) CE.ch_bg :white #=> background color will be changed white
 
 #### CE.ch_tx :symbol   
 Change the text attribute to the your specified decoration.     
-* Alias -> tx (available in v0.2.0 on and after)     
-* Parameter -> Symbol    
-* Return -> self    
+ - Alias -> tx (available in v0.2.0 on and after)     
+ - Parameter -> Symbol    
+ - Return -> self    
 
 * symbol list:    
     * bold  
@@ -107,19 +107,19 @@ ex.) CE.ch_tx :blink #=> text blink on
 #### CE.ch foreground [,background [,text_attribute]]   
 Change collectively.     
 This method is available in v0.1.0 on and after.   
-* Parameter foreground -> Symbol     
-* Parameter background -> Symbol     
-* Parameter text_attribute -> Symbol     
-* Return -> self    
+ - Parameter foreground -> Symbol     
+ - Parameter background -> Symbol     
+ - Parameter text_attribute -> Symbol     
+ - Return -> self    
 
 ex.) CE.ch :white, :green   
 
 
 #### CE.reset([target={:fg|:bg]})  
 Reset to set the escape sequence.   
-* Alias -> off, disable (available in v0.1.0 on and after)    
-* Parameter target -> Symbol (available in v0.3.0 on and after)     
-* Return -> self    
+ - Alias -> off, disable (available in v0.1.0 on and after)    
+ - Parameter target -> Symbol (available in v0.3.0 on and after)     
+ - Return -> self    
 
 ex.) CE.reset :fg #=> foreground color will be reset.    
 ex.) CE.reset :bg #=> background color will be reset.    
@@ -129,13 +129,13 @@ ex.) CE.reset     #=> All reset the set escape sequence.
 #### CE.once     
 Reset automatically after once output.     
 This method is available in v0.5.0 on and after.   
-* Return -> self    
+ - Return -> self    
 
 #### CE.times(cnt)
 Reset automatically after cnt times output.     
 This method is available in v0.5.0 on and after.   
-* Parameter cnt -> Integer    
-* Return -> self    
+ - Parameter cnt -> Integer    
+ - Return -> self    
 
 ```ruby   
 puts "decorated"
