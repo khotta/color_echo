@@ -1,0 +1,147 @@
+#!/usr/bin/env ruby
+require "color_echo"
+#require_relative "../lib/color_echo.rb"
+
+def usage
+    CE.ch :yellow
+    puts <<EOS
+    #{CE::LIBS_NAME} - #{CE::SUMMARY}
+    VERSION: #{CE::VERSION}
+    README: #{CE::DOCS_PAGE}
+
+EOS
+
+    CE.once.ch :cyan
+    puts <<EOS
+    * Usage
+EOS
+
+    CE.once.ch :h_blue
+    puts <<EOS
+        color_echo [-h] [options]
+
+EOS
+
+    CE.once.ch :cyan
+    puts <<EOS
+    * Options
+EOS
+
+    CE.once.ch :h_green
+    puts <<EOS
+        -v:
+EOS
+
+    puts <<EOS
+            Display version of color_echo.
+
+EOS
+
+    CE.once.ch :h_green
+    puts <<EOS
+        --symbol_list, -s
+EOS
+
+    puts <<EOS
+            Display symbol list that can to specify.
+EOS
+
+    CE.once.ch :h_green
+    puts <<EOS
+
+        --index_list, -l
+EOS
+
+    puts <<EOS
+            Display color index list that can to specify.
+
+EOS
+
+    exit
+end
+
+def display_color_index
+    CE.rainbow
+    cnt     = 134
+    padding = " " * 2
+    mes     = "OK, Let me check color index list... :)"
+    puts padding + "-" * cnt
+    puts padding + " " * ((cnt - mes.size)/2) + mes
+    puts padding + "-" * cnt
+
+    print padding
+    256.times do |i|
+        num = i + 1
+        CE.fg "index#{num}".intern
+        print "index#{num}" + " " * (4 - num.to_s.size)
+        CE.bg "index#{num}".intern
+        print " " * 5
+        CE.off
+        print " " * 3
+
+        if num % 8 == 0
+            print $/ + $/
+            print padding if num != 256
+        end
+    end
+    CE.off
+end
+
+def display_symbol_list
+    symbols = [
+        :black,
+        :gray,
+        :red,
+        :h_red,
+        :green,
+        :h_green,
+        :yellow,
+        :h_yellow,
+        :blue,
+        :h_blue,
+        :magenta,
+        :h_magenta,
+        :cyan,
+        :h_cyan,
+        :white,
+        :h_white,
+    ]
+
+    CE.rainbow
+    cnt     = 60
+    padding = " " * 2
+    mes     = "OK, Let me check color name list... :)"
+    puts padding + "-" * cnt
+    puts padding + " " * ((cnt - mes.size)/2) + mes
+    puts padding + "-" * cnt
+
+    symbols.each do |color_name|
+        CE.off(:bg).fg color_name
+        print "#{padding}:#{color_name}" + " " * (11 - color_name.to_s.size)
+        CE.bg color_name
+        puts color_name.to_s + " " * (30 - color_name.to_s.size)
+    end
+
+    CE.off
+    print $/
+end
+
+
+usage if ARGV.size != 1
+
+case ARGV[0]
+when "--symbol_list", "-s"
+    display_symbol_list
+
+when "--index_list", "-l"
+    display_color_index
+
+when "-v"
+    puts CE::VERSION
+
+else
+    usage
+end
+
+
+

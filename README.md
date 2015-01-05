@@ -275,7 +275,7 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v0.6.0
+* v0.6.0, 2014-01-05
     * Added command line tool.
 
 * v0.5.0, 2014-12-16

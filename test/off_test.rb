@@ -1,5 +1,5 @@
 #
-# Example Code
+# Test Code
 #
 #require_relative "../lib/color_echo.rb"
 require "color_echo"

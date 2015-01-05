@@ -2,40 +2,37 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'color_echo'
-docs_page = "https://github.com/khotta/color_echo"
-description = <<EOS
-Using the ANSI escape sequence and give it a color on the command line output.
-This Library will extend the Kernel module's functions(#print, #puts, #p).
-Required StringIO.
-EOS
 
-Gem::Specification.new do |spec|
-  spec.name                  = "color_echo"
-  spec.version               = CE::VERSION
-  spec.summary               = %q{Using the ANSI escape sequence and give it a color on the command line output.}
-  spec.description           = description
-  spec.homepage              = docs_page
-  spec.authors               = ["nyanko"]
-  spec.email                 = ["khotta@users.noreply.github.com"]
-  spec.license               = "MIT"
-  spec.post_install_message  = "#{$-0}\e[5mThank you for installing! (^-^)\e[0m"
-  spec.post_install_message += "#{$-0}See also \e[31m\e[47m \e[4m#{docs_page} \e[0m#{$-0}#{$-0}"
+Gem::Specification.new do |s|
+    s.name                  = CE::LIBS_NAME
+    s.version               = CE::VERSION
+    s.summary               = CE::SUMMARY
+    s.description           = CE::DESCRIPTION
+    s.homepage              = CE::DOCS_PAGE
+    s.authors               = ["khotta"]
+    s.license               = "MIT"
+    s.post_install_message  = "#{$-0}\e[5mThank you for installing! (^-^)\e[0m"
+    s.post_install_message += "#{$-0}See also \e[31m\e[47m \e[4m#{CE::DOCS_PAGE} \e[0m#{$-0}#{$-0}"
 
-  # include files to this gem package.
-  spec.files  = Dir["*.txt"]
-  spec.files += Dir["*.md"]
-  spec.files += Dir['lib/*.rb']
-  spec.files += Dir['lib/color_echo/*.rb']
+    # include files to this gem package.
+    s.files  = Dir["*.txt"]
+    s.files += Dir["*.md"]
+    s.files += Dir['lib/*.rb']
+    s.files += Dir['lib/color_echo/*.rb']
+    s.files += Dir['lib/color_echo/module/*.rb']
+    s.files += Dir["bin/color_echo"]
 
-  # The platform this gem runs on.
-  #spec.platform = Gem::Platform.local
+    # platform this gem runs on.
+    #s.platform = Gem::Platform.local
 
-  # required ruby version
-  #spec.required_ruby_version = '>= 1.9.0'
+    # required ruby version
+    s.required_ruby_version = '>= 1.9.3'
 
-  # required path from simple_rotate
-  spec.require_paths = ["lib"]
+    # required path
+    s.require_paths = ["lib"]
 
-  #spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  #spec.test_files  = spec.files.grep(%r{^(test|spec|features)/})
+    # executable command
+    s.executables = s.files.grep(%r{^bin/}) do |f|
+        File.basename(f)
+    end
 end
