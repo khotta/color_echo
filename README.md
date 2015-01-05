@@ -1,9 +1,9 @@
 # color_echo
-Using the ANSI escape sequence and give it a color on the command line output.       
+Decorate the command line output with ANSI escape sequence.    
 This Library will extend the Kernel module's functions(#print, #puts, #p).   
 Required StringIO.   
 
-Version: 0.5.0   
+Version: 0.6.0   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -165,11 +165,29 @@ This method is available in v0.2.0 on and after.
 
 
 ### Can to select 256 colors!    
-Please install color_echo and do `ruby test/check_color_index_list.rb`.    
+Please install color_echo and do `color_echo -l`.   
 ex.) CE.ch :index197, :index230    
 ![screen shot](/images/color_index.png)
 ![screen shot](/images/color_index2.png)
 
+### You can run on the command line
+<pre>
+    * Usage
+        color_echo [options]
+
+    * Options
+        -v:
+            Display version of color_echo.
+
+        --symbol_list, -s
+            Display symbol list that can to specify.
+
+        --index_list, -l
+            Display color index list that can to specify.
+
+If your server using the rbenv, You have to do `rbenv rehash`.
+This is available in v0.6.0 on and after.
+</pre>
 
 ### Example
 ```ruby
@@ -257,8 +275,11 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v0.6.0
+    * Added command line tool.
+
 * v0.5.0, 2014-12-16
-    * added a new method -> \#once, \#times
+    * Added a new method -> \#once, \#times
 
 * v0.4.0, 2014-12-11
     * Can to select 256 colors.   
@@ -266,7 +287,7 @@ puts "Disable rainbow mode."
 * v0.3.0, 2014-12-08
     * High color can now be selected.    
     * Multiple text attribute can now be selected.   
-    * Add parameter to the #reset method.   
+    * Added parameter to the #reset method.   
 
 * v0.2.4, 2014-12-04
     * Can now be able to specify a non-string when rainbow mode.
