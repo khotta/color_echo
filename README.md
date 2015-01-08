@@ -1,9 +1,9 @@
 # color_echo
-Decorate the command line output with ANSI escape sequence.    
-This Library will extend the Kernel module's functions(#print, #puts, #p).   
-Required StringIO.   
+Decorate the command line output with ANSI escape sequence.     
+String that is output by "print, puts, p" method is decorated.    
+It is also can to decorate only your specified words!   
 
-Version: 0.6.0   
+Version: 0.7.0   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -17,151 +17,6 @@ Add this line to your application's Gemfile:
 Or install it yourself as:
 
     $ gem install color_echo
-
-## Usage
-
-### module functions
-#### CE.ch_fg :symbol
-Change the foreground color to the your specified color.    
- - Alias -> fg (available in v0.2.0 on and after)     
- - Parameter -> Symbol    
- - Return -> self    
-
-* symbol list:    
-    * black  
-    * red   
-    * green   
-    * yellow  
-    * blue   
-    * magenta  
-    * cyan  
-    * white   
-    
-    available in v0.3.0 on and after.    
-    * gray   
-    * h_red   
-    * h_green   
-    * h_yellow   
-    * h_blue   
-    * h_magenta   
-    * h_cyan   
-    * h_white   
-
-    available in v0.4.0 on and after.   
-    * index[1-256]   
-
-ex.) CE.ch_fg :red #=> foreground color will be changed red  
-
-
-
-
-#### CE.ch_bg :symbol   
-Change the background color to the your specified color.     
- - Alias -> bg (available in v0.2.0 on and after)     
- - Parameter -> Symbol    
- - Return -> self    
-
-* symbol list:    
-    * black  
-    * red   
-    * green   
-    * yellow  
-    * blue   
-    * magenta  
-    * cyan  
-    * white  
-    
-    available in v0.3.0 on and after.    
-    * gray   
-    * h_red   
-    * h_green   
-    * h_yellow   
-    * h_blue   
-    * h_magenta   
-    * h_cyan   
-    * h_white   
-
-    available in v0.4.0 on and after.   
-    * index[1-256]   
-
-ex.) CE.ch_bg :white #=> background color will be changed white  
-
-
-
-#### CE.ch_tx :symbol   
-Change the text attribute to the your specified decoration.     
- - Alias -> tx (available in v0.2.0 on and after)     
- - Parameter -> Symbol    
- - Return -> self    
-
-* symbol list:    
-    * bold  
-    * underscore  
-    * blink    
-    * reverse_video 
-    * concealed   
-
-ex.) CE.ch_tx :blink #=> text blink on   
-
-
-#### CE.ch foreground [,background [,text_attribute]]   
-Change collectively.     
-This method is available in v0.1.0 on and after.   
- - Parameter foreground -> Symbol     
- - Parameter background -> Symbol     
- - Parameter text_attribute -> Symbol     
- - Return -> self    
-
-ex.) CE.ch :white, :green   
-
-
-#### CE.reset([target={:fg|:bg]})  
-Reset to set the escape sequence.   
- - Alias -> off, disable (available in v0.1.0 on and after)    
- - Parameter target -> Symbol (available in v0.3.0 on and after)     
- - Return -> self    
-
-ex.) CE.reset :fg #=> foreground color will be reset.    
-ex.) CE.reset :bg #=> background color will be reset.    
-ex.) CE.reset     #=> All reset the set escape sequence.    
-
-
-#### CE.once     
-Reset automatically after once output.     
-This method is available in v0.5.0 on and after.   
- - Return -> self    
-
-#### CE.times(cnt)
-Reset automatically after cnt times output.     
-This method is available in v0.5.0 on and after.   
- - Parameter cnt -> Integer    
- - Return -> self    
-
-```ruby   
-CE.once.ch :h_yellow, :h_red, :underscore
-puts "decorated"
-puts "switch off"
-
-puts "\n"
-
-CE.times(3).rainbow
-puts "one"
-puts "two"
-puts "three"
-puts "switch off"
-```
-![screen shot](/images/result_off.png)
-
-#### CE.unuse
-Force ignore the function of this library.    
-This method is available in v0.1.0 on and after.   
-
-
-#### CE.rainbow
-Text color will change to rainbow color.   
-~~String Object only. Non-string object is excluded.~~    
--> Can v0.2.4 on and after be able to specify a non-string when rainbow mode.   
-This method is available in v0.2.0 on and after.   
 
 
 ### Can to select 256 colors!    
@@ -186,8 +41,161 @@ ex.) CE.ch :index197, :index230
             Display color index list that can to specify.
 
 If your server using the rbenv, You have to do `rbenv rehash`.
-This is available in v0.6.0 on and after.
 </pre>
+
+## module functions
+#### CE.ch_fg :symbol
+Change the foreground color to the your specified color.    
+ - Alias -> fg    
+ - Parameter -> symbol    
+ - Return -> self    
+
+* symbol list:    
+    * black  
+    * red   
+    * green   
+    * yellow  
+    * blue   
+    * magenta  
+    * cyan  
+    * white   
+    * gray   
+    * h_red   
+    * h_green   
+    * h_yellow   
+    * h_blue   
+    * h_magenta   
+    * h_cyan   
+    * h_white   
+    * index[1-256]   
+
+ex.) CE.ch_fg :red #=> foreground color will be changed red  
+
+
+
+
+#### CE.ch_bg :symbol   
+Change the background color to the your specified color.     
+ - Alias -> bg   
+ - Parameter -> symbol    
+ - Return -> self    
+
+* symbol list:    
+    * black  
+    * red   
+    * green   
+    * yellow  
+    * blue   
+    * magenta  
+    * cyan  
+    * white  
+    * gray   
+    * h_red   
+    * h_green   
+    * h_yellow   
+    * h_blue   
+    * h_magenta   
+    * h_cyan   
+    * h_white   
+    * index[1-256]   
+
+ex.) CE.ch_bg :white #=> background color will be changed white  
+
+
+
+#### CE.ch_tx :symbol   
+Change the text attribute to the your specified decoration.     
+ - Alias -> tx   
+ - Parameter -> symbol    
+ - Return -> self    
+
+* symbol list:    
+    * bold  
+    * underscore  
+    * blink    
+    * reverse_video 
+    * concealed   
+
+ex.) CE.ch_tx :blink #=> text blink on   
+
+
+#### CE.ch foreground [,background [,text_attribute]]   
+Change collectively.     
+ - Parameter foreground -> Symbol or nil    
+ - Parameter background -> Symbol or nil     
+ - Parameter text_attribute -> Symbol
+ - Return -> self    
+
+ex.) CE.ch :white, :green   
+ex.) CE.ch :h_red, nil, :blink   
+
+#### CE.reset([target={:fg|:bg|:pickup]})  
+Reset to set the escape sequence.   
+ - Alias -> off, disable    
+ - Parameter target -> symbol   
+ - Return -> self    
+
+ex.) CE.reset :fg      #=> foreground color will be reset.    
+ex.) CE.reset :bg      #=> background color will be reset.    
+ex.) CE.reset :pickup  #=> pickup text will be reset.    
+ex.) CE.reset          #=> All reset the set escape sequence.    
+
+
+#### CE.once     
+Reset automatically after once output.     
+ - Return -> self    
+
+#### CE.times(cnt)
+Reset automatically after cnt times output.     
+ - Parameter cnt -> Integer    
+ - Return -> self    
+
+```ruby   
+CE.once.ch :h_yellow, :h_red, :underscore
+puts "decorated"
+puts "switch off"
+
+puts "\n"
+
+CE.times(3).rainbow
+puts "one"
+puts "two"
+puts "three"
+puts "switch off"
+```
+![screen shot](/images/result_off.png)
+
+#### CE.unuse
+Force ignore the function of this library.    
+
+
+#### CE.rainbow
+Text color will change to rainbow color.   
+
+
+### You can to decorate your specified words!   
+
+#### CE.pickup(target, foreground=:red, backgruond=nil, *textattr)    
+To decorate the words that specfied in the String or Regexp or Array of them.    
+If state of enable rainbow mode, This feature is disabled.    
+ - Parameter target -> String|Regexp|Array
+ - Parameter foreground -> Symbol or nil
+ - Parameter background -> Symbol or nil
+ - Parameter text_attribute -> Symbol
+ - Return -> self
+
+```ruby
+CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
+
+puts <<EOS
+xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxcolor_echoxxxxxxxCOLOR_ECHOxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxcolor_echoxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+EOS
+```
+![screen shot](/images/pickup1.png)
 
 ### Example
 ```ruby
@@ -275,6 +283,10 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v0.7.0, 2014-01-08
+    * Added new method -> pickup
+    * Added new symbol that can to specify in reset method of first parameter -> CE.reset(:pickup)
+
 * v0.6.0, 2014-01-05
     * Added command line tool.
 
@@ -295,3 +307,11 @@ puts "Disable rainbow mode."
 
 * v0.2.3, 2014-12-02
     * Fixed small bugs.
+
+* v0.2.0
+    * Added new method -> rainbow
+    * Added some method alias.
+
+* v0.1.0
+    * Added new method -> ch, unuse
+    * Added some method alias.
