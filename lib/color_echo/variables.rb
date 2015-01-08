@@ -6,6 +6,7 @@ module CE
     @@code_text_attr = ""
     @@code_rainbow   = ""
     @@rainbow        = false
+    @@pickup_list    = {}
     @@cnt_limit      = 0
 
     @@print = method :print
@@ -18,9 +19,6 @@ module CE
             strio   = StringIO.new
             $stdout = strio
 
-            # output color sequence
-            $stdout.print get_start_code if !@@rainbow
-
             # call original method
             eval("@@#{caller_locations(2).first.label}").call(*arg)
 
@@ -29,10 +27,23 @@ module CE
 
             # output to STDOUT
             if @@rainbow
-                $stdout.print add_rainbow(strio.string)
+                output = add_rainbow(strio.string)
             else
-                $stdout.print add_reset_line_feed(strio.string)
+                output = strio.string
+
+                # decorate pickup
+                if @@pickup_list.size > 0
+                    output = add_pickup_code(output)
+                end
+
+                # add start code in haed
+                output = get_start_code + output
+
+                # add reset code in front of line feed
+                output = add_reset_line_feed(output)
             end
+
+            $stdout.print output
 
             # auto off
             if @@cnt_limit > 0

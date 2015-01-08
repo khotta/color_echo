@@ -1,7 +1,6 @@
 #
-# Test Code
+# Example Code
 #
-#require_relative "../lib/color_echo.rb"
 require "color_echo"
 
 # force ignore the function of this library

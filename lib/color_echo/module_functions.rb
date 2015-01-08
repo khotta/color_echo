@@ -1,31 +1,39 @@
 module CE
-    # @return bool
-    def available?
-        return @@enable && isset?
-    end
-
-    # @return bool
-    def isset?
-        return get_start_code != "" || @@rainbow
-    end
-
+    # is allow to use?
     # @return bool
     def enable?
         return @@enable
     end
 
+    # is allow to use? and is set code?
+    # @return bool
+    def available?
+        return @@enable && isset?
+    end
+
+    # is set code?
+    # @return bool
+    def isset?
+        return get_start_code != "" || @@pickup_list.size > 0 || @@rainbow
+    end
+
+    # do not allow to use
     # @return void
     def unuse
         @@enable = false
     end
 
+    # reset code
     # @return self
     def reset(target=nil)
-        if (target == :fg)
+        if target == :fg
             @@code_fg_color = ""
 
-        elsif (target == :bg)
+        elsif target == :bg
             @@code_bg_color = ""
+
+        elsif target == :pickup
+            @@pickup_list    = {}
 
         else
             @@code_bg_color  = ""
@@ -33,6 +41,7 @@ module CE
             @@code_text_attr = ""
             @@code_rainbow   = ""
             @@rainbow        = false
+            @@pickup_list    = {}
         end
 
         return self
@@ -50,54 +59,105 @@ module CE
         times(1)
     end
 
-    # @param Symbol name
+    # @param symbol name
     # @return self
     def ch_fg(name)
         return nil if !name.instance_of?(Symbol)
+
         @@rainbow = false if @@rainbow
         @@code_fg_color = convert_to_code("ForeGround", name)
 
         return self
     end
 
-    # @param Symbol name
+    # @param symbol name
     # @return self
     def ch_bg(name)
         return nil if !name.instance_of?(Symbol)
+
         @@rainbow = false if @@rainbow
         @@code_bg_color = convert_to_code("BackGround", name)
 
         return self
     end
 
-    # @param array name - array of Symbols
+    # @param array name : Array of Symbols
     # @return self
     def ch_tx(*names)
         @@rainbow = false    if @@rainbow
         names     = names[0] if names[0].instance_of?(Array)
 
         names.each do |name|
-            return nil if !name.instance_of?(Symbol)
+            next if !name.instance_of?(Symbol)
             @@code_text_attr += convert_to_code("TextAttr", name)
         end
 
         return self
     end
 
-    # @param Symbol fg
-    # @param Symbol bg
-    # @param array  txs
+    # @param symbol fg
+    # @param symbol bg
+    # @param symbol|array txs
     # @return self
     def ch(fg, bg=nil, txs=nil)
         ch_fg(fg)
         ch_bg(bg)
-        ch_tx(*txs)
+        ch_tx(*txs)  # passing expand
 
         return self
     end
 
-    # return start color sequence code
-    # @return String
+    # to decorate only the specified target
+    # @param string|regexp|array target
+    # @param symbol fg
+    # @param symbol bg
+    # @param symbol tx
+    # @return self
+    def pickup(target, fg=:red, bg=nil, *txs)
+        key = target.object_id.to_s
+        @@pickup_list[key] = {}
+
+        if target.is_a?(Array)
+            @@pickup_list[key][:patterns] = target
+        else
+            @@pickup_list[key][:patterns] = [target]
+        end
+
+        if fg.instance_of?(Symbol)
+            code_fg = convert_to_code("ForeGround", fg)
+        else
+            code_fg = ""
+        end
+
+        if bg.instance_of?(Symbol)
+            code_bg = convert_to_code("BackGround", bg)
+        else
+            code_bg = ""
+        end
+
+        code_tx = ""
+        if txs.size > 0
+            txs = txs[0] if txs[0].instance_of?(Array)
+            txs.each do |name|
+                next if !name.instance_of?(Symbol)
+                code_tx += convert_to_code("TextAttr", name)
+            end
+        end
+
+        @@pickup_list[key][:code] = code_fg + code_bg + code_tx
+
+        return self
+    end
+
+    # change mode to rainbow
+    # @return void
+    def rainbow
+        @@rainbow      = true
+        @@code_rainbow = @@code_bg_color + @@code_text_attr
+    end
+
+    # return start escape sequence code
+    # @return string
     def get_start_code
         if @@rainbow
             return @@code_rainbow
@@ -112,23 +172,16 @@ module CE
     end
 
     # add reset & start code to line feed code
-    # @param String input
+    # @param string input
     def add_reset_line_feed(input)
         input.gsub!(/#{$/}/, CE::get_reset_code + $/ + CE::get_start_code)
         input += CE::get_reset_code
         return input
     end
 
-    # change mode to rainbow
-    # @return void
-    def rainbow
-        @@rainbow      = true
-        @@code_rainbow = @@code_bg_color + @@code_text_attr
-    end
-
     # add code to be a rainbow color
-    # @param String text
-    # @return String
+    # @param string text
+    # @return string
     def add_rainbow(text)
         cnt    = 0
         output = get_start_code
@@ -164,11 +217,44 @@ module CE
         return output
     end
 
+    # add pickup code
+    # @param string text
+    # @return string
+    def add_pickup_code(text)
+        @@pickup_list.each_pair do |key, hash|
+            patterns = hash[:patterns]
+            code     = hash[:code]
+
+            # repeat to each specified pickup pattern
+            patterns.each do |pattern|
+                # pattern is Regexp
+                if pattern.is_a?(Regexp)
+                    after_text = ""
+                    # global match
+                    (text.scan(pattern)).size.times do
+                        pattern =~ text
+                        after_text += $` + code + $& + get_reset_code + get_start_code
+                        text = $'
+                    end
+                    text = after_text + text
+
+                # pattern is String
+                else
+                    text.gsub!(pattern, code + pattern + get_reset_code + get_start_code)
+                end
+            end
+        end
+
+        return text
+    end
+
     # get sequence code by symbol
-    # @param String module_name
-    # @param Symbol name
-    # @return String
+    # @param string module_name
+    # @param symbol name
+    # @return string
     def convert_to_code(module_name, name)
+        return "" if (name == nil || name == "")
+
         begin
             cname = name.to_s.swapcase
 
@@ -185,12 +271,17 @@ module CE
         return code
     end
 
-    # @return Proc
+    # @return proc
     def task
         return @@task
     end
 
-    require_relative "alias_method.rb"
+    # method alias
+    alias_method :off,     :reset
+    alias_method :disable, :reset
+    alias_method :fg,      :ch_fg
+    alias_method :bg,      :ch_bg
+    alias_method :tx,      :ch_tx
 
     module_function :available?,
                     :isset?,
@@ -208,11 +299,13 @@ module CE
                     :ch_tx,
                     :tx,
                     :ch,
+                    :pickup,
+                    :rainbow,
                     :get_start_code,
                     :get_reset_code,
                     :add_reset_line_feed,
                     :add_rainbow,
-                    :rainbow,
+                    :add_pickup_code,
                     :convert_to_code,
                     :task
 end

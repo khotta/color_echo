@@ -173,7 +173,7 @@ Force ignore the function of this library.
 Text color will change to rainbow color.   
 
 
-### You can to decorate your specified words!   
+## You can to decorate your specified words!   
 
 #### CE.pickup(target, foreground=:red, backgruond=nil, *textattr)    
 To decorate the words that specfied in the String or Regexp or Array of them.    
