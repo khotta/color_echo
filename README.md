@@ -19,7 +19,7 @@ Or install it yourself as:
     $ gem install color_echo
 
 
-### Can to select 256 colors!    
+## Can to select 256 colors!    
 Please install color_echo and do `color_echo -l`.   
 ex.) CE.ch :index197, :index230    
 ![screen shot](/images/color_index.png)
