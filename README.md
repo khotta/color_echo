@@ -43,18 +43,8 @@ ex.) CE.ch :index197, :index230
 If your server using the rbenv, You have to do `rbenv rehash`.
 </pre>
 
-## module functions
 
 ## You can to decorate your specified words!   
-
-#### CE.pickup(target, foreground=:red, backgruond=nil, text_attribute)    
-To decorate the words that specfied in the String or Regexp or Array of them.    
-If state of enable rainbow mode, This feature is disabled.    
- - Parameter target -> string|regexp or array of them
- - Parameter foreground -> symbol|nil
- - Parameter background -> symbol|nil
- - Parameter text_attribute -> symbol or array of them
- - Return -> self
 
 ```ruby
 CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
@@ -69,6 +59,17 @@ EOS
 ```
 ![screen shot](/images/pickup1.png)
 
+
+## module functions
+
+#### CE.pickup(target, foreground=:red, backgruond=nil, text_attribute)    
+To decorate the words that specfied in the String or Regexp or Array of them.    
+If state of enable rainbow mode, This feature is disabled.    
+ - Parameter target -> string|regexp or array of them
+ - Parameter foreground -> symbol|nil
+ - Parameter background -> symbol|nil
+ - Parameter text_attribute -> symbol or array of them
+ - Return -> self
 
 
 #### CE.ch_fg(foreground)
