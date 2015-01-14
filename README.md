@@ -3,7 +3,7 @@ Decorate the command line output with ANSI escape sequence.
 String that is output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 0.7.0   
+Version: 0.8.0   
 Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -44,13 +44,40 @@ If your server using the rbenv, You have to do `rbenv rehash`.
 </pre>
 
 ## module functions
-#### CE.ch_fg :symbol
+
+## You can to decorate your specified words!   
+
+#### CE.pickup(target, foreground=:red, backgruond=nil, text_attribute)    
+To decorate the words that specfied in the String or Regexp or Array of them.    
+If state of enable rainbow mode, This feature is disabled.    
+ - Parameter target -> string|regexp or array of them
+ - Parameter foreground -> symbol|nil
+ - Parameter background -> symbol|nil
+ - Parameter text_attribute -> symbol or array of them
+ - Return -> self
+
+```ruby
+CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
+
+puts <<EOS
+xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxcolor_echoxxxxxxxCOLOR_ECHOxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxcolor_echoxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+EOS
+```
+![screen shot](/images/pickup1.png)
+
+
+
+#### CE.ch_fg(foreground)
 Change the foreground color to the your specified color.    
  - Alias -> fg    
- - Parameter -> symbol    
+ - Parameter foreground -> symbol    
  - Return -> self    
 
-* symbol list:    
+* symbol list of foreground:    
     * black  
     * red   
     * green   
@@ -74,13 +101,13 @@ ex.) CE.ch_fg :red #=> foreground color will be changed red
 
 
 
-#### CE.ch_bg :symbol   
+#### CE.ch_bg(background)   
 Change the background color to the your specified color.     
  - Alias -> bg   
- - Parameter -> symbol    
+ - Parameter background -> symbol    
  - Return -> self    
 
-* symbol list:    
+* symbol list of background:    
     * black  
     * red   
     * green   
@@ -103,13 +130,13 @@ ex.) CE.ch_bg :white #=> background color will be changed white
 
 
 
-#### CE.ch_tx :symbol   
+#### CE.ch_tx(text_attribute)        
 Change the text attribute to the your specified decoration.     
  - Alias -> tx   
- - Parameter -> symbol    
+ - Parameter attribute -> symbol or array of them   
  - Return -> self    
 
-* symbol list:    
+* symbol list of text attribute:    
     * bold  
     * underscore  
     * blink    
@@ -121,34 +148,40 @@ ex.) CE.ch_tx :blink #=> text blink on
 
 #### CE.ch foreground [,background [,text_attribute]]   
 Change collectively.     
- - Parameter foreground -> Symbol or nil    
- - Parameter background -> Symbol or nil     
- - Parameter text_attribute -> Symbol
+ - Parameter foreground -> symbol|nil    
+ - Parameter background -> symbol|nil     
+ - Parameter text_attribute -> symbol or array of them
  - Return -> self    
 
 ex.) CE.ch :white, :green   
 ex.) CE.ch :h_red, nil, :blink   
 
-#### CE.reset([target={:fg|:bg|:pickup]})  
+
+#### CE.reset(scope=:all)
 Reset to set the escape sequence.   
  - Alias -> off, disable    
- - Parameter target -> symbol   
+ - Parameter scope -> symbol or array of them
  - Return -> self    
 
-ex.) CE.reset :fg      #=> foreground color will be reset.    
-ex.) CE.reset :bg      #=> background color will be reset.    
-ex.) CE.reset :pickup  #=> pickup text will be reset.    
-ex.) CE.reset          #=> All reset the set escape sequence.    
+ex.) CE.reset            #=> reset all of the set escape sequence.    
+ex.) CE.reset :fg        #=> foreground color will be reset.     
+ex.) CE.reset :bg        #=> background color will be reset.     
+ex.) CE.reset :tx        #=> text attribute will be reset.    
+ex.) CE.reset :pickup    #=> pickup text will be reset.    
+ex.) CE.reset :rainbow   #=> rainbow mode will be reset and swich off.    
+ex.) CE.reset [:fg. :tx] #=> foreground color and ext attribute will be reset.     
 
 
 #### CE.once     
 Reset automatically after once output.     
  - Return -> self    
 
+
 #### CE.times(cnt)
 Reset automatically after cnt times output.     
  - Parameter cnt -> Integer    
  - Return -> self    
+
 
 ```ruby   
 CE.once.ch :h_yellow, :h_red, :underscore
@@ -173,29 +206,6 @@ Force ignore the function of this library.
 Text color will change to rainbow color.   
 
 
-## You can to decorate your specified words!   
-
-#### CE.pickup(target, foreground=:red, backgruond=nil, *textattr)    
-To decorate the words that specfied in the String or Regexp or Array of them.    
-If state of enable rainbow mode, This feature is disabled.    
- - Parameter target -> String|Regexp|Array
- - Parameter foreground -> Symbol or nil
- - Parameter background -> Symbol or nil
- - Parameter text_attribute -> Symbol
- - Return -> self
-
-```ruby
-CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
-
-puts <<EOS
-xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxcolor_echoxxxxxxxCOLOR_ECHOxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxcolor_echoxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-EOS
-```
-![screen shot](/images/pickup1.png)
 
 ### Example
 ```ruby
@@ -283,6 +293,10 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v0.8.0, 2014-01-14
+    * Changed for the specified arguments of reset method.
+    * Fixed small bugs.
+
 * v0.7.0, 2014-01-08
     * Added new method -> pickup
     * Added new symbol that can to specify in reset method of first parameter -> CE.reset(:pickup)
