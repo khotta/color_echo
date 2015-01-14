@@ -2,18 +2,18 @@ class TestColorEcho < MiniTest::Unit::TestCase
     def test_color_echo
         info %(color_echo)
         print `color_echo`
-        print $/+$/
+        print $/ + $/
 
         info %(color_echo -v)
         print `color_echo -v`
-        print $/+$/
+        print $/ + $/
 
         info %(color_echo -s)
         print `color_echo -s`
-        print $/+$/
+        print $/ + $/
 
         info %(color_echo -l)
         print `color_echo -l`
-        print $/+$/
+        print $/ + $/
     end
 end

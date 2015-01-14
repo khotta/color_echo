@@ -25,6 +25,8 @@ module CE
             # change output destination to STDOUT
             $stdout = STDOUT
 
+            #is_hit_pickup = false
+
             # output to STDOUT
             if @@rainbow
                 output = add_rainbow(strio.string)
@@ -33,7 +35,9 @@ module CE
 
                 # decorate pickup
                 if @@pickup_list.size > 0
+                    #before_output = String.new(output)
                     output = add_pickup_code(output)
+                    #is_hit_pickup = before_output != output
                 end
 
                 # add start code in haed
@@ -48,7 +52,10 @@ module CE
             # auto off
             if @@cnt_limit > 0
                 @@cnt_limit -= 1
-                reset if @@cnt_limit == 0
+                # to reset
+                if @@cnt_limit == 0
+                    reset [:fg, :bg, :tx, :rainbow]
+                end
             end
 
         # no available "color echo"

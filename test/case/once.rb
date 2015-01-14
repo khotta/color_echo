@@ -1,13 +1,20 @@
 class TestColorEcho < MiniTest::Unit::TestCase
     def test_once
         exec %(CE.once.ch :h_yellow, :h_red, :underscore)
-        puts "decorated"
-        puts "switch off" + $/
+        puts @@dammy_string
+        puts @@dammy_string
 
         exec %(CE.times(3).rainbow)
-        puts "one"
-        puts "two"
-        puts "three"
-        puts "switch off"
+        puts @@dammy_string
+        puts @@dammy_string
+        puts @@dammy_string
+        puts @@dammy_string
+
+        exec %(CE.times(3).fg :h_yellow)
+        exec %(CE.pickup(/^Dammy/, :h_green))
+        puts @@dammy_string
+        puts @@dammy_string
+        puts @@dammy_string
+        puts @@dammy_string
     end
 end

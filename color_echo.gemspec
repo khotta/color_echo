@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
     s.homepage              = CE::DOCS_PAGE
     s.authors               = ["khotta"]
     s.license               = "MIT"
-    s.post_install_message  = "#{$-0}\e[5mThank you for installing! (^-^)\e[0m"
-    s.post_install_message += "#{$-0}See also \e[31m\e[47m \e[4m#{CE::DOCS_PAGE} \e[0m#{$-0}#{$-0}"
+    s.post_install_message  = "#{$-0}Thank you for installing! =(^x^="
+    s.post_install_message += "#{$-0}See also #{CE::DOCS_PAGE}#{$-0}#{$-0}"
 
     # include files to this gem package.
     s.files  = Dir["*.txt"]

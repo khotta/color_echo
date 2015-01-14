@@ -25,7 +25,23 @@ ex.) CE.ch :index197, :index230
 ![screen shot](/images/color_index.png)
 ![screen shot](/images/color_index2.png)
 
-### You can run on the command line
+## You can to decorate your specified words!   
+
+```ruby
+CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
+
+puts <<EOS
+xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxcolor_echoxxxxxxxCOLOR_ECHOxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxcolor_echoxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+EOS
+```
+![screen shot](/images/pickup1.png)
+
+
+## You can run on the command line
 <pre>
     * Usage
         color_echo [options]
@@ -42,22 +58,6 @@ ex.) CE.ch :index197, :index230
 
 If your server using the rbenv, You have to do `rbenv rehash`.
 </pre>
-
-
-## You can to decorate your specified words!   
-
-```ruby
-CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
-
-puts <<EOS
-xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxcolor_echoxxxxxxxCOLOR_ECHOxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxcolor_echoxxxxxxxxxxcolor_echoxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-EOS
-```
-![screen shot](/images/pickup1.png)
 
 
 ## module functions

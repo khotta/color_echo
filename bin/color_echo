@@ -3,59 +3,35 @@ require "color_echo"
 #require_relative "../lib/color_echo.rb"
 
 def usage
-    CE.ch :yellow
-    puts <<EOS
+    CE.once.ch :yellow
+    puts <<-EOS
     #{CE::LIBS_NAME} - #{CE::SUMMARY}
     VERSION: #{CE::VERSION}
     README: #{CE::DOCS_PAGE}
 
-EOS
+    EOS
 
-    CE.once.ch :cyan
-    puts <<EOS
-    * Usage
-EOS
+    padding    = " " * 4
+    headers    = ["* Usage", "* Options"]
+    headers_op = ["-v:", "--symbol_list, -s", "--index_list, -l"]
+    CE.pickup(headers, :cyan)
+    CE.pickup(headers_op, :h_green)
+
+    puts padding + "* Usage"
 
     CE.once.ch :h_blue
-    puts <<EOS
-        color_echo [-h] [options]
+    puts padding * 2 + "color_echo [-h] [options]" + $/ + $/
 
-EOS
+    puts padding + "* Options"
 
-    CE.once.ch :cyan
-    puts <<EOS
-    * Options
-EOS
+    puts padding + "-v:"
+    puts padding * 2 + "Display version of color_echo." + $/ + $/
 
-    CE.once.ch :h_green
-    puts <<EOS
-        -v:
-EOS
-
-    puts <<EOS
-            Display version of color_echo.
-
-EOS
-
-    CE.once.ch :h_green
-    puts <<EOS
-        --symbol_list, -s
-EOS
-
-    puts <<EOS
-            Display symbol list that can to specify.
-EOS
-
-    CE.once.ch :h_green
-    puts <<EOS
-
-        --index_list, -l
-EOS
-
-    puts <<EOS
-            Display color index list that can to specify.
-
-EOS
+    puts padding + "--symbol_list, -s"
+    puts padding * 2 + "Display symbol list that can to specify." + $/ + $/ 
+    
+    puts padding + "--index_list, -l"
+    puts padding * 2 + "Display color index list that can to specify." + $/ + $/
 
     exit
 end
@@ -88,7 +64,7 @@ def display_color_index
 end
 
 def display_symbol_list
-    symbols = [
+    symbols_color = [
         :black,
         :gray,
         :red,
@@ -104,10 +80,17 @@ def display_symbol_list
         :cyan,
         :h_cyan,
         :white,
-        :h_white,
+        :h_white
+    ]
+    symbols_text_attr = [
+        :bold,
+        :underscore,
+        :blink,
+        :reverse_video,
+        :concealed
     ]
 
-    CE.rainbow
+    CE.times(3).rainbow
     cnt     = 60
     padding = " " * 2
     mes     = "OK, Let me check color name list... :)"
@@ -115,14 +98,27 @@ def display_symbol_list
     puts padding + " " * ((cnt - mes.size)/2) + mes
     puts padding + "-" * cnt
 
-    symbols.each do |color_name|
+    header_colors     = "* foreground or background colors"
+    header_text_attrs = "* text attributes"
+    CE.pickup([header_colors, header_text_attrs], :cyan, nil, [:underscore, :bold])
+
+    puts padding + header_colors
+    symbols_color.each do |color_name|
         CE.off(:bg).fg color_name
-        print "#{padding}:#{color_name}" + " " * (11 - color_name.to_s.size)
+        print "#{padding*2}:#{color_name}" + " " * (11 - color_name.to_s.size)
         CE.bg color_name
         puts color_name.to_s + " " * (30 - color_name.to_s.size)
     end
 
-    CE.off
+    CE.off [:bg, :fg]
+    print $/ + $/
+
+    puts padding + header_text_attrs
+    symbols_text_attr.each do |tx_name|
+        CE.off(:tx).tx tx_name
+        puts "#{padding*2}:#{tx_name}" + " " * (30 - tx_name.to_s.size)
+    end
+
     print $/
 end
 

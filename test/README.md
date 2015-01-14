@@ -1,2 +1,2 @@
 # Display test case list
-    `ruby minitest.rb -n test_list`
+    `ruby testcase.rb -n test_list`

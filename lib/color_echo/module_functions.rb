@@ -24,26 +24,83 @@ module CE
     end
 
     # reset code
+    # @param scope symbol|array
     # @return self
-    def reset(target=nil)
-        if target == :fg
-            @@code_fg_color = ""
-
-        elsif target == :bg
-            @@code_bg_color = ""
-
-        elsif target == :pickup
-            @@pickup_list    = {}
-
+    def reset(scope=:all)
+        if scope.is_a?(Array)
+            scopes = scope
         else
-            @@code_bg_color  = ""
-            @@code_fg_color  = ""
-            @@code_text_attr = ""
-            @@code_rainbow   = ""
-            @@rainbow        = false
-            @@pickup_list    = {}
+            scopes = [scope]
         end
 
+        scopes.each do |scope|
+            case scope
+            when :all
+                reset_fg
+                reset_bg
+                reset_tx
+                reset_pickup
+                reset_rainbow
+            when :fg
+                reset_fg
+            when :bg
+                reset_bg
+            when :tx
+                reset_tx
+            when :pickup
+                reset_pickup
+            when :rainbow
+                reset_rainbow
+            end
+        end
+
+        return self
+    end
+
+    # reset foreground code
+    # @return self
+    def reset_fg
+        @@code_fg_color = ""
+        return self
+    end
+
+    # reset background code
+    # @return self
+    def reset_bg
+        @@code_bg_color = ""
+        return self
+    end
+
+    # reset text attr code
+    # @return self
+    def reset_tx
+        @@code_text_attr = ""
+        return self
+    end
+
+    # reset pickup code
+    # @return self
+    def reset_pickup
+        @@pickup_list = {}
+        return self
+    end
+
+    # reset and off raubow mode
+    # @return self
+    def reset_rainbow
+        @@code_rainbow = ""
+        @@rainbow      = false
+        return self
+    end
+
+    # reset all state of code
+    # @return self
+    def reset_all
+        reset_fg
+        reset_bg
+        reset_tx
+        reset_pickup
+        reset_rainbow
         return self
     end
 
@@ -288,6 +345,12 @@ module CE
                     :enable?,
                     :unuse,
                     :reset,
+                    :reset_fg,
+                    :reset_bg,
+                    :reset_tx,
+                    :reset_pickup,
+                    :reset_rainbow,
+                    :reset_all,
                     :off,
                     :disable,
                     :times,
