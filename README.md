@@ -134,7 +134,7 @@ ex.) CE.ch_bg :white #=> background color will be changed white
 #### CE.ch_tx(text_attribute)        
 Change the text attribute to the your specified decoration.     
  - Alias -> tx   
- - Parameter attribute -> symbol or array of them   
+ - Parameter text_attribute -> symbol or array of them   
  - Return -> self    
 
 * symbol list of text attribute:    
