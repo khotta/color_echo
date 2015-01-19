@@ -200,7 +200,7 @@ Reset automatically after once output.
 
 #### CE.times(cnt)
 Reset automatically after cnt times output.     
- - Parameter cnt -> Integer    
+ - Parameter cnt -> integer    
  - Return -> self    
 
 
@@ -221,12 +221,18 @@ puts "switch off"
 
 #### CE.unuse
 Force ignore the function of this library.    
- - Return -> self
 
 
 #### CE.rainbow
 Text color will change to rainbow color.   
+ - Return -> self
 
+
+#### CE.get(text)    
+Decorate and return argument with ANSI escape sequence.   
+If you want to use this module function; You have to require "color_echo/get" only!     
+ - Parameter text -> string 
+ - Return -> string
 
 
 ### Example
