@@ -315,6 +315,9 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v0.9.0, 2014-01-19
+    * Added a mode to receive as the words with ANSI escape sequence; without output to display.
+
 * v0.8.0, 2014-01-14
     * Changed for the specified arguments of reset method.
     * Fixed small bugs.
