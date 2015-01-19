@@ -8,10 +8,14 @@ module CE
     @@rainbow        = false
     @@pickup_list    = {}
     @@cnt_limit      = 0
+    @@allow_output   = false
 
     @@print = method :print
     @@p     = method :p
     @@puts  = method :puts
+    @@get   = lambda do |text|
+        print text
+    end
 
     @@task = lambda do |*arg|
         if available?
@@ -27,7 +31,7 @@ module CE
 
             #is_hit_pickup = false
 
-            # output to STDOUT
+            # get output text
             if @@rainbow
                 output = add_rainbow(strio.string)
             else
@@ -47,21 +51,30 @@ module CE
                 output = add_reset_line_feed(output)
             end
 
-            $stdout.print output
-
-            # auto off
-            if @@cnt_limit > 0
-                @@cnt_limit -= 1
-                # to reset
-                if @@cnt_limit == 0
-                    reset [:fg, :bg, :tx, :rainbow]
+            # output to STDOUT
+            if @@allow_output
+                $stdout.print output
+                # auto off
+                if @@cnt_limit > 0
+                    @@cnt_limit -= 1
+                    # to reset
+                    if @@cnt_limit == 0
+                        reset [:fg, :bg, :tx, :rainbow]
+                    end
                 end
+            else
+                reset
+                return output
             end
 
         # no available "color echo"
         else
-            # call original method
-            eval("@@#{caller_locations(2).first.label}").call(*arg)
+            if @@allow_output
+                # call original method
+                eval("@@#{caller_locations(2).first.label}").call(*arg)
+            else
+                return arg
+            end
         end
     end
 end

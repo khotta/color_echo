@@ -33,7 +33,7 @@ def usage
     puts padding + "--index_list, -l"
     puts padding * 2 + "Display color index list that can to specify." + $/ + $/
 
-    exit
+    exit 0
 end
 
 def display_color_index
@@ -61,6 +61,8 @@ def display_color_index
         end
     end
     CE.off
+
+    exit 0
 end
 
 def display_symbol_list
@@ -120,24 +122,30 @@ def display_symbol_list
     end
 
     print $/
-end
 
+    exit 0
+end
 
 usage if ARGV.size != 1
 
-case ARGV[0]
-when "--symbol_list", "-s"
-    display_symbol_list
+require "optparse"
+opt = OptionParser.new
 
-when "--index_list", "-l"
-    display_color_index
+opt.on("-h") { usage }
+opt.on("-v") { puts CE::VERSION; exit 0 }
+opt.on("-s", "--symbol_list") { display_symbol_list }
+opt.on("-l", "--index_list") { display_color_index }
 
-when "-v"
-    puts CE::VERSION
+begin
+    opt.parse!(ARGV)
 
-else
+rescue OptionParser::InvalidOption => err
+    mess = "[OPTION ERROR] Invalid option ->"
+    err.args.each do |op|
+        mess += %( '#{op}')
+    end
+    mess += " (OptionParser::InvalidOption)"
+    warn mess + $/ + $/
+
     usage
 end
-
-
-

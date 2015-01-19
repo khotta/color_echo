@@ -1,8 +1,8 @@
 module CE
-    LIBS_NAME = "color_echo"
-    VERSION   = "0.8.0"
-    SUMMARY   = "Decorate the command line output with ANSI escape sequence."
-    DOCS_PAGE = "https://github.com/khotta/color_echo"
+    LIBS_NAME   = "color_echo"
+    VERSION     = "0.9.0"
+    SUMMARY     = "Decorate the command line output with ANSI escape sequence."
+    DOCS_PAGE   = "https://github.com/khotta/color_echo"
     DESCRIPTION = <<EOS
 #{SUMMARY}
 String that is output by "print, puts, p" method is decorated.

@@ -13,11 +13,17 @@ require_relative "case/off"
 require_relative "case/once"
 require_relative "case/pickup"
 require_relative "case/rainbow"
+require_relative "case/get"
 require_relative "case/bin"
 
 def require_color_echo
     require "color_echo"
-    #require_relative "../lib/color_echo.rb"
+    #require_relative "../lib/color_echo"
+end
+
+def require_color_echo_get
+    require "color_echo/get"
+    #require_relative "../lib/color_echo/get"
 end
 
 class TestColorEcho < MiniTest::Unit::TestCase
@@ -46,6 +52,17 @@ ut labore et dolore magna aliqua.
     def exec(cm)
         require_color_echo
         eval cm
+        $stdout.print <<-EOS
+
+  #----------------------------------------------------------------------------------------------------------------------
+  #
+  #  * Executed ->  #{cm}
+  #
+  #----------------------------------------------------------------------------------------------------------------------
+        EOS
+    end
+
+    def history(cm)
         $stdout.print <<-EOS
 
   #----------------------------------------------------------------------------------------------------------------------
