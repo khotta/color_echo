@@ -3,8 +3,8 @@ Decorate the command line output with ANSI escape sequence.
 String that is output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 0.8.0   
-Compliant Rubys Version: 1.9.3, 2.0.0, 2.1.0 (for Linux)  
+Version: 0.9.0   
+Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
 
@@ -39,6 +39,26 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 EOS
 ```
 ![screen shot](/images/pickup1.png)
+
+
+
+## Do you want to return words with the escape sequence?
+
+Please write `require "color_echo/get"` rather than `require "color_echo"`.
+```ruby
+require "color_echo/get"
+
+greet  = CE.fg(:yellow).get("Hello")
+name   = CE.ch(:h_blue, :gray).get("Foo")
+myname = CE.tx(:underscore).rainbow.get("Bar")
+
+puts greet + ", " + name + "!"
+puts "My name is " + myname
+
+output = CE.fg(:blue).pickup(/color$/, :index199).pickup(/^color/, :h_green).get("color color color")
+puts "output is -> " + output
+```
+![screen shot](/images/get1.png)
 
 
 ## You can run on the command line
@@ -201,6 +221,7 @@ puts "switch off"
 
 #### CE.unuse
 Force ignore the function of this library.    
+ - Return -> self
 
 
 #### CE.rainbow
