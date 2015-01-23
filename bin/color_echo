@@ -1,10 +1,28 @@
 #!/usr/bin/env ruby
-require "color_echo"
-#require_relative "../lib/color_echo.rb"
+
+def require_color_echo
+    require "color_echo"
+    #require_relative "../lib/color_echo"
+end
+
+def require_color_echo_get
+    require "color_echo/get"
+    #require_relative "../lib/color_echo/get"
+end
+
+def version
+    require_color_echo
+
+    puts CE::VERSION
+    exit 0 
+end
 
 def usage
+    require_color_echo
+
     CE.once.ch :yellow
     puts <<-EOS
+
     #{CE::LIBS_NAME} - #{CE::SUMMARY}
     VERSION: #{CE::VERSION}
     README: #{CE::DOCS_PAGE}
@@ -12,31 +30,97 @@ def usage
     EOS
 
     padding    = " " * 4
-    headers    = ["* Usage", "* Options"]
-    headers_op = ["-v:", "--symbol_list, -s", "--index_list, -l"]
-    CE.pickup(headers, :cyan)
-    CE.pickup(headers_op, :h_green)
+    headers    = ["* Usage", "* Options", "* Example"]
+    headers_op = [
+                     "-v:", "--symbol_list:", "--index_list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
+                     "--tx text_attribute[,...]:", "--watch:", "-n:", "-h:"
+    ]
+    CE.pickup(headers, :h_green)
+    CE.pickup(headers_op, :cyan)
 
     puts padding + "* Usage"
 
-    CE.once.ch :h_blue
-    puts padding * 2 + "color_echo [-h] [options]" + $/ + $/
+    CE.ch :h_blue
+    puts padding * 2 + "color_echo [options] text"
+    puts padding * 2 + "color_echo [options] < /path/to/file"
+    puts padding * 2 + "echo text | color_echo [options]"
+    puts padding * 2 + "color_echo -v"
+    puts padding * 2 + "color_echo -s"
+    puts padding * 2 + "color_echo -l"
+    puts padding * 2 + "color_echo -h" + $/ + $/
+    CE.off :fg
 
     puts padding + "* Options"
 
-    puts padding + "-v:"
-    puts padding * 2 + "Display version of color_echo." + $/ + $/
+    puts padding * 2 + "-v:"
+    puts padding * 3 + "Display version of color_echo." + $/ + $/
 
-    puts padding + "--symbol_list, -s"
-    puts padding * 2 + "Display symbol list that can to specify." + $/ + $/ 
+    puts padding * 2 + "--symbol_list:"
+    puts padding * 3 + "Display symbol list that can to specify."
+    puts padding * 3 + "short option is -s." + $/ + $/ 
     
-    puts padding + "--index_list, -l"
-    puts padding * 2 + "Display color index list that can to specify." + $/ + $/
+    puts padding * 2 + "--index_list:"
+    puts padding * 3 + "Display color index list that can to specify."
+    puts padding * 3 + "short option is -l." + $/ + $/ 
+
+    puts padding * 2 + "--pickup word [--pickup word ...]:"
+    puts padding * 3 + "Decorate your specified wrods. You can use this option any number of times."
+    puts padding * 3 + "Regular expressions can be used; like that -> /^foo/i"
+    puts padding * 3 + "short option is -p." + $/ + $/ 
+
+    puts padding * 2 + "--fg color_name:"
+    puts padding * 3 + "Decorate the foreground color."
+    puts padding * 3 + "short option is -f." + $/ + $/ 
+
+    puts padding * 2 + "--bg color_name:"
+    puts padding * 3 + "Decorate the background color."
+    puts padding * 3 + "short option is -b." + $/ + $/ 
+
+    puts padding * 2 + "--tx text_attribute[,...]:"
+    puts padding * 3 + "Decorate the text attribute."
+    puts padding * 3 + "short option is -t." + $/ + $/ 
+
+    puts padding * 2 + "--watch:"
+    puts padding * 3 + "Interactive mode. Break word is -> exit, quit, bye; Or Ctl + c"
+    puts padding * 3 + "short option is -w." + $/ + $/
+
+    puts padding * 2 + "-n:"
+    puts padding * 3 + "Do not output the trailing newline." + $/ + $/ 
+
+    puts padding * 2 + "-h:"
+    puts padding * 3 + "Show this message." + $/ + $/ 
+
+    puts padding + "* Example"
+
+    CE.once.ch :h_magenta
+    puts padding * 2 + %(* color_echo can to highlight even when you following the log file by tailf, tail -f.)
+    puts padding * 3 + %(tailf /var/log/httpd/access_log | color_echo -w -p "127.0.0.1" -t bold)
+    puts padding * 3 + %(tailf /var/log/php/php_error.log | color_echo -w -p "foo.php" -p "Fatal error:" -f h_blue) + $/ + $/
+
+    CE.once.ch :h_magenta
+    puts padding * 2 + %(* color_echo is useful to read the access log, etc.)
+    puts padding * 3 + %(cat /var/log/httpd/access_log | color_echo -p "Sun Jan 18" -f h_cyan -t underscore | less)
+    puts padding * 3 + %(color_echo -p "Sun Jan 18" -f h_cyan -t underscore < /var/log/httpd/access_log | less)
+    puts padding * 3 + %((color_echo -f cyan -p /\\\\s2..\\\\s/ | color_echo -f h_red -p /\\\\s5..\\\\s/ | less) < /var/log/httpd/access_log)
+    puts padding * 3 + %(sed -n 1,1000p /var/log/httpd/access_log | color_echo -f cyan -p /\\\\s2..\\\\s/ | color_echo -f h_red -p /\\\\s5..\\\\s/ | less) + $/ + $/
+
+    CE.once.ch :h_magenta
+    puts padding * 2 + %(* It is a simple to use.)
+    puts padding * 3 + %(color_echo Hello\\!\\! -f h_white -b index199)
+    puts padding * 3 + %(color_echo Hello\\!\\! -t blink,bold -f magenta) + $/ + $/
+
+    CE.once.ch :h_magenta
+    puts padding * 2 + %(* color_echo can receive the standard input.)
+    puts padding * 3 + %(echo FooFoOfOO | color_echo -t reverse_video)
+    puts padding * 3 + %(echo FooFoOfOO | color_echo -f index130 -p /foo$/i | color_echo -f index180 -p /^foo/i)
+    puts padding * 3 + %(netstat -na | color_echo -p ":80" | color_echo -p "127.0.0.1" -f h_cyan) + $/ + $/
 
     exit 0
 end
 
 def display_color_index
+    require_color_echo
+
     CE.rainbow
     cnt     = 134
     padding = " " * 2
@@ -66,6 +150,8 @@ def display_color_index
 end
 
 def display_symbol_list
+    require_color_echo
+
     symbols_color = [
         :black,
         :gray,
@@ -117,7 +203,8 @@ def display_symbol_list
 
     puts padding + header_text_attrs
     symbols_text_attr.each do |tx_name|
-        CE.off(:tx).tx tx_name
+        CE.off(:tx)
+        CE.tx tx_name if tx_name != :concealed
         puts "#{padding*2}:#{tx_name}" + " " * (30 - tx_name.to_s.size)
     end
 
@@ -126,26 +213,99 @@ def display_symbol_list
     exit 0
 end
 
-usage if ARGV.size != 1
-
-require "optparse"
-opt = OptionParser.new
-
-opt.on("-h") { usage }
-opt.on("-v") { puts CE::VERSION; exit 0 }
-opt.on("-s", "--symbol_list") { display_symbol_list }
-opt.on("-l", "--index_list") { display_color_index }
-
-begin
-    opt.parse!(ARGV)
-
-rescue OptionParser::InvalidOption => err
-    mess = "[OPTION ERROR] Invalid option ->"
-    err.args.each do |op|
-        mess += %( '#{op}')
+def output_interactive
+    exit_words = ["quit", "exit", "bye"]
+    while input = STDIN.gets
+        input.chomp!
+        exit 0 if exit_words.index(input)
+        eval(@code_decorate)
+        puts CE.get(input)
     end
-    mess += " (OptionParser::InvalidOption)"
-    warn mess + $/ + $/
+end
 
-    usage
+def output(target)
+    eval(@code_decorate)
+    begin
+        print CE.get(target)
+    rescue Errno::EPIPE
+    end
+end
+
+def parse_options
+    @fg = nil
+    @bg = nil
+    @tx = nil
+    @pickups = []
+    @is_watch = false
+    @last_lb  = true
+
+    require "optparse"
+    opt = OptionParser.new
+
+    opt.on("-h") { usage }
+    opt.on("-v") { version }
+    opt.on("-s", "--symbol_list")    { display_symbol_list }
+    opt.on("-l", "--index_list")     { display_color_index }
+    opt.on("--fg val", "-f val")     { |val| @fg = val }
+    opt.on("--bg val", "-b val")     { |val| @bg = val }
+    opt.on("--tx val", "-t val")     { |val| @tx = val }
+    opt.on("--pickup val", "-p val") { |val| @pickups << val }
+    opt.on("-w", "--watch")          { @is_watch = true }
+    opt.on("-n")                     { @last_lb = false }
+
+    begin
+        opt.parse!(ARGV)
+
+    rescue => err
+        warn "Parse Error! Please check usage!" + $/ + $/
+        usage
+    end
+
+    @fg = "yellow" if @fg == nil && @bg == nil && @tx == nil
+    @fg = @fg.intern if @fg != nil
+    @bg = @bg.intern if @bg != nil
+
+    if @tx != nil
+        res = []
+        @tx.split(",").each do |val|
+            res << val.intern
+        end
+        @tx = res
+    end
+
+    # parse pickups
+    if @pickups.size > 0
+        code_pickup = ""
+        @pickups.each_index do |index|
+            if @pickups[index][0] == "/" && (@pickups[index][-1] == "/" || @pickups[index][-2] == "/")
+                @pickups[index] = eval(@pickups[index])
+            end
+
+            code_pickup += %(.pickup(@pickups[#{index}], @fg, @bg, @tx))
+        end
+        @code_decorate = "CE" + code_pickup
+    else
+        @code_decorate = %(CE.ch(@fg, @bg, @tx))
+    end
+end
+
+has_stdin = select([STDIN], [], [], 0) != nil || FileTest.pipe?(STDIN)
+usage if !has_stdin && ARGV.size == 0
+
+# parse options and set the decorate code that execute by eval
+parse_options
+
+require_color_echo_get
+if @is_watch
+    # Interactive mode
+    output_interactive
+else
+    if has_stdin
+        target = STDIN.read
+    else
+        target = ARGV.join(" ")
+        target += $/ if @last_lb
+    end
+
+    output(target)
 end

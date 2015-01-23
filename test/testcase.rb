@@ -14,7 +14,7 @@ require_relative "case/once"
 require_relative "case/pickup"
 require_relative "case/rainbow"
 require_relative "case/get"
-require_relative "case/bin"
+require_relative "case/cli"
 
 def require_color_echo
     require "color_echo"

@@ -1,9 +1,9 @@
 # color_echo
 Decorate the command line output with ANSI escape sequence.     
-String that is output by "print, puts, p" method is decorated.    
+Text that is output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 0.9.0   
+Version: 1.0.0
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -61,23 +61,10 @@ puts "output is -> " + output
 ![screen shot](/images/get1.png)
 
 
-## You can run on the command line
-<pre>
-    * Usage
-        color_echo [options]
-
-    * Options
-        -v:
-            Display version of color_echo.
-
-        --symbol_list, -s
-            Display symbol list that can to specify.
-
-        --index_list, -l
-            Display color index list that can to specify.
-
-If your server using the rbenv, You have to do `rbenv rehash`.
-</pre>
+## Command Line Interface
+You can use color_echo on command line!   
+![screen shot](/images/cli1.png)
+![screen shot](/images/cli2.png)
 
 
 ## module functions
@@ -321,37 +308,40 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v1.0.0, 
+    * Add command line interface.
+
 * v0.9.0, 2014-01-19
-    * Added a mode to receive as the words with ANSI escape sequence; without output to display.
+    * Add a mode to receive as the words with ANSI escape sequence; without output to display.
 
 * v0.8.0, 2014-01-14
-    * Changed for the specified arguments of reset method.
-    * Fixed small bugs.
+    * Change for the specified arguments of reset method.
+    * Fix small bugs.
 
 * v0.7.0, 2014-01-08
-    * Added new method -> pickup
-    * Added new symbol that can to specify in reset method of first parameter -> CE.reset(:pickup)
+    * Add new method -> pickup
+    * Add new symbol that can to specify in reset method of first parameter -> CE.reset(:pickup)
 
 * v0.6.0, 2014-01-05
-    * Added command line tool.
+    * Add command line tool.
 
 * v0.5.0, 2014-12-16
-    * Added a new method -> \#once, \#times
+    * Add a new method -> \#once, \#times
 
 * v0.4.0, 2014-12-11
-    * Can to select 256 colors.   
+    * Add 256 colors.
 
 * v0.3.0, 2014-12-08
-    * High color can now be selected.    
-    * Multiple text attribute can now be selected.   
-    * Added parameter to the #reset method.   
+    * Add high colors.
+    * Can to select multi value in ch_tx method.
+    * Add parameter to the #reset method.   
 
 * v0.2.4, 2014-12-04
-    * Can now be able to specify a non-string when rainbow mode.
-    * Cab now be able to take over the setting of other types of sequence when rainbow mode.
+    * Can to specify a non-string when rainbow mode.
+    * Cab take over the setting of other types of sequence when rainbow mode.
 
 * v0.2.3, 2014-12-02
-    * Fixed small bugs.
+    * Fix small bugs.
 
 * v0.2.0
     * Added new method -> rainbow
