@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_off
         set_colors
         puts @@dammy_string

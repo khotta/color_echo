@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_puts
         info "Not overwrite"
         puts_patterns

@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_ch
         exec %(CE.ch :index78)
         puts @@dammy_string

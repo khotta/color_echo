@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_cli_display
         cmd = %(color_echo)
         info cmd
@@ -17,6 +17,22 @@ class TestColorEcho < MiniTest::Unit::TestCase
         puts `#{cmd}`
 
         cmd = %(color_echo -h)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo --symbol-list)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo --index-list)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo --symbol_list)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo --index_list)
         info cmd
         puts `#{cmd}`
     end
@@ -89,6 +105,14 @@ class TestColorEcho < MiniTest::Unit::TestCase
         cmd = %(cat case/dammy.txt | color_echo -p "123.456.789.12" -f h_cyan -t underscore)
         info cmd
         puts `#{cmd}`
+
+        cmd = %(color_echo foo -f green | color_echo bar -f red)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo foo -f green -n | color_echo bar -f red)
+        info cmd
+        puts `#{cmd}`
     end
 
     def test_cli_redirect
@@ -105,7 +129,24 @@ class TestColorEcho < MiniTest::Unit::TestCase
         puts `#{cmd}`
     end
 
+    def test_cli_stripe
+        cmd = %(color_echo --stripe < case/dammy.txt)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo -f white -b blue -t bold --stripe < case/dammy.txt)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo -f h_blue --stripe -p hoge < case/dammy.txt)
+        info cmd
+        puts `#{cmd}`
+    end
+
     def test_cli_watch
         info %(Do -> tailf /var/log/httpd/access_log | color_echo -w)
+        info %(Do -> tailf /var/log/httpd/access_log | color_echo -w -p "some pattern")
+        info %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe)
+        info %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe -p hoge)
     end
 end

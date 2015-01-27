@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_pickup_reg
         text = "HogexxxxxxxxxxHOGExxxxhogexxxxxxHoGexxxxxxXXXxxxxxhogexxxxxxxxxxxxxhoGe"
         info "Dammy text is -> " + text

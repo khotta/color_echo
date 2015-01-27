@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     s.files += Dir['lib/color_echo/*.rb']
     s.files += Dir['lib/color_echo/module/*.rb']
     s.files += Dir["bin/color_echo"]
+    s.files += Dir["bin/lib/*.rb"]
 
     # platform this gem runs on.
     #s.platform = Gem::Platform.local
@@ -32,7 +33,5 @@ Gem::Specification.new do |s|
     s.require_paths = ["lib"]
 
     # executable command
-    s.executables = s.files.grep(%r{^bin/}) do |f|
-        File.basename(f)
-    end
+    s.executables = "color_echo"
 end

@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_bg
         exec %(CE.bg :h_red)
         puts @@dammy_string

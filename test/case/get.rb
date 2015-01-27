@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def do_get
         history %(greet  = CE.fg(:yellow).get("Hello"))
         greet  = CE.fg(:yellow).get("Hello")

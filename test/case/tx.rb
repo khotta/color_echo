@@ -1,4 +1,4 @@
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     def test_tx
         exec %(CE.tx :underscore)
         puts @@dammy_string

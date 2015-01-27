@@ -3,7 +3,7 @@ Decorate the command line output with ANSI escape sequence.
 Text that is output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 1.0.0
+Version: 1.1.0
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -308,7 +308,12 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v1.0.0, 
+* v1.1.0, 2014-01-27
+    * Modified to output the argument when the standard input is hit.
+    * Add --stripe option in the command line interface.
+    * Change the delimiter of long option with a hyphen -> -symbol-list,--index-list; Can to specify also underscore as before.
+
+* v1.0.0, 2014-01-23
     * Add command line interface.
 
 * v0.9.0, 2014-01-19

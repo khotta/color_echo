@@ -1,8 +1,8 @@
 #
 # List of Test Cases
 #
-require 'minitest/unit'
 require 'minitest/autorun'
+require 'minitest/unit'
 
 require_relative "case/output"
 require_relative "case/ch"
@@ -26,7 +26,7 @@ def require_color_echo_get
     #require_relative "../lib/color_echo/get"
 end
 
-class TestColorEcho < MiniTest::Unit::TestCase
+class TestColorEcho < Minitest::Test
     @@dammy_string = "Dammy Dammy Dammy" + $/
     @@dammy_multi  = "hoge", "piyo", "foo", "bar"
     @@dammy_array  = ["HOGE", "PIYO", "FOO", "BAR"]
@@ -74,7 +74,7 @@ ut labore et dolore magna aliqua.
     end
 
     def info(mes)
-        $stdout.puts "  * [INFO] " + mes
+        $stdout.puts $/ + "  * [INFO] " + mes
     end
 
     def test_list
