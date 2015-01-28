@@ -79,6 +79,26 @@ class TestColorEcho < Minitest::Test
         cmd = %(color_echo -n Dammy Dammy Dammy; color_echo Dammy Dammy Dammy; color_echo Dammy Dammy Dammy)
         info cmd
         puts `#{cmd}`
+
+        cmd = %(color_echo "hoge\\nhoge")
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo "hoge\\nhoge" -e)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo "hoge\\rho\\nge" -e)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo "hoge\\r\\nhoge")
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo "hoge\\r\\nhoge" -e)
+        info cmd
+        puts `#{cmd}`
     end
 
     def test_cli_pipe

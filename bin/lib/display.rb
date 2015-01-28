@@ -21,7 +21,7 @@ def usage
     headers    = ["* Usage", "* Options", "* Example"]
     headers_op = [
                      "-v:", "--symbol-list:", "--index-list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
-                     "--tx text_attribute[,...]:", "--watch:", "--stripe:", "-n:", "-h:"
+                     "--tx text_attribute[,...]:", "--watch:", "--stripe:", "-n:", "-e:", "-h:"
     ]
     CE.pickup(headers, :h_green)
     CE.pickup(headers_op, :cyan)
@@ -73,11 +73,14 @@ def usage
     puts padding * 3 + "short option is -w." + $/ + $/
 
     puts padding * 2 + "--stripe:"
-    puts padding * 3 + "Apply the decoration for each row."
+    puts padding * 3 + "Decorate on every other line."
     puts padding * 3 + "pickup option is ignored." + $/ + $/
 
     puts padding * 2 + "-n:"
     puts padding * 3 + "Do not output the trailing newline." + $/ + $/ 
+
+    puts padding * 2 + "-e:"
+    puts padding * 3 + "Enable interpretation of line feed." + $/ + $/ 
 
     puts padding * 2 + "-h:"
     puts padding * 3 + "Show this message." + $/ + $/ 
@@ -108,7 +111,7 @@ def usage
     puts padding * 3 + %(netstat -na | color_echo -p ":80" | color_echo -p "127.0.0.1" -f h_cyan) + $/ + $/
 
     CE.once.ch :h_magenta
-    puts padding * 2 + %(* color_echo can to decorate for each row.)
+    puts padding * 2 + %(* color_echo can to decorate on every other line.)
     puts padding * 3 + %(color_echo -f gray -t bold --stripe < /path/to/file)
     puts padding * 3 + %(tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe) + $/ + $/
 

@@ -62,6 +62,7 @@ def parse_options
     @pickups   = []
     @is_watch  = false
     @last_lb   = true
+    @enable_lf = false
     @is_stripe = false
 
     require "optparse"
@@ -79,6 +80,7 @@ def parse_options
     opt.on("--pickup val", "-p val") { |val| @pickups << val }
     opt.on("-w", "--watch")          { @is_watch  = true }
     opt.on("-n")                     { @last_lb   = false }
+    opt.on("-e")                     { @enable_lf = true }
     opt.on("--stripe")               { @is_stripe = true }
 
     begin
@@ -147,6 +149,12 @@ else
     else
         target = ARGV.join(" ")
         target += $/ if @last_lb
+    end
+
+    if @enable_lf
+        target.gsub!("\\r\\n", $/)
+        target.gsub!("\\n", $/)
+        target.gsub!("\\r", $/)
     end
 
     output(target)
