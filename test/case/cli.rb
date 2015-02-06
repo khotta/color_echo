@@ -170,8 +170,12 @@ class TestColorEcho < Minitest::Test
         info %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe -p hoge)
     end
 
-    def test_cli_opthelp
+    def test_cli_optperse
         cmd = %(color_echo --help)
+        info cmd
+        puts `#{cmd}`
+
+        cmd = %(color_echo --version)
         info cmd
         puts `#{cmd}`
     end

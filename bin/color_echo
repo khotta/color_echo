@@ -129,10 +129,12 @@ end
 has_stdin = select([STDIN], [], [], 0) != nil || FileTest.pipe?(STDIN)
 usage if !has_stdin && ARGV.size == 0
 
+require_color_echo_get
+Version = CE::VERSION
+
 # parse options and set the decorate code that execute by eval
 parse_options
 
-require_color_echo_get
 if @is_watch
     # Interactive mode
     @exit_words = ["quit", "exit", "bye"]
