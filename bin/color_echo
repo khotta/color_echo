@@ -68,20 +68,21 @@ def parse_options
     require "optparse"
     opt = OptionParser.new
 
-    opt.on("-h") { usage }
-    opt.on("-v") { version }
-    opt.on("-s", "--symbol-list")    { display_symbol_list }
-    opt.on("-l", "--index-list")     { display_color_index }
-    opt.on("--symbol_list")          { display_symbol_list }  # for compatibility
-    opt.on("--index_list")           { display_color_index }  # for compatibility
-    opt.on("--fg val", "-f val")     { |val| @fg = val }
-    opt.on("--bg val", "-b val")     { |val| @bg = val }
-    opt.on("--tx val", "-t val")     { |val| @tx = val }
-    opt.on("--pickup val", "-p val") { |val| @pickups << val }
-    opt.on("-w", "--watch")          { @is_watch  = true }
-    opt.on("-n")                     { @last_lb   = false }
-    opt.on("-e")                     { @enable_lf = true }
-    opt.on("--stripe")               { @is_stripe = true }
+    opt.on("-h", @explain_h)                     { usage }
+    opt.on("-v", @explain_v)                     { version }
+    opt.on("-s", "--symbol-list", @explain_s)    { display_symbol_list }
+    opt.on("-l", "--index-list", @explain_l)     { display_color_index }
+    opt.on("--fg val", "-f val", @explain_f)     { |val| @fg = val }
+    opt.on("--bg val", "-b val", @explain_b)     { |val| @bg = val }
+    opt.on("--tx val", "-t val", @explain_t)     { |val| @tx = val }
+    opt.on("--pickup val", "-p val", @explain_p) { |val| @pickups << val }
+    opt.on("-w", "--watch", @explain_w)          { @is_watch  = true }
+    opt.on("-n", @explain_n)                     { @last_lb   = false }
+    opt.on("-e", @explain_e)                     { @enable_lf = true }
+    opt.on("--stripe", @explain_stripe)          { @is_stripe = true }
+
+    opt.on("--symbol_list", @explain_s + " - [compatibility]" ) { display_symbol_list }
+    opt.on("--index_list", @explain_l  + " - [compatibility]") { display_color_index }
 
     begin
         opt.parse!(ARGV)

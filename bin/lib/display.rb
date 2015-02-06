@@ -1,3 +1,16 @@
+@explain_v = "Show version of color_echo."
+@explain_s = "Show symbol list that can to specify."
+@explain_l = "Show color index list that can to specify."
+@explain_p = "Decorate your specified wrods. You can use this option any number of times."
+@explain_f = "Specify the foreground color."
+@explain_b = "Specify the background color."
+@explain_t = "Specify the text attributes."
+@explain_w = "Interactive mode. Break word is -> exit, quit, bye; Or Ctl + c"
+@explain_n = "Do not output the trailing newline."
+@explain_e = "Enable interpretation of line feed."
+@explain_h = "Show this message."
+@explain_stripe  = "Decorate on every other line. pickup option is ignored."
+
 def version
     require_color_echo
 
@@ -41,49 +54,48 @@ def usage
     puts padding + "* Options"
 
     puts padding * 2 + "-v:"
-    puts padding * 3 + "Display version of color_echo." + $/ + $/
+    puts padding * 3 + @explain_v + $/ + $/
 
     puts padding * 2 + "--symbol-list:"
-    puts padding * 3 + "Display symbol list that can to specify."
+    puts padding * 3 + @explain_s
     puts padding * 3 + "short option is -s." + $/ + $/ 
     
     puts padding * 2 + "--index-list:"
-    puts padding * 3 + "Display color index list that can to specify."
+    puts padding * 3 + @explain_l
     puts padding * 3 + "short option is -l." + $/ + $/ 
 
     puts padding * 2 + "--pickup word [--pickup word ...]:"
-    puts padding * 3 + "Decorate your specified wrods. You can use this option any number of times."
+    puts padding * 3 + @explain_p
     puts padding * 3 + "Regular expressions can be used; like that -> /^foo/i"
     puts padding * 3 + "short option is -p." + $/ + $/ 
 
     puts padding * 2 + "--fg color_name:"
-    puts padding * 3 + "Decorate the foreground color."
+    puts padding * 3 + @explain_f
     puts padding * 3 + "short option is -f." + $/ + $/ 
 
     puts padding * 2 + "--bg color_name:"
-    puts padding * 3 + "Decorate the background color."
+    puts padding * 3 + @explain_b
     puts padding * 3 + "short option is -b." + $/ + $/ 
 
     puts padding * 2 + "--tx text_attribute[,...]:"
-    puts padding * 3 + "Decorate the text attribute."
+    puts padding * 3 + @explain_t
     puts padding * 3 + "short option is -t." + $/ + $/ 
 
     puts padding * 2 + "--watch:"
-    puts padding * 3 + "Interactive mode. Break word is -> exit, quit, bye; Or Ctl + c"
+    puts padding * 3 + @explain_w
     puts padding * 3 + "short option is -w." + $/ + $/
 
     puts padding * 2 + "--stripe:"
-    puts padding * 3 + "Decorate on every other line."
-    puts padding * 3 + "pickup option is ignored." + $/ + $/
+    puts padding * 3 + @explain_stripe + $/ + $/
 
     puts padding * 2 + "-n:"
-    puts padding * 3 + "Do not output the trailing newline." + $/ + $/ 
+    puts padding * 3 + @explain_n + $/ + $/ 
 
     puts padding * 2 + "-e:"
-    puts padding * 3 + "Enable interpretation of line feed." + $/ + $/ 
+    puts padding * 3 + @explain_e + $/ + $/ 
 
     puts padding * 2 + "-h:"
-    puts padding * 3 + "Show this message." + $/ + $/ 
+    puts padding * 3 + @explain_h + $/ + $/ 
 
     puts padding + "* Example"
 

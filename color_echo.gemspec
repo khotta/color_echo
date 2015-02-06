@@ -33,5 +33,6 @@ Gem::Specification.new do |s|
     s.require_paths = ["lib"]
 
     # executable command
-    s.executables = "color_echo"
+    s.executables << "color_echo"
+    s.executables << "colorecho"
 end
