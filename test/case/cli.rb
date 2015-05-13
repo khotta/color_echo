@@ -185,4 +185,10 @@ class TestColorEcho < Minitest::Test
         info cmd
         puts `#{cmd}`
     end
+
+    def test_cli_highlight
+    end
+
+    def test_cli_clean
+    end
 end

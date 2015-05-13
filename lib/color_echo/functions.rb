@@ -22,6 +22,7 @@ module CE
                 reset_bg
                 reset_tx
                 reset_pickup
+                reset_hitline
                 reset_rainbow
             when :fg
                 reset_fg
@@ -31,6 +32,8 @@ module CE
                 reset_tx
             when :pickup
                 reset_pickup
+            when :hitline
+                reset_hitline
             when :rainbow
                 reset_rainbow
             end
@@ -150,6 +153,38 @@ module CE
         return self
     end
 
+    # change hit lines decoration
+    # @return void
+    def hitline(fg=nil, bg=nil, *txs)
+        if fg.instance_of?(Symbol)
+            @@code_hitline_fg_color = convert_to_code("ForeGround", fg)
+        else
+            @@code_hitline_fg_color = ""
+        end
+
+        if bg.instance_of?(Symbol)
+            @@code_hitline_bg_color = convert_to_code("BackGround", bg)
+        else
+            @@code_hitline_bg_color = ""
+        end
+
+        if txs.size > 0
+            txs = txs[0] if txs[0].instance_of?(Array)
+            txs.each do |name|
+                next if !name.is_a?(Symbol)
+                @@code_hitline_text_attr += convert_to_code("TextAttr", name)
+            end
+        end
+
+        return self
+    end
+
+    # get escape sequence code of that hit record line
+    # @return string
+    def get_hitline_code
+        return @@code_hitline_fg_color + @@code_hitline_bg_color + @@code_hitline_text_attr
+    end
+
     # get decorated text
     # require "color_echo/get"
     # @param string text
@@ -164,6 +199,18 @@ module CE
         end
         
         @@task.call(text)
+    end
+
+    # Enable clean flag
+    # @return void
+    def enableclean
+        @@clean = true
+    end
+
+    # Disable clean flag
+    # @return void
+    def disableclean
+        @@clean = false
     end
 
     # method alias

@@ -1,19 +1,24 @@
 module CE
-    @@enable         = true
-    @@isset          = false
-    @@code_bg_color  = ""
-    @@code_fg_color  = ""
-    @@code_text_attr = ""
-    @@code_rainbow   = ""
-    @@rainbow        = false
-    @@pickup_list    = {}
-    @@cnt_limit      = 0
-    @@allow_output   = false
+    @@enable                 = true
+    @@isset                  = false
+    @@rainbow                = false
+    @@allow_output           = false
+    @@clean                  = false
+    @@code_bg_color          = ""
+    @@code_fg_color          = ""
+    @@code_text_attr         = ""
+    @@code_hitline_bg_color  = ""
+    @@code_hitline_fg_color  = ""
+    @@code_hitline_text_attr = ""
+    @@code_rainbow           = ""
+    @@cnt_limit              = 0
+    @@pickup_list            = {}
 
     @@print = method :print
     @@p     = method :p
     @@puts  = method :puts
-    @@get   = lambda do |text|
+
+    @@get = lambda do |text|
         print text
     end
 
@@ -36,6 +41,9 @@ module CE
                 output = add_rainbow(strio.string)
             else
                 output = strio.string
+
+                # try to remove escape sequence code
+                output = cleanup_text(output) if @@clean
 
                 # decorate pickup
                 if @@pickup_list.size > 0

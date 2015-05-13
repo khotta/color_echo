@@ -1,39 +1,66 @@
 #!/usr/bin/env ruby
+require_relative "./lib/display"
 
+#
+# Load color_echo
+# @return void
+#
 def require_color_echo
     require "color_echo"
     #require_relative "../lib/color_echo"
 end
 
+#
+# Load color_echo/get
+# @return void
+#
 def require_color_echo_get
     require "color_echo/get"
     #require_relative "../lib/color_echo/get"
 end
 
-require_relative "./lib/display"
-
+#
+# output in interactive
+# @return void
+#
 def output_interactive
     output_stripe_interactive if @is_stripe
 
-    while input = STDIN.gets
-        input.chomp!
-        exit 0 if @exit_words.index(input)
-        eval(@code_decorate)
-        puts CE.get(input)
+    begin
+        while input = STDIN.gets
+            input.chomp!
+            exit 0 if @exit_words.index(input)
+            eval(@code_decorate)
+            puts CE.get(input)
+        end
+    rescue Interrupt
+        exit 1
     end
 end
 
+#
+# output like stripe in interactive
+# @return void
+#
 def output_stripe_interactive
     cnt = 0
-    while input = STDIN.gets
-        input.chomp!
-        exit 0 if @exit_words.index(input)
-        eval(@code_decorate) if cnt % 2 == 0
-        puts CE.get(input)
-        cnt += 1
+    begin
+        while input = STDIN.gets
+            input.chomp!
+            exit 0 if @exit_words.index(input)
+            eval(@code_decorate) if cnt % 2 == 0
+            puts CE.get(input)
+            cnt += 1
+        end
+    rescue Interrupt
+        exit 1
     end
 end
 
+#
+# output
+# @return void
+#
 def output(target)
     output_stripe(target) if @is_stripe
 
@@ -45,6 +72,10 @@ def output(target)
     exit 0
 end
 
+#
+# output like stripe
+# @return void
+#
 def output_stripe(target)
     cnt = 0
     target.split($/).each do |record|
@@ -55,41 +86,30 @@ def output_stripe(target)
     exit 0
 end
 
+#
+# parse the options
+# @return void
+#
 def parse_options
-    @fg = nil
-    @bg = nil
-    @tx = nil
-    @pickups   = []
-    @is_watch  = false
-    @last_lb   = true
-    @enable_lf = false
-    @is_stripe = false
-
-    require "optparse"
-    opt = OptionParser.new
-
-    opt.on("-h", @explain_h)                     { usage }
-    opt.on("-v", @explain_v)                     { version }
-    opt.on("-s", "--symbol-list", @explain_s)    { display_symbol_list }
-    opt.on("-l", "--index-list", @explain_l)     { display_color_index }
-    opt.on("--fg val", "-f val", @explain_f)     { |val| @fg = val }
-    opt.on("--bg val", "-b val", @explain_b)     { |val| @bg = val }
-    opt.on("--tx val", "-t val", @explain_t)     { |val| @tx = val }
-    opt.on("--pickup val", "-p val", @explain_p) { |val| @pickups << val }
-    opt.on("-w", "--watch", @explain_w)          { @is_watch  = true }
-    opt.on("-n", @explain_n)                     { @last_lb   = false }
-    opt.on("-e", @explain_e)                     { @enable_lf = true }
-    opt.on("--stripe", @explain_stripe)          { @is_stripe = true }
-
-    opt.on("--symbol_list", @explain_s + " - [compatibility]" ) { display_symbol_list }
-    opt.on("--index_list", @explain_l  + " - [compatibility]") { display_color_index }
+    @fg           = nil
+    @bg           = nil
+    @tx           = nil
+    @highlight    = nil
+    @pickups      = []
+    @is_watch     = false
+    @last_lb      = true
+    @enable_lf    = false
+    @is_stripe    = false
+    @enable_clean = false
 
     begin
-        opt.parse!(ARGV)
+        @opt.parse!(ARGV)
 
     rescue => err
-        warn "Parse Error! Please check usage!" + $/ + $/
-        usage
+        warn %(Parse Error! Please check usage!) + $/ + $/
+        puts @opt.help
+        warn $/ + %(Do you want to read example to use?)
+        warn %(  -> Please execute: 'colorecho -h')
     end
 
     @fg = "yellow" if @fg == nil && @bg == nil && @tx == nil
@@ -121,13 +141,65 @@ def parse_options
             code_pickup += %(.pickup(@pickups[#{index}], @fg, @bg, @tx))
         end
         @code_decorate = "CE" + code_pickup
+
+        # highlight
+        if @highlight == nil
+            code_highlight = %(CE.hitline(nil, nil, :underscore, :bold))
+        else
+            params = []
+            @highlight.split(",").each do |el|
+                el.strip!
+                if el != "nil"
+                    params << ":#{el}"
+                else
+                    params << "nil"
+                end
+            end
+            code_highlight = %(CE.hitline(#{params.join(",")}))
+        end
+        @code_decorate = code_highlight + ";" + @code_decorate
     else
         @code_decorate = %(CE.ch(@fg, @bg, @tx))
     end
 end
 
+# -----------
+# top level
+# -----------
+require "optparse"
+@opt = OptionParser.new
+
+@opt.on("-h",     "--help",          @explain_h)      { usage }
+@opt.on("-s",     "--symbol-list",   @explain_s)      { display_symbol_list }
+@opt.on("-l",     "--index-list",    @explain_l)      { display_color_index }
+@opt.on("-f val", "--fg val",        @explain_f)      { |val| @fg = val }
+@opt.on("-b val", "--bg val",        @explain_b)      { |val| @bg = val }
+@opt.on("-t val", "--tx val",        @explain_t)      { |val| @tx = val }
+@opt.on("-p val", "--pickup val",    @explain_p)      { |val| @pickups << val }
+@opt.on("-H",     "--highlight val", @explain_H)      { |val| @highlight = val}
+@opt.on("-w",     "--watch",         @explain_w)      { @is_watch     = true  }
+@opt.on("-n",                        @explain_n)      { @last_lb      = false }
+@opt.on("-e",                        @explain_e)      { @enable_lf    = true  }
+@opt.on("--stripe",                  @explain_stripe) { @is_stripe    = true  }
+@opt.on("-c", "--clean",             @explain_c)      { @enable_clean = true  }
+@opt.on("-v",                        @explain_v)      { version }
+
+@opt.on("--symbol_list", @explain_s + " - [compatibility]" ) { display_symbol_list }
+@opt.on("--index_list", @explain_l  + " - [compatibility]") { display_color_index }
+
+@opt.banner = <<EOS
+Usage:
+#{@explain_usage}
+Options:
+EOS
+
+# has stdin?
 has_stdin = select([STDIN], [], [], 0) != nil || FileTest.pipe?(STDIN)
-usage if !has_stdin && ARGV.size == 0
+
+# argv error
+if !has_stdin && ARGV.size == 0
+    puts @opt.help
+end
 
 require_color_echo_get
 Version = CE::VERSION
@@ -135,22 +207,30 @@ Version = CE::VERSION
 # parse options and set the decorate code that execute by eval
 parse_options
 
+if @enable_clean
+    CE.enableclean
+end
+
 if @is_watch
     # Interactive mode
     @exit_words = ["quit", "exit", "bye"]
     output_interactive
 else
     if has_stdin
-        target = STDIN.read
+        begin
+            target = STDIN.read
+        rescue Interrupt
+            puts $/ + %(No STDIN, Try to use -w option if you need Interactive mode.)
+        end
 
         if ARGV.size > 0
             print target
-            argv = ARGV.join(" ")
+            argv  = ARGV.join(" ")
             argv += $/ if @last_lb
             output(argv)
         end
     else
-        target = ARGV.join(" ")
+        target  = ARGV.join(" ")
         target += $/ if @last_lb
     end
 

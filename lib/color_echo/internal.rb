@@ -45,6 +45,15 @@ module CE
         return self
     end
 
+    # reset hitline code
+    # @return self
+    def reset_hitline
+        @@code_hitline_bg_color  = ""
+        @@code_hitline_fg_color  = ""
+        @@code_hitline_text_attr = ""
+        return self
+    end
+
     # reset and off raubow mode
     # @return self
     def reset_rainbow
@@ -66,9 +75,11 @@ module CE
 
     # return start escape sequence code
     # @return string
-    def get_start_code
+    def get_start_code(type=nil)
         if @@rainbow
             return @@code_rainbow
+        elsif type == :hitline
+            return @@code_hitline_fg_color + @@code_hitline_bg_color + @@code_hitline_text_attr
         else
             return @@code_fg_color + @@code_bg_color + @@code_text_attr
         end
@@ -82,6 +93,7 @@ module CE
     # add reset & start code to line feed code
     # @param string input
     def add_reset_line_feed(input)
+        input = input.unpack("C*").pack("U*") if !input.valid_encoding?
         input.gsub!(/#{$/}/, get_reset_code + $/ + get_start_code)
         input += get_reset_code
         return input
@@ -100,6 +112,7 @@ module CE
                 next
             end
 
+            # TODO This way so lame...
             case cnt
             when 0
                 output += ForeGround::RED + char + Off::ALL + get_start_code
@@ -129,9 +142,10 @@ module CE
     # @param string text
     # @return string
     def add_pickup_code(text)
+        is_match = false
         @@pickup_list.each_pair do |key, hash|
-            patterns = hash[:patterns]
-            code     = hash[:code]
+            patterns    = hash[:patterns]
+            code_pickup = hash[:code]
 
             # repeat to each specified pickup pattern
             patterns.each do |pattern|
@@ -141,18 +155,21 @@ module CE
                     # global match
                     (text.scan(pattern)).size.times do
                         pattern =~ text
-                        after_text += $` + code + $& + get_reset_code + get_start_code
+                        after_text += $` + get_reset_code + code_pickup + $& + get_reset_code + get_start_code + get_start_code(:hitline)
                         text = $'
                     end
-                    text = after_text + text
+                    text     = after_text + text
+                    is_match = ($& != nil) if (!is_match)
 
                 # pattern is String
                 else
-                    text.gsub!(pattern, code + pattern + get_reset_code + get_start_code)
+                    res      = text.gsub!(pattern, get_reset_code + code_pickup + pattern + get_reset_code + get_start_code + get_start_code(:hitline))
+                    is_match = (res != nil) if (!is_match)
                 end
             end
         end
 
+        text = (get_start_code(:hitline) + text + get_reset_code) if is_match
         return text
     end
 
@@ -182,5 +199,13 @@ module CE
     # @return proc
     def task
         return @@task
+    end
+
+    # try to remove escape sequence code
+    # @param string text
+    # @return texgt
+    def cleanup_text(text)
+        text.gsub!(/\e\[[0-9;]+[mK]/, "")
+        return text
     end
 end

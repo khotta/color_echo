@@ -1,15 +1,25 @@
-@explain_v = "Show version of color_echo."
-@explain_s = "Show symbol list that can to specify."
-@explain_l = "Show color index list that can to specify."
-@explain_p = "Decorate your specified wrods. You can use this option any number of times."
-@explain_f = "Specify the foreground color."
-@explain_b = "Specify the background color."
-@explain_t = "Specify the text attributes."
-@explain_w = "Interactive mode. Break word is -> exit, quit, bye; Or Ctl + c"
-@explain_n = "Do not output the trailing newline."
-@explain_e = "Enable interpretation of line feed."
-@explain_h = "Show this message."
-@explain_stripe  = "Decorate on every other line. pickup option is ignored."
+@explain_v      = %(Show version of color_echo.)
+@explain_s      = %(Show symbol list that can to specify.)
+@explain_l      = %(Show color index list that can to specify.)
+@explain_p      = %(Decorate your specified wrods. You can use this option any number of times.)
+@explain_H      = %(Highlight the match lines by -p options word. format -H "fg_color, bg_color, text_attribute[,...]")
+@explain_f      = %(Specify the foreground color.)
+@explain_b      = %(Specify the background color.)
+@explain_t      = %(Specify the text attributes.)
+@explain_w      = %(Interactive mode. Break word is -> exit, quit, bye; Or Ctl + c)
+@explain_n      = %(Do not output the trailing newline.)
+@explain_e      = %(Enable interpretation of line feed.)
+@explain_h      = %(Show help message with example.)
+@explain_c      = %(Try to remove the sequence code from the given.)
+@explain_stripe = %(Decorate on every other line. pickup option is ignored.)
+@padding        = " " * 4
+@explain_usage  = @padding * 2 + %(colorecho [options] message) + $/
+@explain_usage += @padding * 2 + %(colorecho [options] < /path/to/file) + $/
+@explain_usage += @padding * 2 + %(echo "message" | colorecho [options]) + $/
+@explain_usage += @padding * 2 + %(colorecho -v) + $/
+@explain_usage += @padding * 2 + %(colorecho -s) + $/
+@explain_usage += @padding * 2 + %(colorecho -l) + $/
+@explain_usage += @padding * 2 + %(colorecho -h)
 
 def version
     require_color_echo
@@ -23,14 +33,12 @@ def usage
 
     CE.once.ch :yellow
     puts <<-EOS
-
     #{CE::LIBS_NAME} - #{CE::SUMMARY}
     VERSION: #{CE::VERSION}
     README: #{CE::DOCS_PAGE}
 
     EOS
 
-    padding    = " " * 4
     headers    = ["* Usage", "* Options", "* Example"]
     headers_op = [
                      "-v:", "--symbol-list:", "--index-list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
@@ -39,93 +47,87 @@ def usage
     CE.pickup(headers, :h_green)
     CE.pickup(headers_op, :cyan)
 
-    puts padding + "* Usage"
+    puts @padding + "* Usage"
 
     CE.ch :h_blue
-    puts padding * 2 + "color_echo [options] text"
-    puts padding * 2 + "color_echo [options] < /path/to/file"
-    puts padding * 2 + "echo text | color_echo [options]"
-    puts padding * 2 + "color_echo -v"
-    puts padding * 2 + "color_echo -s"
-    puts padding * 2 + "color_echo -l"
-    puts padding * 2 + "color_echo -h" + $/ + $/
+    puts @explain_usage + $/ + $/
     CE.off :fg
 
-    puts padding + "* Options"
+    puts @padding + "* Options"
 
-    puts padding * 2 + "-v:"
-    puts padding * 3 + @explain_v + $/ + $/
+    puts @padding * 2 + "-v:"
+    puts @padding * 3 + @explain_v + $/ + $/
 
-    puts padding * 2 + "--symbol-list:"
-    puts padding * 3 + @explain_s
-    puts padding * 3 + "short option is -s." + $/ + $/ 
+    puts @padding * 2 + "--symbol-list:"
+    puts @padding * 3 + @explain_s
+    puts @padding * 3 + "short option is -s." + $/ + $/ 
     
-    puts padding * 2 + "--index-list:"
-    puts padding * 3 + @explain_l
-    puts padding * 3 + "short option is -l." + $/ + $/ 
+    puts @padding * 2 + "--index-list:"
+    puts @padding * 3 + @explain_l
+    puts @padding * 3 + "short option is -l." + $/ + $/ 
 
-    puts padding * 2 + "--pickup word [--pickup word ...]:"
-    puts padding * 3 + @explain_p
-    puts padding * 3 + "Regular expressions can be used; like that -> /^foo/i"
-    puts padding * 3 + "short option is -p." + $/ + $/ 
+    puts @padding * 2 + "--pickup word [--pickup word ...]:"
+    puts @padding * 3 + @explain_p
+    puts @padding * 3 + "Regular expressions can be used; like that -> /^foo/i"
+    puts @padding * 3 + "short option is -p." + $/ + $/ 
 
-    puts padding * 2 + "--fg color_name:"
-    puts padding * 3 + @explain_f
-    puts padding * 3 + "short option is -f." + $/ + $/ 
+    puts @padding * 2 + "--fg color_name:"
+    puts @padding * 3 + @explain_f
+    puts @padding * 3 + "short option is -f." + $/ + $/ 
 
-    puts padding * 2 + "--bg color_name:"
-    puts padding * 3 + @explain_b
-    puts padding * 3 + "short option is -b." + $/ + $/ 
+    puts @padding * 2 + "--bg color_name:"
+    puts @padding * 3 + @explain_b
+    puts @padding * 3 + "short option is -b." + $/ + $/ 
 
-    puts padding * 2 + "--tx text_attribute[,...]:"
-    puts padding * 3 + @explain_t
-    puts padding * 3 + "short option is -t." + $/ + $/ 
+    puts @padding * 2 + "--tx text_attribute[,...]:"
+    puts @padding * 3 + @explain_t
+    puts @padding * 3 + "short option is -t." + $/ + $/ 
 
-    puts padding * 2 + "--watch:"
-    puts padding * 3 + @explain_w
-    puts padding * 3 + "short option is -w." + $/ + $/
+    puts @padding * 2 + "--watch:"
+    puts @padding * 3 + @explain_w
+    puts @padding * 3 + "short option is -w." + $/ + $/
 
-    puts padding * 2 + "--stripe:"
-    puts padding * 3 + @explain_stripe + $/ + $/
+    puts @padding * 2 + "--stripe:"
+    puts @padding * 3 + @explain_stripe + $/ + $/
 
-    puts padding * 2 + "-n:"
-    puts padding * 3 + @explain_n + $/ + $/ 
+    puts @padding * 2 + "-n:"
+    puts @padding * 3 + @explain_n + $/ + $/ 
 
-    puts padding * 2 + "-e:"
-    puts padding * 3 + @explain_e + $/ + $/ 
+    puts @padding * 2 + "-e:"
+    puts @padding * 3 + @explain_e + $/ + $/ 
 
-    puts padding * 2 + "-h:"
-    puts padding * 3 + @explain_h + $/ + $/ 
+    puts @padding * 2 + "-h:"
+    puts @padding * 3 + @explain_h + $/ + $/ 
 
-    puts padding + "* Example"
-
-    CE.once.ch :h_magenta
-    puts padding * 2 + %(* color_echo can to highlight even when you following the log file by tailf, tail -f.)
-    puts padding * 3 + %(tailf /var/log/httpd/access_log | color_echo -w -p "127.0.0.1" -t bold)
-    puts padding * 3 + %(tailf /var/log/php/php_error.log | color_echo -w -p "foo.php" -p "Fatal error:" -f h_blue) + $/ + $/
+    puts @padding + "* Example"
 
     CE.once.ch :h_magenta
-    puts padding * 2 + %(* color_echo is useful to read the access log, etc.)
-    puts padding * 3 + %(cat /var/log/httpd/access_log | color_echo -p "Sun Jan 18" -f h_cyan -t underscore | less)
-    puts padding * 3 + %(color_echo -p "Sun Jan 18" -f h_cyan -t underscore < /var/log/httpd/access_log | less)
-    puts padding * 3 + %((color_echo -f cyan -p /\\\\s2..\\\\s/ | color_echo -f h_red -p /\\\\s5..\\\\s/ | less) < /var/log/httpd/access_log)
-    puts padding * 3 + %(sed -n 1,1000p /var/log/httpd/access_log | color_echo -f cyan -p /\\\\s2..\\\\s/ | color_echo -f h_red -p /\\\\s5..\\\\s/ | less) + $/ + $/
+    puts @padding * 2 + %(* color_echo can to highlight even when you following the log file by tailf, tail -f.)
+    puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -p "127.0.0.1" -t bold)
+    puts @padding * 3 + %(tailf /var/log/php/php_error.log | colorecho -w -p "foo.php" -p "Fatal error:" -f h_blue) + $/ + $/
 
     CE.once.ch :h_magenta
-    puts padding * 2 + %(* It is a simple to use.)
-    puts padding * 3 + %(color_echo Hello\\!\\! -f h_white -b index199)
-    puts padding * 3 + %(color_echo Hello\\!\\! -t blink,bold -f magenta) + $/ + $/
+    puts @padding * 2 + %(* color_echo is useful to read the access log, etc.)
+    puts @padding * 3 + %(cat /var/log/httpd/access_log | colorecho -p "Sun Jan 18" -f h_cyan -t underscore | less -R)
+    puts @padding * 3 + %(colorecho -p "Sun Jan 18" -f h_cyan -t underscore < /var/log/httpd/access_log | less -R)
+    puts @padding * 3 + %((colorecho -f cyan -p /\\\\s2..\\\\s/ | colorecho -f h_red -p /\\\\s5..\\\\s/ | less -R) < /var/log/httpd/access_log)
+    puts @padding * 3 + %(sed -n 1,1000p /var/log/httpd/access_log | colorecho -f cyan -p /\\\\s2..\\\\s/ | colorecho -f h_red -p /\\\\s5..\\\\s/ | less -R) + $/ + $/
 
     CE.once.ch :h_magenta
-    puts padding * 2 + %(* color_echo can to receive the standard input.)
-    puts padding * 3 + %(echo FooFoOfOO | color_echo -t reverse_video)
-    puts padding * 3 + %(echo FooFoOfOO | color_echo -f index130 -p /foo$/i | color_echo -f index180 -p /^foo/i)
-    puts padding * 3 + %(netstat -na | color_echo -p ":80" | color_echo -p "127.0.0.1" -f h_cyan) + $/ + $/
+    puts @padding * 2 + %(* It is a simple to use.)
+    puts @padding * 3 + %(colorecho Hello\\!\\! -f h_white -b index199)
+    puts @padding * 3 + %(colorecho Hello\\!\\! -t blink,bold -f magenta) + $/ + $/
 
     CE.once.ch :h_magenta
-    puts padding * 2 + %(* color_echo can to decorate on every other line.)
-    puts padding * 3 + %(color_echo -f gray -t bold --stripe < /path/to/file)
-    puts padding * 3 + %(tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe) + $/ + $/
+    puts @padding * 2 + %(* color_echo can to receive the standard input.)
+    puts @padding * 3 + %(echo FooFoOfOO | colorecho -t reverse_video)
+    puts @padding * 3 + %(echo FooFoOfOO | colorecho -f index130 -p /foo$/i | colorecho -f index180 -p /^foo/i)
+    puts @padding * 3 + %(netstat -na | colorecho -p ":80" | colorecho -p "127.0.0.1" -f h_cyan) + $/ + $/
+
+    CE.once.ch :h_magenta
+    puts @padding * 2 + %(* color_echo can to decorate on every other line.)
+    puts @padding * 3 + %(colorecho -f gray -t bold --stripe < /path/to/file)
+    puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -f black -b index150 -t bold --stripe) + $/ + $/
 
     exit 0
 end
@@ -135,13 +137,13 @@ def display_color_index
 
     CE.rainbow
     cnt     = 134
-    padding = " " * 2
+    @padding = " " * 2
     mes     = "OK, Let me check color index list... :)"
-    puts padding + "-" * cnt
-    puts padding + " " * ((cnt - mes.size)/2) + mes
-    puts padding + "-" * cnt
+    puts @padding + "-" * cnt
+    puts @padding + " " * ((cnt - mes.size)/2) + mes
+    puts @padding + "-" * cnt
 
-    print padding
+    print @padding
     256.times do |i|
         num = i + 1
         CE.fg "index#{num}".intern
@@ -153,7 +155,7 @@ def display_color_index
 
         if num % 8 == 0
             print $/ + $/
-            print padding if num != 256
+            print @padding if num != 256
         end
     end
     CE.off
@@ -192,20 +194,20 @@ def display_symbol_list
 
     CE.times(3).rainbow
     cnt     = 60
-    padding = " " * 2
+    @padding = " " * 2
     mes     = "OK, Let me check color name list... :)"
-    puts padding + "-" * cnt
-    puts padding + " " * ((cnt - mes.size)/2) + mes
-    puts padding + "-" * cnt
+    puts @padding + "-" * cnt
+    puts @padding + " " * ((cnt - mes.size)/2) + mes
+    puts @padding + "-" * cnt
 
     header_colors     = "* foreground or background colors"
     header_text_attrs = "* text attributes"
     CE.pickup([header_colors, header_text_attrs], :cyan, nil, [:underscore, :bold])
 
-    puts padding + header_colors
+    puts @padding + header_colors
     symbols_color.each do |color_name|
         CE.off(:bg).fg color_name
-        print "#{padding*2}:#{color_name}" + " " * (11 - color_name.to_s.size)
+        print "#{@padding*2}:#{color_name}" + " " * (11 - color_name.to_s.size)
         CE.bg color_name
         puts color_name.to_s + " " * (30 - color_name.to_s.size)
     end
@@ -213,15 +215,14 @@ def display_symbol_list
     CE.off [:bg, :fg]
     print $/ + $/
 
-    puts padding + header_text_attrs
+    puts @padding + header_text_attrs
     symbols_text_attr.each do |tx_name|
         CE.off(:tx)
         CE.tx tx_name if tx_name != :concealed
-        puts "#{padding*2}:#{tx_name}" + " " * (30 - tx_name.to_s.size)
+        puts "#{@padding*2}:#{tx_name}" + " " * (30 - tx_name.to_s.size)
     end
 
     print $/
 
     exit 0
 end
-

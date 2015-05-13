@@ -79,6 +79,14 @@ If state of enable rainbow mode, This feature is disabled.
  - Return -> self
 
 
+#### CE.hitline(foreground=nil, background=nil, text_attribute)    
+To decorate match lines by CE.pickup method with specified here.         
+ - Parameter foreground -> symbol|nil    
+ - Parameter background -> symbol|nil    
+ - Parameter text_attribute -> symbol or array of them    
+ - Return -> self   
+
+
 #### CE.ch_fg(foreground)
 Change the foreground color to the your specified color.    
  - Alias -> fg    
@@ -175,7 +183,8 @@ ex.) CE.reset            #=> reset all of the set escape sequence.
 ex.) CE.reset :fg        #=> foreground color will be reset.     
 ex.) CE.reset :bg        #=> background color will be reset.     
 ex.) CE.reset :tx        #=> text attribute will be reset.    
-ex.) CE.reset :pickup    #=> pickup text will be reset.    
+ex.) CE.reset :pickup    #=> the pickups text will be reset.    
+ex.) CE.reset :hitline   #=> sequence code list will be reset that is used at match line by CE.pickup.    
 ex.) CE.reset :rainbow   #=> rainbow mode will be reset and swich off.    
 ex.) CE.reset [:fg. :tx] #=> foreground color and ext attribute will be reset.     
 
@@ -189,6 +198,17 @@ Reset automatically after once output.
 Reset automatically after cnt times output.     
  - Parameter cnt -> integer    
  - Return -> self    
+
+
+#### CE.enableclean
+Try to remove the sequence code from the given.   
+ - Return -> self   
+
+
+#### CE.disableclean
+No try to remove the sequence code from the given.     
+This is default.    
+ - Return -> self   
 
 
 ```ruby   
@@ -308,6 +328,12 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v1.4.0, 2014-
+    * Fixed bug, When the input was included invalid encoding. 
+    * Fixed not to be output the interruptted message, When you pressed ctl + C.   
+    * Add new method -> CE::hitline, CE.enableclean, CE.disableclean, Please check the reference.
+    * Can to select new parameter ':hitline' in CE.reset.
+
 * v1.3.0, 2014-02-06
     * Change some options help messages.
     * You can call 'colorecho' as 'color_echo' in command line interface.

@@ -31,6 +31,14 @@ class TestColorEcho < Minitest::Test
         exec %(CE.off)
         puts @@dammy_string
 
+        set_colors
+        exec %(CE.pickup(/^Dammy/, :cyan))
+        puts @@dammy_string
+        exec %(CE.hitline(:black, :index100, :bold))
+        puts @@dammy_string
+        exec %(CE.off :hitline)
+        puts @@dammy_string
+
         exec %(CE.unuse)
         set_colors
         puts @@dammy_string
