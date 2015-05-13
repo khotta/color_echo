@@ -329,11 +329,12 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v1.4.0, 2014-
-    * Fixed bug, When the input was included invalid encoding. 
+* v2.0.0, 2014-05-
+    * Fixed bug, When the input was included invalid encoding.    
     * Fixed not to be output the interruptted message, When you pressed ctl + C.   
-    * Add new method -> CE::hitline, CE.enableclean, CE.disableclean, Please check the reference.
-    * Can to select new parameter ':hitline' in CE.reset.
+    * Add new method -> CE::hitline, CE.enableclean, CE.disableclean, Please check the reference.   
+    * Can to select new parameter ':hitline' in CE.reset.    
+    * Force remove sequence code from given message before the matching by pickup method, If you did not call CE.enableclean.     
 
 * v1.3.0, 2014-02-06
     * Change some options help messages.

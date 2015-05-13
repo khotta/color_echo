@@ -10,7 +10,7 @@
 @explain_n      = %(Do not output the trailing newline.)
 @explain_e      = %(Enable interpretation of line feed.)
 @explain_h      = %(Show help message with example.)
-@explain_c      = %(Try to remove the sequence code from the given. If you didn't specified -c option will force remove sequence code given message when pickup word is matched.)
+@explain_c      = %(Try to remove the sequence code from the given.)
 @explain_stripe = %(Decorate on every other line. pickup option is ignored.)
 @padding        = " " * 4
 @explain_usage  = @padding * 2 + %(colorecho [options] message) + $/
@@ -95,7 +95,9 @@ def usage
     puts @padding * 3 + @explain_stripe + $/ + $/
 
     puts @padding * 2 + "--clean:"
-    puts @padding * 3 + @explain_c + $/ + $/
+    puts @padding * 3 + @explain_c
+    puts @padding * 3 + "If you didn't specified -c option will force remove sequence code given message when pickup word is matched."
+    puts @padding * 3 + "short option is -c." + $/ + $/
 
     puts @padding * 2 + "-n:"
     puts @padding * 3 + @explain_n + $/ + $/ 
