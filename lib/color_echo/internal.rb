@@ -142,6 +142,12 @@ module CE
     # @param string text
     # @return string
     def add_pickup_code(text)
+        # Force remove sequence code given message when --pickup option specified and it matched.
+        if !@clean
+            orgtext = text.clone
+            text    = cleanup_text(text)
+        end
+
         is_match = false
         @@pickup_list.each_pair do |key, hash|
             patterns    = hash[:patterns]
@@ -169,7 +175,12 @@ module CE
             end
         end
 
-        text = (get_start_code(:hitline) + text + get_reset_code) if is_match
+        if is_match
+            text = get_start_code(:hitline) + text + get_reset_code
+        else
+            text = orgtext
+        end
+
         return text
     end
 

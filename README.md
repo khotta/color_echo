@@ -201,7 +201,8 @@ Reset automatically after cnt times output.
 
 
 #### CE.enableclean
-Try to remove the sequence code from the given.   
+Try to remove the sequence code from the given.     
+If you did not call this method, color_echo will force remove sequence code given message when pickup word specified and it matched.     
  - Return -> self   
 
 

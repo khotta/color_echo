@@ -144,7 +144,7 @@ def parse_options
 
         # highlight
         if @highlight == nil
-            code_highlight = %(CE.hitline(nil, nil, :underscore, :bold))
+            code_highlight = %(CE.hitline(nil, nil, :bold))
         else
             params = []
             @highlight.split(",").each do |el|
@@ -169,7 +169,6 @@ end
 require "optparse"
 @opt = OptionParser.new
 
-@opt.on("-h",     "--help",          @explain_h)      { usage }
 @opt.on("-s",     "--symbol-list",   @explain_s)      { display_symbol_list }
 @opt.on("-l",     "--index-list",    @explain_l)      { display_color_index }
 @opt.on("-f val", "--fg val",        @explain_f)      { |val| @fg = val }
@@ -183,6 +182,7 @@ require "optparse"
 @opt.on("--stripe",                  @explain_stripe) { @is_stripe    = true  }
 @opt.on("-c", "--clean",             @explain_c)      { @enable_clean = true  }
 @opt.on("-v",                        @explain_v)      { version }
+@opt.on("-h",     "--help",          @explain_h)      { usage }
 
 @opt.on("--symbol_list", @explain_s + " - [compatibility]" ) { display_symbol_list }
 @opt.on("--index_list", @explain_l  + " - [compatibility]") { display_color_index }

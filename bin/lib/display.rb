@@ -10,7 +10,7 @@
 @explain_n      = %(Do not output the trailing newline.)
 @explain_e      = %(Enable interpretation of line feed.)
 @explain_h      = %(Show help message with example.)
-@explain_c      = %(Try to remove the sequence code from the given.)
+@explain_c      = %(Try to remove the sequence code from the given. If you didn't specified -c option will force remove sequence code given message when pickup word is matched.)
 @explain_stripe = %(Decorate on every other line. pickup option is ignored.)
 @padding        = " " * 4
 @explain_usage  = @padding * 2 + %(colorecho [options] message) + $/
@@ -41,8 +41,9 @@ def usage
 
     headers    = ["* Usage", "* Options", "* Example"]
     headers_op = [
-                     "-v:", "--symbol-list:", "--index-list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
-                     "--tx text_attribute[,...]:", "--watch:", "--stripe:", "-n:", "-e:", "-h:"
+                    "-v:", "--symbol-list:", "--index-list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
+                    "--tx text_attribute[,...]:", "--watch:", "--stripe:", %(--hightlight "foreground_color[,background_color[,text_attribute]]:"),
+                    "--clean:", "--help:", "-n:", "-e:"
     ]
     CE.pickup(headers, :h_green)
     CE.pickup(headers_op, :cyan)
@@ -54,9 +55,6 @@ def usage
     CE.off :fg
 
     puts @padding + "* Options"
-
-    puts @padding * 2 + "-v:"
-    puts @padding * 3 + @explain_v + $/ + $/
 
     puts @padding * 2 + "--symbol-list:"
     puts @padding * 3 + @explain_s
@@ -70,6 +68,12 @@ def usage
     puts @padding * 3 + @explain_p
     puts @padding * 3 + "Regular expressions can be used; like that -> /^foo/i"
     puts @padding * 3 + "short option is -p." + $/ + $/ 
+
+    puts @padding * 2 + %(--hightlight "foreground_color[,background_color[,text_attribute]]:")
+    puts @padding * 3 + @explain_H
+    puts @padding * 3 + %(example -> echo "some message" | colorecho -H "nil,gray" -p /some patturn/ -f h_yellow)
+    puts @padding * 3 + %(default is -H "nil,nil,bold")
+    puts @padding * 3 + "short option is -H." + $/ + $/
 
     puts @padding * 2 + "--fg color_name:"
     puts @padding * 3 + @explain_f
@@ -90,14 +94,21 @@ def usage
     puts @padding * 2 + "--stripe:"
     puts @padding * 3 + @explain_stripe + $/ + $/
 
+    puts @padding * 2 + "--clean:"
+    puts @padding * 3 + @explain_c + $/ + $/
+
     puts @padding * 2 + "-n:"
     puts @padding * 3 + @explain_n + $/ + $/ 
 
     puts @padding * 2 + "-e:"
     puts @padding * 3 + @explain_e + $/ + $/ 
 
-    puts @padding * 2 + "-h:"
-    puts @padding * 3 + @explain_h + $/ + $/ 
+    puts @padding * 2 + "-v:"
+    puts @padding * 3 + @explain_v + $/ + $/
+
+    puts @padding * 2 + "--help:"
+    puts @padding * 3 + @explain_h
+    puts @padding * 3 + "short option is -h." + $/ + $/
 
     puts @padding + "* Example"
 

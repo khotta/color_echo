@@ -1,194 +1,250 @@
 class TestColorEcho < Minitest::Test
     def test_cli_display
         cmd = %(color_echo)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -v)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -s)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -l)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -h)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo --symbol-list)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo --index-list)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo --symbol_list)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo --index_list)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_invalid
         cmd = %(color_echo --test)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_std
         cmd = %(color_echo Hello\!\!)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -f red Hello\!\! color_echo, color color color)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo Dammy Dammy Dammy -b red)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -f black Dammy Dammy Dammy -b index188)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -t underscore Dammy Dammy Dammy)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -t underscore,bold,blink,reverse_video Dammy Dammy Dammy)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -t underscore Dammy Dammy Dammy -f index188)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo Dammy Dammy Dammy -t bold -b green)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -n Dammy Dammy Dammy; color_echo Dammy Dammy Dammy; color_echo Dammy Dammy Dammy)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo "hoge\\nhoge")
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo "hoge\\nhoge" -e)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo "hoge\\rho\\nge" -e)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo "hoge\\r\\nhoge")
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo "hoge\\r\\nhoge" -e)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_pipe
         cmd = %(echo FooFoOfOO | color_echo -t reverse_video)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(echo FooFoOfOO | color_echo -f index130 -p /foo$/i | color_echo -f index180 -p /^foo/i)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo hogepiyofuga -p fuga)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo hogepiyofuga -p fuga -p hoge -t blink -f green)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(netstat -na | color_echo -p ":80" | color_echo -p "127.0.0.1" -f h_cyan | head)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(cat case/dammy.txt | color_echo -p "123.456.789.12" -f h_cyan -t underscore)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo foo -f green | color_echo bar -f red)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo foo -f green -n | color_echo bar -f red)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_redirect
         cmd = %(color_echo < case/dammy.txt)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -b red -t underscore,bold -p "foo" < case/dammy.txt)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %((color_echo -f cyan -p /\\\\s2..\\\\s/ | color_echo -f h_green -p /\\\\s4..\\\\s/ | color_echo -f h_red -p /\\\\s5..\\\\s/) < case/dammy.txt)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_stripe
         cmd = %(color_echo --stripe < case/dammy.txt)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -f white -b blue -t bold --stripe < case/dammy.txt)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo -f h_blue --stripe -p hoge < case/dammy.txt)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_watch
-        info %(Do -> tailf /var/log/httpd/access_log | color_echo -w)
-        info %(Do -> tailf /var/log/httpd/access_log | color_echo -w -p "some pattern")
-        info %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe)
-        info %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe -p hoge)
+        history %(Do -> tailf /var/log/httpd/access_log | color_echo -w)
+        history %(Do -> tailf /var/log/httpd/access_log | color_echo -w -p "some pattern")
+        history %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe)
+        history %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe -p hoge)
     end
 
     def test_cli_optperse
         cmd = %(color_echo --help)
-        info cmd
+        history cmd
         puts `#{cmd}`
 
         cmd = %(color_echo --version)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_link
         cmd = %(colorecho)
-        info cmd
+        history cmd
         puts `#{cmd}`
     end
 
     def test_cli_highlight
+        pt1 = "HogeHOgeHOGE"
+        pt2 = "PIyopiyoPIYO"
+        pt3 = "FooFofoooFoO"
+
+        cmd  = %(  echo #{pt1} | colorecho -f index150)
+        cmd += %(; echo #{pt2} | colorecho -f index150)
+        cmd += %(; echo #{pt3} | colorecho -f index150)
+        history cmd
+        puts `#{cmd}`
+
+        cmd  = %(  echo #{pt1} | colorecho -f index150 -p /piyo$/i)
+        cmd += %(; echo #{pt2} | colorecho -f index150 -p /piyo$/i)
+        cmd += %(; echo #{pt3} | colorecho -f index150 -p /piyo$/i)
+        history cmd
+        puts `#{cmd}`
+
+        cmd  = %(  echo #{pt1} | colorecho -f index150 -p /piyo$/i)
+        cmd += %(; echo #{pt2} | colorecho -f index150 -p /piyo$/i)
+        cmd += %(; echo #{pt3} | colorecho -f index150 -p /piyo$/i)
+        history cmd
+        puts `#{cmd}`
+
+        cmd  = %(  echo #{pt1} | colorecho -f index150 -p /piyo$/i -H "index10")
+        cmd += %(; echo #{pt2} | colorecho -f index150 -p /piyo$/i -H "index10")
+        cmd += %(; echo #{pt3} | colorecho -f index150 -p /piyo$/i -H "index10")
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(echo #{pt2} | colorecho -b index150 -f black -t underscore -p /piyo$/i --highlight "nil,black")
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(echo #{pt2} | colorecho -b index150 -f black -t underscore -p /piyo$/i -H "nil,nil,blink,bold,underscore")
+        history cmd
+        puts `#{cmd}`
+
+        cmd  = %(  echo #{pt1} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold)
+        cmd += %(; echo #{pt2} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold)
+        cmd += %(; echo #{pt3} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold)
+        history cmd
+        puts `#{cmd}`
     end
 
     def test_cli_clean
+        cmd = %(colorecho test -f red | colorecho -f green)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red | colorecho -c -f green)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red -b index199 -t bold | colorecho -f green)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red -b index199 -t bold | colorecho --clean -f green)
+        history cmd
+        puts `#{cmd}`
     end
 end
