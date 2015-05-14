@@ -145,33 +145,32 @@ def usage
     exit 0
 end
 
+# TODO need pager like 'less'?
 def display_color_index
-    require_color_echo
+    require_color_echo_get
 
     CE.rainbow
-    cnt     = 134
+    cnt      = 134
     @padding = " " * 2
-    mes     = "OK, Let me check color index list... :)"
-    puts @padding + "-" * cnt
-    puts @padding + " " * ((cnt - mes.size)/2) + mes
-    puts @padding + "-" * cnt
 
-    print @padding
+    header = "OK, Let me check color index list... :)"
+    mes    = CE.rainbow.get(@padding + "-" * cnt) + $/
+    mes   += @padding + " " * ((cnt - header.size)/2) + CE.rainbow.get(header) + $/
+    mes   += CE.rainbow.get(@padding + "-" * cnt) + $/
+
+    mes += @padding
     256.times do |i|
         num = i + 1
-        CE.fg "index#{num}".intern
-        print "index#{num}" + " " * (4 - num.to_s.size)
-        CE.bg "index#{num}".intern
-        print " " * 5
-        CE.off
-        print " " * 3
+        mes += CE.fg("index#{num}".intern).get("index#{num}" + " " * (4 - num.to_s.size))
+        mes += CE.bg("index#{num}".intern).get(" " * 5)
+        mes += " " * 3
 
         if num % 8 == 0
-            print $/ + $/
-            print @padding if num != 256
+            mes += $/ + $/
+            mes += @padding if num != 256
         end
     end
-    CE.off
+    print mes   
 
     exit 0
 end
