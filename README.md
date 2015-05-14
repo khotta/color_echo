@@ -330,11 +330,12 @@ puts "Disable rainbow mode."
 
 ## Release Note
 * v2.0.0, 2014-05-
-    * Fixed bug, When the input was included invalid encoding.    
-    * Fixed not to be output the interruptted message, When you pressed ctl + C.   
     * Add new method -> CE::hitline, CE.enableclean, CE.disableclean, Please check the reference.   
     * Can to select new parameter ':hitline' in CE.reset.    
+    * Flushes any buffered data when output data to STDOUT.   
     * Force remove sequence code from given message before the matching by pickup method, If you did not call CE.enableclean.     
+    * Fixed bug, When the input was included invalid encoding.    
+    * Fixed not to be output the interruptted message, When you pressed ctl + C.   
 
 * v1.3.0, 2014-02-06
     * Change some options help messages.

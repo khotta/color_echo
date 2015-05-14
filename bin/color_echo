@@ -1,5 +1,17 @@
 #!/usr/bin/env ruby
 require_relative "./lib/display"
+def dump(target)
+    require "pp"
+    require "stringio"
+
+    File.open("/tmp/ruby.log", "a+") do |f|
+        $stdout = StringIO.new
+        pp target
+        strio = $stdout
+        $stdout = STDOUT
+        f.print strio.string
+    end
+end
 
 #
 # Load color_echo
@@ -31,7 +43,7 @@ def output_interactive
             input.chomp!
             exit 0 if @exit_words.index(input)
             eval(@code_decorate)
-            puts CE.get(input)
+            $stdout.flush.puts CE.get(input)
         end
     rescue Interrupt
         exit 1
