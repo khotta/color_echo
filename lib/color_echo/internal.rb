@@ -142,8 +142,8 @@ module CE
     # @param string text
     # @return string
     def add_pickup_code(text)
-        # Force remove sequence code given message when --pickup option specified and it matched.
-        if !@clean
+        if @@refresh_pre_match
+            # remove sequence code from given If it matches pickups
             orgtext = text.clone
             text    = cleanup_text(text)
         end
@@ -177,7 +177,7 @@ module CE
 
         if is_match
             text = get_start_code(:hitline) + text + get_reset_code
-        else
+        elsif @@refresh_pre_match
             text = orgtext
         end
 

@@ -47,7 +47,7 @@ I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranqu
 that I neglect my talents. 
         EOS
 
-        exec %(CE.fg(:yellow).pickup("and"))
+        exec %(CE.fg(:yellow).pickup("and", :h_red))
 
         puts text
 

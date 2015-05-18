@@ -10,7 +10,8 @@
 @explain_n      = %(Do not output the trailing newline.)
 @explain_e      = %(Enable interpretation of line feed.)
 @explain_h      = %(Show help message with example.)
-@explain_c      = %(Try to remove the sequence code from the given.)
+@explain_r      = %(Try to remove the sequence code from the given before matching pickups.)
+@explain_R      = %(Try to remove the sequence code from the given.)
 @explain_stripe = %(Decorate on every other line. pickup option is ignored.)
 @padding        = " " * 4
 @explain_usage  = @padding * 2 + %(colorecho [options] message) + $/
@@ -43,7 +44,7 @@ def usage
     headers_op = [
                     "-v:", "--symbol-list:", "--index-list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
                     "--tx text_attribute[,...]:", "--watch:", "--stripe:", %(--hightlight "foreground_color[,background_color[,text_attribute]]:"),
-                    "--clean:", "--help:", "-n:", "-e:"
+                    "--refresh:", "--refresh-pre-match:", "--help:", "-n:", "-e:"
     ]
     CE.pickup(headers, :h_green)
     CE.pickup(headers_op, :cyan)
@@ -94,10 +95,14 @@ def usage
     puts @padding * 2 + "--stripe:"
     puts @padding * 3 + @explain_stripe + $/ + $/
 
-    puts @padding * 2 + "--clean:"
-    puts @padding * 3 + @explain_c
-    puts @padding * 3 + "If you didn't specified -c option will force remove sequence code given message when pickup word is matched."
-    puts @padding * 3 + "short option is -c." + $/ + $/
+    puts @padding * 2 + "--refresh-pre-match:"
+    puts @padding * 3 + @explain_r
+    puts @padding * 3 + "If it matches, Try to remove sequence code from it."
+    puts @padding * 3 + "short option is -r." + $/ + $/
+
+    puts @padding * 2 + "--refresh:"
+    puts @padding * 3 + @explain_R
+    puts @padding * 3 + "short option is -R." + $/ + $/
 
     puts @padding * 2 + "-n:"
     puts @padding * 3 + @explain_n + $/ + $/ 
@@ -141,6 +146,10 @@ def usage
     puts @padding * 2 + %(* color_echo can to decorate on every other line.)
     puts @padding * 3 + %(colorecho -f gray -t bold --stripe < /path/to/file)
     puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -f black -b index150 -t bold --stripe) + $/ + $/
+
+    CE.once.rainbow
+    puts @padding * 2 + %(* Enjoy colors!!)
+    puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -f index235 -r | colorecho -w -p "pattern1" -f index3 -t underscore,bold -H index85 -r | colorecho -w -p "pattern2" -f index28,nil -t underscore,bold -H index46 -r | colorecho -w -p "pattern3" -t bold,underscore -f index198 -H index178 -r) + $/ + $/
 
     exit 0
 end

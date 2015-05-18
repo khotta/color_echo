@@ -3,7 +3,8 @@ module CE
     @@isset                  = false
     @@rainbow                = false
     @@allow_output           = false
-    @@clean                  = false
+    @@refresh                = false
+    @@refresh_pre_match      = false
     @@code_bg_color          = ""
     @@code_fg_color          = ""
     @@code_text_attr         = ""
@@ -43,7 +44,7 @@ module CE
                 output = strio.string
 
                 # try to remove escape sequence code
-                output = cleanup_text(output) if @@clean
+                output = cleanup_text(output) if @@refresh
 
                 # decorate pickup
                 if @@pickup_list.size > 0

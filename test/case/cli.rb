@@ -106,7 +106,7 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd = %(echo FooFoOfOO | color_echo -f index130 -p /foo$/i | color_echo -f index180 -p /^foo/i)
+        cmd = %(echo FooFoOfOO | color_echo -c -f index130 -p /foo$/i | color_echo -c -f index180 -p /^foo/i)
         history cmd
         puts `#{cmd}`
 
@@ -223,19 +223,27 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd  = %(  echo #{pt1} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold)
-        cmd += %(; echo #{pt2} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold)
-        cmd += %(; echo #{pt3} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold)
+        cmd  = %(  echo #{pt1} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold -r)
+        cmd += %(; echo #{pt2} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold -r)
+        cmd += %(; echo #{pt3} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold -r)
         history cmd
         puts `#{cmd}`
     end
 
-    def test_cli_clean
+    def test_cli_refresh
         cmd = %(colorecho test -f red | colorecho -f green)
         history cmd
         puts `#{cmd}`
 
-        cmd = %(colorecho test -f red | colorecho -c -f green)
+        cmd = %(colorecho test -f red | colorecho -r -f green)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red | colorecho -r -f green -p /^t/)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red | colorecho -R -f green)
         history cmd
         puts `#{cmd}`
 
@@ -243,7 +251,7 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd = %(colorecho test -f red -b index199 -t bold | colorecho --clean -f green)
+        cmd = %(colorecho test -f red -b index199 -t bold | colorecho -R -f green)
         history cmd
         puts `#{cmd}`
     end

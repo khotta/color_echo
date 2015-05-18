@@ -14,7 +14,7 @@ require_relative "case/once"
 require_relative "case/pickup"
 require_relative "case/hitline"
 require_relative "case/rainbow"
-require_relative "case/clean"
+require_relative "case/refresh"
 require_relative "case/get"
 require_relative "case/cli"
 
@@ -49,6 +49,7 @@ ut labore et dolore magna aliqua.
     end
 
     def teardown
+        CE.reset if defined?(CE)
     end
 
     def exec(cm)

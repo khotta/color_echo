@@ -3,7 +3,7 @@ Decorate the command line output with ANSI escape sequence.
 Text that output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 1.3.0
+Version: 2.0.0
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -200,15 +200,17 @@ Reset automatically after cnt times output.
  - Return -> self    
 
 
-#### CE.enableclean
+#### CE.enable_refresh(scope=:all)
 Try to remove the sequence code from the given.     
-If you did not call this method, color_echo will force remove sequence code given message when pickup word specified and it matched.     
+ - Parameter scope -> symbol
+    - :all: Try to remove the sequence code from the given always.
+    - :prematch: If given matches, Try to remove sequence code from it. 
  - Return -> self   
 
 
-#### CE.disableclean
-No try to remove the sequence code from the given.     
-This is default.    
+#### CE.disable_refresh
+Not try to remove the sequence code from the given.    
+Default is this.   
  - Return -> self   
 
 
@@ -330,12 +332,12 @@ puts "Disable rainbow mode."
 
 ## Release Note
 * v2.0.0, 2014-05-
-    * Add new method -> CE::hitline, CE.enableclean, CE.disableclean, Please check the reference.   
+    * Add new method -> CE::hitline, CE.enable_refresh, CE.disable_refresh, Please check the reference.   
     * Can to select new parameter ':hitline' in CE.reset.    
     * Flushes any buffered data when output data to STDOUT.   
-    * Force remove sequence code from given message before the matching by pickup method, If you did not call CE.enableclean.     
     * Fixed bug, When the input was included invalid encoding.    
     * Fixed not to be output the interruptted message, When you pressed ctl + C.   
+    * Fixed default foreground color to yellow.   
 
 * v1.3.0, 2014-02-06
     * Change some options help messages.

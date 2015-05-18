@@ -103,16 +103,17 @@ end
 # @return void
 #
 def parse_options
-    @fg           = nil
-    @bg           = nil
-    @tx           = nil
-    @highlight    = nil
-    @pickups      = []
-    @is_watch     = false
-    @last_lb      = true
-    @enable_lf    = false
-    @is_stripe    = false
-    @enable_clean = false
+    @fg                = "yellow"
+    @bg                = nil
+    @tx                = nil
+    @highlight         = nil
+    @pickups           = []
+    @is_watch          = false
+    @last_lb           = true
+    @enable_lf         = false
+    @is_stripe         = false
+    @refresh_pre_match = false
+    @refresh           = false
 
     begin
         @opt.parse!(ARGV)
@@ -124,7 +125,6 @@ def parse_options
         warn %(  -> Please execute: 'colorecho -h')
     end
 
-    @fg = "yellow" if @fg == nil && @bg == nil && @tx == nil
     @fg = @fg.intern if @fg != nil
     @bg = @bg.intern if @bg != nil
 
@@ -188,11 +188,12 @@ require "optparse"
 @opt.on("-t val", "--tx val",        @explain_t)      { |val| @tx = val }
 @opt.on("-p val", "--pickup val",    @explain_p)      { |val| @pickups << val }
 @opt.on("-H",     "--highlight val", @explain_H)      { |val| @highlight = val}
-@opt.on("-w",     "--watch",         @explain_w)      { @is_watch     = true  }
-@opt.on("-n",                        @explain_n)      { @last_lb      = false }
-@opt.on("-e",                        @explain_e)      { @enable_lf    = true  }
-@opt.on("--stripe",                  @explain_stripe) { @is_stripe    = true  }
-@opt.on("-c", "--clean",             @explain_c)      { @enable_clean = true  }
+@opt.on("-w",     "--watch",         @explain_w)      { @is_watch          = true  }
+@opt.on("-n",                        @explain_n)      { @last_lb           = false }
+@opt.on("-e",                        @explain_e)      { @enable_lf         = true  }
+@opt.on("--stripe",                  @explain_stripe) { @is_stripe         = true  }
+@opt.on("-r", "--refresh-pre-match", @explain_r)      { @refresh_pre_match = true  }
+@opt.on("-R", "--refresh",           @explain_R)      { @refresh           = true  }
 @opt.on("-v",                        @explain_v)      { version }
 @opt.on("-h",     "--help",          @explain_h)      { usage }
 
@@ -219,8 +220,11 @@ Version = CE::VERSION
 # parse options and set the decorate code that execute by eval
 parse_options
 
-if @enable_clean
-    CE.enableclean
+# need refresh?
+if @refresh
+    CE.enable_refresh
+elsif @refresh_pre_match
+    CE.enable_refresh(:prematch)
 end
 
 if @is_watch

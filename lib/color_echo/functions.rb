@@ -201,16 +201,24 @@ module CE
         @@task.call(text)
     end
 
-    # Enable clean flag
-    # @return void
-    def enableclean
-        @@clean = true
+    # Enable refresh flag
+    # @return self
+    def enable_refresh(scope=:all)
+        if scope == :all
+            @@refresh = true
+        elsif scope == :prematch
+            @@refresh_pre_match = true
+        end
+
+        return self
     end
 
-    # Disable clean flag
-    # @return void
-    def disableclean
-        @@clean = false
+    # Disable refresh flag
+    # @return self
+    def disable_refresh
+        @@refresh = false
+        @@refresh_pre_match = false
+        return self
     end
 
     # method alias
