@@ -331,7 +331,7 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v2.0.0, 2014-05-
+* v2.0.0, 2014-05-20
     * 次の新しいメソッドを追加しました -> CE::hitline, CE.enable_refresh, CE.disable_refresh    
     * CE.reset のスコープに CE.pickupで指定したパターンとマッチした行に適用するシーケンスコードをリセットする ':hitline' を追加しました。       
     * tailfコマンドと colorechoコマンドを複数パイプで渡すと出力がバッファに溜まりリアルタイムで出力されない問題を解消しました。    

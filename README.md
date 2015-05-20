@@ -6,7 +6,7 @@ It is also can to decorate only your specified words!
 Version: 2.0.0
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
-Gems repository: http://rubygems.org/gems/color_echo
+Gems repository: http://rubygems.org/gems/color_echo     
 Japanese Document: https://github.com/khotta/color_echo/blob/master/README.ja.md
 
 ## Installation
@@ -332,7 +332,7 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v2.0.0, 2014-05-
+* v2.0.0, 2014-05-20
     * Add new method -> CE::hitline, CE.enable_refresh, CE.disable_refresh, Please check the reference.   
     * Can to select new parameter ':hitline' in CE.reset.    
     * Flushes any buffered data when output data to STDOUT.   
