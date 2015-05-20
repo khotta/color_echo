@@ -201,20 +201,6 @@ ex.) CE.reset [:fg. :tx] #=> foreground color and ext attribute will be reset.
  - Parameter cnt -> integer    
  - Return -> self    
 
-
-#### CE.enable_refresh(scope=:all)
-与えられた入力に対して可能な限りシーケンスコードを取り除きます。    
- - Parameter scope -> symbol
-    - :all: いかなる時もシーケンスコードを取り除きます。   
-    - :prematch: CE.pickupで指定したパターンにマッチした時だけシーケンスコードを取り除きます。    
- - Return -> self   
-
-
-#### CE.disable_refresh
-与えられた入力に対してシーケンスコードを取り除きません。デフォルトはこの挙動です。    
- - Return -> self   
-
-
 ```ruby   
 CE.once.ch :h_yellow, :h_red, :underscore
 puts "decorated"
@@ -229,6 +215,20 @@ puts "three"
 puts "switch off"
 ```
 ![screen shot](/images/result_off.png)
+
+
+#### CE.enable_refresh(scope=:all)
+与えられた入力に対して可能な限りシーケンスコードを取り除きます。    
+ - Parameter scope -> symbol
+    - :all: いかなる時もシーケンスコードを取り除きます。   
+    - :prematch: CE.pickupで指定したパターンにマッチした時だけシーケンスコードを取り除きます。    
+ - Return -> self   
+
+
+#### CE.disable_refresh
+与えられた入力に対してシーケンスコードを取り除きません。デフォルトはこの挙動です。    
+ - Return -> self   
+
 
 #### CE.unuse
 このメソッドがコールされた時点で color_echo の機能を無効にします。      

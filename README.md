@@ -200,21 +200,6 @@ Reset automatically after cnt times output.
  - Parameter cnt -> integer    
  - Return -> self    
 
-
-#### CE.enable_refresh(scope=:all)
-Try to remove the sequence code from the given.     
- - Parameter scope -> symbol
-    - :all: Try to remove the sequence code from the given always.
-    - :prematch: If given matches, Try to remove sequence code from it. 
- - Return -> self   
-
-
-#### CE.disable_refresh
-Not try to remove the sequence code from the given.    
-Default is this.   
- - Return -> self   
-
-
 ```ruby   
 CE.once.ch :h_yellow, :h_red, :underscore
 puts "decorated"
@@ -229,6 +214,21 @@ puts "three"
 puts "switch off"
 ```
 ![screen shot](/images/result_off.png)
+
+
+#### CE.enable_refresh(scope=:all)
+Try to remove the sequence code from the given.     
+ - Parameter scope -> symbol
+    - :all: Try to remove the sequence code from the given always.
+    - :prematch: If given matches, Try to remove sequence code from it. 
+ - Return -> self   
+
+
+#### CE.disable_refresh
+Not try to remove the sequence code from the given.    
+Default is this.   
+ - Return -> self   
+
 
 #### CE.unuse
 Force ignore the function of this library.    
