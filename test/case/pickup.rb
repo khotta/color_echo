@@ -47,30 +47,24 @@ I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranqu
 that I neglect my talents. 
         EOS
 
-        exec %(CE.fg(:yellow).pickup("and", :h_red))
-
+        exec %(CE.pickup(/charm/))
         puts text
 
-        exec %(CE.off(:pickup))
-
+        exec %(CE.off)
+        exec %(CE.fg(:yellow).pickup("and", :h_red))
         puts text
 
         exec %(CE.pickup(["and", "my"], nil, nil, :underscore))
-
         puts text
 
         exec %(CE.off)
-
         puts text
 
         exec %(CE.pickup(["and", "in"], :red, :h_yellow))
-
         puts text
 
         exec %(CE.off)
-
         exec %(CE.pickup(["and", "this", "so"], :index54, :index124, [:underscore, :blink]))
-
         puts text
     end
 end

@@ -73,7 +73,6 @@ def usage
     puts @padding * 2 + %(--hightlight "foreground_color[,background_color[,text_attribute]]:")
     puts @padding * 3 + @explain_H
     puts @padding * 3 + %(example -> echo "some message" | colorecho -H "nil,gray" -p /some patturn/ -f h_yellow)
-    puts @padding * 3 + %(default is -H "nil,nil,bold")
     puts @padding * 3 + "short option is -H." + $/ + $/
 
     puts @padding * 2 + "--fg color_name:"

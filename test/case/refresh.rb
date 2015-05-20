@@ -6,25 +6,41 @@ class TestColorEcho < Minitest::Test
         exec %(CE.ch :black, :h_white, :bold)
         puts text
 
+        exec %(CE.reset)
+        exec %(CE.disable_refresh)
         exec %(CE.enable_refresh)
         exec %(CE.ch :black, :h_white, :bold)
         puts text
 
+        exec %(CE.reset)
         exec %(CE.disable_refresh)
         exec %(CE.ch :black, :h_white, :bold)
         puts text
 
+        exec %(CE.reset)
+        exec %(CE.disable_refresh)
         exec %(CE.enable_refresh :prematch)
         exec %(CE.ch :black, :h_white, :bold)
         puts text
 
+        exec %(CE.reset)
+        exec %(CE.disable_refresh)
+        exec %(CE.enable_refresh :prematch)
         exec %(CE.pickup "test")
-        exec %(CE.enable_refresh :prematch)
         exec %(CE.ch :black, :h_white, :bold)
         puts text
 
-        exec %(CE.pickup "inf")
+        exec %(CE.reset)
+        exec %(CE.disable_refresh)
         exec %(CE.enable_refresh :prematch)
+        exec %(CE.pickup "inf")
+        exec %(CE.ch :black, :h_white, :bold)
+        puts text
+
+        exec %(CE.reset)
+        exec %(CE.disable_refresh)
+        exec %(CE.enable_refresh :all)
+        exec %(CE.pickup "inf")
         exec %(CE.ch :black, :h_white, :bold)
         puts text
     end

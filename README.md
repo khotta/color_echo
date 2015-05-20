@@ -69,7 +69,7 @@ You can use color_echo on command line!
 
 ## module functions
 
-#### CE.pickup(target, foreground=:red, backgruond=nil, text_attribute)    
+#### CE.pickup(target, foreground=:red, backgruond=nil, *text_attribute)    
 To decorate the words that specfied in the String or Regexp or Array of them.    
 If state of enable rainbow mode, This feature is disabled.    
  - Parameter target -> string|regexp or array of them
@@ -79,7 +79,7 @@ If state of enable rainbow mode, This feature is disabled.
  - Return -> self
 
 
-#### CE.hitline(foreground=nil, background=nil, text_attribute)    
+#### CE.hitline(foreground=nil, background=nil, *text_attribute)    
 To decorate match lines by CE.pickup method with specified here.         
  - Parameter foreground -> symbol|nil    
  - Parameter background -> symbol|nil    
@@ -146,7 +146,7 @@ ex.) CE.ch_bg :white #=> background color will be changed white
 
 
 
-#### CE.ch_tx(text_attribute)        
+#### CE.ch_tx(*text_attribute)        
 Change the text attribute to the your specified decoration.     
  - Alias -> tx   
  - Parameter text_attribute -> symbol or array of them   
@@ -162,7 +162,7 @@ Change the text attribute to the your specified decoration.
 ex.) CE.ch_tx :blink #=> text blink on   
 
 
-#### CE.ch foreground [,background [,text_attribute]]   
+#### CE.ch(foreground, background=nil, *text_attribute)
 Change collectively.     
  - Parameter foreground -> symbol|nil    
  - Parameter background -> symbol|nil     
@@ -337,7 +337,7 @@ puts "Disable rainbow mode."
     * Flushes any buffered data when output data to STDOUT.   
     * Fixed bug, When the input was included invalid encoding.    
     * Fixed not to be output the interruptted message, When you pressed ctl + C.   
-    * Fixed default foreground color to yellow.   
+    * Fixed default foreground color to yellow in command line interface.      
 
 * v1.3.0, 2014-02-06
     * Change some options help messages.

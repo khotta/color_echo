@@ -155,9 +155,7 @@ def parse_options
         @code_decorate = "CE" + code_pickup
 
         # highlight
-        if @highlight == nil
-            code_highlight = %(CE.hitline(nil, nil, :bold))
-        else
+        if @highlight != nil
             params = []
             @highlight.split(",").each do |el|
                 el.strip!
@@ -169,7 +167,7 @@ def parse_options
             end
             code_highlight = %(CE.hitline(#{params.join(",")}))
         end
-        @code_decorate = code_highlight + ";" + @code_decorate
+        @code_decorate = code_highlight + ";" + @code_decorate if code_highlight != nil
     else
         @code_decorate = %(CE.ch(@fg, @bg, @tx))
     end

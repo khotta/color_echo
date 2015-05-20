@@ -106,7 +106,7 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd = %(echo FooFoOfOO | color_echo -c -f index130 -p /foo$/i | color_echo -c -f index180 -p /^foo/i)
+        cmd = %(echo FooFoOfOO | color_echo -f index130 -p /foo$/i | color_echo -f index180 -p /^foo/i)
         history cmd
         puts `#{cmd}`
 
@@ -168,6 +168,7 @@ class TestColorEcho < Minitest::Test
         history %(Do -> tailf /var/log/httpd/access_log | color_echo -w -p "some pattern")
         history %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe)
         history %(DO -> tailf /var/log/httpd/access_log | color_echo -w -f black -b index150 -t bold --stripe -p hoge)
+        history %(DO -> tailf /var/log/httpd/access_log | colorecho -w -f index235 -r | colorecho -w -p "pattern1" -f index3 -t underscore,bold -H index85 -r | colorecho -w -p "pattern2" -f index28,nil -t underscore,bold -H index46 -r | colorecho -w -p "pattern3" -t bold,underscore -f index198 -H index178 -r)
     end
 
     def test_cli_optperse
@@ -194,12 +195,6 @@ class TestColorEcho < Minitest::Test
         cmd  = %(  echo #{pt1} | colorecho -f index150)
         cmd += %(; echo #{pt2} | colorecho -f index150)
         cmd += %(; echo #{pt3} | colorecho -f index150)
-        history cmd
-        puts `#{cmd}`
-
-        cmd  = %(  echo #{pt1} | colorecho -f index150 -p /piyo$/i)
-        cmd += %(; echo #{pt2} | colorecho -f index150 -p /piyo$/i)
-        cmd += %(; echo #{pt3} | colorecho -f index150 -p /piyo$/i)
         history cmd
         puts `#{cmd}`
 
@@ -239,11 +234,19 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
+        cmd = %(colorecho test -f red | colorecho -R -f green)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red | colorecho -f green -p /^t/)
+        history cmd
+        puts `#{cmd}`
+
         cmd = %(colorecho test -f red | colorecho -r -f green -p /^t/)
         history cmd
         puts `#{cmd}`
 
-        cmd = %(colorecho test -f red | colorecho -R -f green)
+        cmd = %(colorecho test -f red | colorecho -R -f green -p /^t/)
         history cmd
         puts `#{cmd}`
 
@@ -251,7 +254,11 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd = %(colorecho test -f red -b index199 -t bold | colorecho -R -f green)
+        cmd = %(colorecho test -f red -b index199 -t bold | colorecho --refresh-pre-match -f green)
+        history cmd
+        puts `#{cmd}`
+
+        cmd = %(colorecho test -f red -b index199 -t bold | colorecho --refresh -f green)
         history cmd
         puts `#{cmd}`
     end
