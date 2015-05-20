@@ -1,13 +1,10 @@
 # color_echo
-Decorate the command line output with ANSI escape sequence.     
-Text that output by "print, puts, p" method is decorated.    
-It is also can to decorate only your specified words!   
+color_echo はコマンドライン出力に色をつけるライブラリです。    
 
 Version: 2.0.0
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
-Japanese Document: https://github.com/khotta/color_echo/blob/master/README.ja.md
 
 ## Installation
 
@@ -19,14 +16,12 @@ Or install it yourself as:
 
     $ gem install color_echo
 
-
-## Can to select 256 colors!    
-Please install color_echo and do `color_echo -l`.   
-ex.) CE.ch :index197, :index230    
+## 256色の色の選択が可能です
+color_echo をインストールした後 `colorecho -l` と実行してみてください。   
 ![screen shot](/images/color_index.png)
 ![screen shot](/images/color_index2.png)
 
-## You can to decorate your specified words!   
+## 特定のワードだけを色づけすることができます   
 
 ```ruby
 CE.fg(:h_cyan).pickup("color_echo", :h_white, :red, :underscore).pickup("COLOR_ECHO", :h_yellow)
@@ -43,9 +38,10 @@ EOS
 
 
 
-## Do you want to return words with the escape sequence?
-
-Please write `require "color_echo/get"` rather than `require "color_echo"`.
+## getモード    
+例えば `CE.fg(:index100)` のように実行すれば、color_echoは #p, #puts, #printメソッドの出力を自動で色づけします。     
+この機能を望まない場合は `require "color_echo"` ではなく、 `require "color_echo/get"` にしてください。     
+CE.getのパラメータに指定した色のシーケンスコードをつけて返すようになります。    
 ```ruby
 require "color_echo/get"
 
@@ -62,8 +58,9 @@ puts "output is -> " + output
 ![screen shot](/images/get1.png)
 
 
-## Command Line Interface
-You can use color_echo on command line!   
+## コマンドラインインターフェース    
+color_echo は Rubyの gemライブラリですが、ターミナルで実行できるようコマンドラインインターフェースが実装されています。    
+詳しくは、コマンドラインで `color_echo -h` と実行してみてください。   
 ![screen shot](/images/cli1.png)
 ![screen shot](/images/cli2.png)
 
@@ -71,8 +68,10 @@ You can use color_echo on command line!
 ## module functions
 
 #### CE.pickup(target, foreground=:red, backgruond=nil, *text_attribute)    
-To decorate the words that specfied in the String or Regexp or Array of them.    
-If state of enable rainbow mode, This feature is disabled.    
+パラメータtargetとマッチする文字列を指定した文字色、背景色、テキスト装飾で色づけします。     
+使用できる文字色等は、`colorecho -s` または `colorecho -l` で確認できます。    
+`CE.rainbow` がコールされている場合はこの機能は無視されます。    
+例: `CE.pickup(/^foo/, :index100, nil, :bold)`    
  - Parameter target -> string|regexp or array of them
  - Parameter foreground -> symbol|nil
  - Parameter background -> symbol|nil
@@ -81,7 +80,7 @@ If state of enable rainbow mode, This feature is disabled.
 
 
 #### CE.hitline(foreground=nil, background=nil, *text_attribute)    
-To decorate match lines by CE.pickup method with specified here.         
+CE.pickupでマッチした行に対して、指定した文字色、背景色、テキスト装飾で色づけします。    
  - Parameter foreground -> symbol|nil    
  - Parameter background -> symbol|nil    
  - Parameter text_attribute -> symbol or array of them    
@@ -89,7 +88,7 @@ To decorate match lines by CE.pickup method with specified here.
 
 
 #### CE.ch_fg(foreground)
-Change the foreground color to the your specified color.    
+文字色を指定した色に変更します。     
  - Alias -> fg    
  - Parameter foreground -> symbol    
  - Return -> self    
@@ -119,7 +118,7 @@ ex.) CE.ch_fg :red #=> foreground color will be changed red
 
 
 #### CE.ch_bg(background)   
-Change the background color to the your specified color.     
+背景色を指定した色に変更します。   
  - Alias -> bg   
  - Parameter background -> symbol    
  - Return -> self    
@@ -148,7 +147,7 @@ ex.) CE.ch_bg :white #=> background color will be changed white
 
 
 #### CE.ch_tx(*text_attribute)        
-Change the text attribute to the your specified decoration.     
+テキスト装飾を指定した色に変更します。    
  - Alias -> tx   
  - Parameter text_attribute -> symbol or array of them   
  - Return -> self    
@@ -164,7 +163,7 @@ ex.) CE.ch_tx :blink #=> text blink on
 
 
 #### CE.ch(foreground, background=nil, *text_attribute)
-Change collectively.     
+文字色、背景色、テキスト装飾を指定したものに変更します。    
  - Parameter foreground -> symbol|nil    
  - Parameter background -> symbol|nil     
  - Parameter text_attribute -> symbol or array of them
@@ -175,7 +174,8 @@ ex.) CE.ch :h_red, nil, :blink
 
 
 #### CE.reset(scope=:all)
-Reset to set the escape sequence.   
+指定した色やテキスト装飾をリセットします。リセットする範囲はスコープで決まります。    
+デフォルトは :all ですのですべての設定がリセットされます。    
  - Alias -> off, disable    
  - Parameter scope -> symbol or array of them
  - Return -> self    
@@ -191,27 +191,27 @@ ex.) CE.reset [:fg. :tx] #=> foreground color and ext attribute will be reset.
 
 
 #### CE.once     
-Reset automatically after once output.     
+一度だけ設定した装飾を適用します。      
+これは CE.times(1) と同様です。    
  - Return -> self    
 
 
 #### CE.times(cnt)
-Reset automatically after cnt times output.     
+指定した回数だけ設定した装飾を適用します。    
  - Parameter cnt -> integer    
  - Return -> self    
 
 
 #### CE.enable_refresh(scope=:all)
-Try to remove the sequence code from the given.     
+与えられた入力に対して可能な限りシーケンスコードを取り除きます。    
  - Parameter scope -> symbol
-    - :all: Try to remove the sequence code from the given always.
-    - :prematch: If given matches, Try to remove sequence code from it. 
+    - :all: いかなる時もシーケンスコードを取り除きます。   
+    - :prematch: CE.pickupで指定したパターンにマッチした時だけシーケンスコードを取り除きます。    
  - Return -> self   
 
 
 #### CE.disable_refresh
-Not try to remove the sequence code from the given.    
-Default is this.   
+与えられた入力に対してシーケンスコードを取り除きません。デフォルトはこの挙動です。    
  - Return -> self   
 
 
@@ -231,17 +231,16 @@ puts "switch off"
 ![screen shot](/images/result_off.png)
 
 #### CE.unuse
-Force ignore the function of this library.    
+このメソッドがコールされた時点で color_echo の機能を無効にします。      
 
 
 #### CE.rainbow
-Text color will change to rainbow color.   
+出力をレインボーにします。     
  - Return -> self
 
 
 #### CE.get(text)    
-Decorate and return argument with ANSI escape sequence.   
-If you want to use this module function; You have to require "color_echo/get" only!     
+設定されたシーケンスコードをつけて返します。`require "color_echo/get"` を読み込んだ時だけ使えるメソッドです。     
  - Parameter text -> string 
  - Return -> string
 
@@ -333,12 +332,12 @@ puts "Disable rainbow mode."
 
 ## Release Note
 * v2.0.0, 2014-05-
-    * Add new method -> CE::hitline, CE.enable_refresh, CE.disable_refresh, Please check the reference.   
-    * Can to select new parameter ':hitline' in CE.reset.    
-    * Flushes any buffered data when output data to STDOUT.   
-    * Fixed bug, When the input was included invalid encoding.    
-    * Fixed not to be output the interruptted message, When you pressed ctl + C.   
-    * Fixed default foreground color to yellow in command line interface.      
+    * 次の新しいメソッドを追加しました -> CE::hitline, CE.enable_refresh, CE.disable_refresh    
+    * CE.reset のスコープに CE.pickupで指定したパターンとマッチした行に適用するシーケンスコードをリセットする ':hitline' を追加しました。       
+    * tailfコマンドと colorechoコマンドを複数パイプで渡すと出力がバッファに溜まりリアルタイムで出力されない問題を解消しました。    
+    * 正しくないエンコーディングを検知した際に対話モードが終了してしまう問題を解消しました。    
+    * 対話モードを ctl + c で終了した時の WARNINGを表示しないようにしました。    
+    * コマンドラインインターフェースのデフォルトの文字色をいかなる時も 'yellow' になるようにしました。    
 
 * v1.3.0, 2014-02-06
     * Change some options help messages.
