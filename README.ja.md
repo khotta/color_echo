@@ -1,7 +1,7 @@
 # color_echo
 color_echo はコマンドライン出力に色をつけるライブラリです。    
 
-Version: 2.0.0
+Version: 2.0.1
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -331,7 +331,10 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v2.0.0, 2014-05-20
+* v2.0.1, 2015-08-21
+    * コマンドラインインターフェースで複数行の入力を与えられたときマッチした行のハイライトが正しくつかない問題を修正しました。
+
+* v2.0.0, 2015-05-20
     * 次の新しいメソッドを追加しました -> CE::hitline, CE.enable_refresh, CE.disable_refresh    
     * CE.reset のスコープに CE.pickupで指定したパターンとマッチした行に適用するシーケンスコードをリセットする ':hitline' を追加しました。       
     * tailfコマンドと colorechoコマンドを複数パイプで渡すと出力がバッファに溜まりリアルタイムで出力されない問題を解消しました。    
@@ -339,7 +342,7 @@ puts "Disable rainbow mode."
     * 対話モードを ctl + c で終了した時の WARNINGを表示しないようにしました。    
     * コマンドラインインターフェースのデフォルトの文字色をいかなる時も 'yellow' になるようにしました。    
 
-* v1.3.0, 2014-02-06
+* v1.3.0, 2015-02-06
     * Change some options help messages.
     * You can call 'colorecho' as 'color_echo' in command line interface.
 

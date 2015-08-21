@@ -1,17 +1,6 @@
 #!/usr/bin/env ruby
-require_relative "./lib/display"
-def dump(target)
-    require "pp"
-    require "stringio"
 
-    File.open("/tmp/ruby.log", "a+") do |f|
-        $stdout = StringIO.new
-        pp target
-        strio = $stdout
-        $stdout = STDOUT
-        f.print strio.string
-    end
-end
+require_relative "./lib/display"
 
 #
 # Load color_echo
@@ -76,11 +65,24 @@ end
 def output(target)
     output_stripe(target) if @is_stripe
 
-    eval(@code_decorate)
-    begin
-        print CE.get(target)
-    rescue Errno::EPIPE
+    # performance down when it read line by line..?
+    targets = target.split($/)
+    total   = targets.count
+    cnt     = 0
+    targets.each do |record|
+        cnt += 1
+        eval(@code_decorate)
+
+        begin
+            if !@last_lb && cnt == total
+                print CE.get(record)
+            else
+                puts CE.get(record)
+            end
+        rescue Errno::EPIPE
+        end
     end
+
     exit 0
 end
 

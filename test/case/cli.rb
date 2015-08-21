@@ -223,6 +223,10 @@ class TestColorEcho < Minitest::Test
         cmd += %(; echo #{pt3} | colorecho -f index234 | colorecho -p /piyo$/i -H yellow -f h_yellow -t underscore,bold -r)
         history cmd
         puts `#{cmd}`
+
+        cmd = %(netstat -nat | colorecho -p ESTABLISHED -H "cyan,nil,underscore")
+        history cmd
+        puts `#{cmd}`
     end
 
     def test_cli_refresh

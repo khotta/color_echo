@@ -1,6 +1,6 @@
 module CE
     LIBS_NAME   = "color_echo"
-    VERSION     = "2.0.0"
+    VERSION     = "2.0.1"
     SUMMARY     = "Decorate the command line output with ANSI escape sequence."
     DOCS_PAGE   = "https://github.com/khotta/color_echo"
     DESCRIPTION = <<EOS

@@ -332,7 +332,10 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v2.0.0, 2014-05-20
+* v2.0.1, 2015-08-21
+    * Fixed bug that highlight of line is incorrect in commandline interface.
+
+* v2.0.0, 2015-05-20
     * Add new method -> CE::hitline, CE.enable_refresh, CE.disable_refresh, Please check the reference.   
     * Can to select new parameter ':hitline' in CE.reset.    
     * Flushes any buffered data when output data to STDOUT.   
@@ -340,7 +343,7 @@ puts "Disable rainbow mode."
     * Fixed not to be output the interruptted message, When you pressed ctl + C.   
     * Fixed default foreground color to yellow in command line interface.      
 
-* v1.3.0, 2014-02-06
+* v1.3.0, 2015-02-06
     * Change some options help messages.
     * You can call 'colorecho' as 'color_echo' in command line interface.
 
