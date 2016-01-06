@@ -331,6 +331,9 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v2.0.4, 2016-01-06
+    * Fixed problem as below; https://github.com/khotta/color_echo/issues/2
+
 * v2.0.3, 2016-01-06
     * 最新のgemコマンドはbinで指定したファイルにシンボリックリンクが使えないため古いgemでビルドし直しました。
 

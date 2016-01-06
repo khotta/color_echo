@@ -84,7 +84,11 @@ module CE
         else
             if @@allow_output
                 # call original method
-                eval("@@#{caller_locations(2).first.label}").call(*arg)
+                if RUBY_VERSION >= "2.3.0"
+                    eval("@@#{caller_locations(1).first.label}").call(*arg)
+                else
+                    eval("@@#{caller_locations(2).first.label}").call(*arg)
+                end
             else
                 return arg
             end
