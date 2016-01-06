@@ -3,7 +3,7 @@ Decorate the command line output with ANSI escape sequence.
 Text that output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 2.0.2   
+Version: 2.0.4   
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo     

@@ -1,7 +1,7 @@
 # color_echo
 color_echo はコマンドライン出力に色をつけるライブラリです。    
 
-Version: 2.0.2  
+Version: 2.0.4  
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
