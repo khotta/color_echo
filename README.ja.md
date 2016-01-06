@@ -1,7 +1,7 @@
 # color_echo
 color_echo はコマンドライン出力に色をつけるライブラリです。    
 
-Version: 2.0.1
+Version: 2.0.2  
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo
@@ -331,6 +331,9 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v2.0.1, 2016-01-06
+    * Fixed problem as below; https://github.com/khotta/color_echo/issues/1
+
 * v2.0.1, 2015-08-21
     * コマンドラインインターフェースで複数行の入力を与えられたときマッチした行のハイライトが正しくつかない問題を修正しました。
 

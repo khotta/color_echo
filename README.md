@@ -3,7 +3,7 @@ Decorate the command line output with ANSI escape sequence.
 Text that output by "print, puts, p" method is decorated.    
 It is also can to decorate only your specified words!   
 
-Version: 2.0.0
+Version: 2.0.2   
 Compliant Rubys Version: 2.0.0, 2.1.0 (for Linux)  
 License: MIT  
 Gems repository: http://rubygems.org/gems/color_echo     
@@ -332,6 +332,9 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v2.0.2, 2016-01-06
+    * Fixed problem as below; https://github.com/khotta/color_echo/issues/1
+
 * v2.0.1, 2015-08-21
     * Fixed bug that highlight of line is incorrect in commandline interface.
 

@@ -30,7 +30,11 @@ module CE
             $stdout = strio
 
             # call original method
-            eval("@@#{caller_locations(2).first.label}").call(*arg)
+            if RUBY_VERSION >= "2.3.0"
+                eval("@@#{caller_locations(1).first.label}").call(*arg)
+            else
+                eval("@@#{caller_locations(2).first.label}").call(*arg)
+            end
 
             # change output destination to STDOUT
             $stdout = STDOUT
