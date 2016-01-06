@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
     s.description           = CE::DESCRIPTION
     s.homepage              = CE::DOCS_PAGE
     s.authors               = ["khotta"]
+    s.email                 = ["khotta116@gmail.com"]
     s.license               = "MIT"
     s.post_install_message  = "#{$-0}Thank you for installing! =(^x^="
     s.post_install_message += "#{$-0}See also #{CE::DOCS_PAGE}#{$-0}#{$-0}"
