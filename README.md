@@ -332,8 +332,12 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
+* v2.0.3, 2016-01-06
+    * rebuild by old gem, because latest gem can't use symbolic link in bin/.
+
 * v2.0.2, 2016-01-06
     * Fixed problem as below; https://github.com/khotta/color_echo/issues/1
+    * This version has problem of fail to execute colorecho command, Please use v2.0.3 and over.
 
 * v2.0.1, 2015-08-21
     * Fixed bug that highlight of line is incorrect in commandline interface.

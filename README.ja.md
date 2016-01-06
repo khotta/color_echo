@@ -331,8 +331,12 @@ puts "Disable rainbow mode."
 ![screen shot](/images/screenshot.png)
 
 ## Release Note
-* v2.0.1, 2016-01-06
+* v2.0.3, 2016-01-06
+    * 最新のgemコマンドはbinで指定したファイルにシンボリックリンクが使えないため古いgemでビルドし直しました。
+
+* v2.0.2, 2016-01-06
     * Fixed problem as below; https://github.com/khotta/color_echo/issues/1
+    * colorechoコマンドが使えないバグがあります。このバージョンではなくv2.0.3を使用してください。
 
 * v2.0.1, 2015-08-21
     * コマンドラインインターフェースで複数行の入力を与えられたときマッチした行のハイライトが正しくつかない問題を修正しました。
