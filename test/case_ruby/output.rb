@@ -1,6 +1,6 @@
 class TestColorEcho < Minitest::Test
     def test_puts
-        info "Not overwrite"
+        info "pure output"
         puts_patterns
 
         set_colors
@@ -8,7 +8,7 @@ class TestColorEcho < Minitest::Test
     end
 
     def test_print
-        info "Not overwrite"
+        info "pure output"
         print_patterns
 
         set_colors
@@ -16,7 +16,7 @@ class TestColorEcho < Minitest::Test
     end
 
     def test_p
-        info "Not overwrite"
+        info "pure output"
         p_patterns
 
         set_colors

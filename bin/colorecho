@@ -1,1 +1,485 @@
-color_echo
+#!/usr/bin/env ruby
+# coding: utf-8
+
+# Load file
+require_relative "./lib/display"
+
+# const
+DEFAULT_FG_PICKUP = :cyan
+DEFAULT_FG_STRIPE = :cyan
+CONF_DEFAULT_NAME = "default"
+
+# Load color_echo
+# @return void
+def require_color_echo
+    require "color_echo"
+    #require_relative "../lib/color_echo"
+end
+
+# Load color_echo/get
+# @return void
+def require_color_echo_get
+    require "color_echo/get"
+    #require_relative "../lib/color_echo/get"
+end
+
+# output in interactive
+# @return void
+def output_interactive
+    output_stripe_interactive if @is_stripe
+
+    begin
+        while input = STDIN.gets
+            input.chomp!
+            exit 0 if @exit_words.index(input)
+            eval(@code_decorate)
+            $stdout.flush.puts CE.get(input)
+        end
+    rescue Interrupt
+        exit 1
+    end
+end
+
+# output like stripe in interactive
+# @return void
+def output_stripe_interactive
+    cnt = 0
+    begin
+        while input = STDIN.gets
+            input.chomp!
+            exit 0 if @exit_words.index(input)
+            eval(@code_decorate) if cnt % 2 == 0
+            puts CE.get(input)
+            cnt += 1
+        end
+    rescue Interrupt
+        exit 1
+    end
+end
+
+# output
+# @return void
+def output(target)
+    output_stripe(target) if @is_stripe
+
+    #targets = target.split($/) #=> This way dosen't work as expected the issue of String#split
+    targets = target.split($/, target.size)
+    total   = targets.count
+    cnt     = 0
+    targets.each do |record|
+        cnt += 1
+        begin
+            eval(@code_decorate)
+        rescue SyntaxError
+            msg = %(Invalid value: #{@code_decorate})
+            error_display(msg, "Syntax")
+        end
+
+        begin
+            if cnt == total && !@last_lb
+                print CE.get(record)
+            else
+                puts CE.get(record)
+            end
+        rescue Errno::EPIPE
+        end
+    end
+
+    exit 0
+end
+
+# output like stripe
+# @return void
+def output_stripe(target)
+    #targets = target.split($/) #=> This way dosen't work as expected the issue of String#split
+    targets = target.split($/, target.size)
+    cnt     = 0
+    targets.each do |record|
+        eval(@code_decorate) if cnt % 2 == 0
+        puts CE.get(record)
+        cnt += 1
+    end
+    exit 0
+end
+
+# Return Symbol object if val was not nil
+# @param string|nil input
+# @return symbol|nil
+def get_symbol(input)
+    return nil if input == nil
+    return input.intern
+end
+
+# Return String like Symbol following ":string"
+# @param string|nil input
+# @return string
+def get_symbol_string(input)
+    return "nil" if input == nil
+    return ":#{input}"
+end
+
+# Return Symbol object list if val was not nil
+# @param string|nil input
+# @return array|nil
+def get_symbol_list(input)
+    return nil if input == nil
+
+    list = []
+    input.split(",").each do |val|
+        list << val.intern
+    end
+    return list
+end
+
+# Return String like Symbol that likes ":string"
+# @param array|string|nil input
+# @return string
+def get_symbol_string_list(input)
+    return "nil" if input == nil
+
+    input = input.split(",") if !input.is_a?(Array) 
+
+    list = []
+    input.each do |val|
+        list << ":#{val}"
+    end
+    list = list.join(",")
+
+    return "[#{list}]"
+end
+
+# @param string|nil fg
+# @param string|nil bg
+# @param string|nil tx
+# @return [symbol|nil ,symbol|nil ,symbol|nil]
+def convert_symbol(fg, bg, tx)
+    return get_symbol(fg), get_symbol(bg), get_symbol_list(tx)
+end
+
+# @param string|nil fg
+# @param string|nil bg
+# @param array|string tx
+# @return [string, string, string]
+def convert_symbol_string(fg, bg, tx)
+    return get_symbol_string(fg), get_symbol_string(bg), get_symbol_string_list(tx)
+end
+
+# Parse and update decoration code with pickup & highlight
+# @return void
+def parse_pickups
+    code_addition = ""
+    @pickups.each_index do |index|
+        p_list  = @pickups[index].split(/(?<!\\),/)
+
+        # No input pattern
+        if p_list.size == 0
+            error_display(%(You have to specify pattern when using -p option!), "Argument")
+        end
+
+        pattern = p_list[0]
+        fg = nil
+        bg = nil
+        tx = nil
+        fg = p_list[1]               if defined?(p_list[1])
+        bg = p_list[2]               if defined?(p_list[2])
+        tx = p_list[3...p_list.size] if defined?(p_list[3])
+        fg = DEFAULT_FG_PICKUP if fg == nil && bg == nil && tx == nil
+        fg, bg, tx = convert_symbol_string(fg, bg, tx)
+
+        if pattern[0] == "/" && (pattern[-1] == "/" || pattern[-2] == "/")
+            pattern_str = pattern
+        else
+            pattern_str = %("#{pattern}")
+        end
+
+        code_addition += %(.pickup(#{pattern_str}, #{fg}, #{bg}, #{tx}))
+    end
+
+    # highlights
+    if @highlights.size > 0
+        @highlights.each do |highlight|
+            params = []
+            highlight.split(",").each do |el|
+                el.strip!
+                if el != "nil"
+                    params << ":#{el}"
+                else
+                    params << "nil"
+                end
+            end
+            code_addition += %(.highlight(#{params.join(",")}))
+        end
+    end
+
+    @code_decorate = %(CE.ch(@fg, @bg, @tx)) + code_addition
+end
+
+# Read options files
+# @param data string
+def read_conf(conf_path, list)
+    if list.size > 2
+        error_display(%(-c option is allowed to use only one time!), "Argument")
+    end
+
+    additions     = []
+    no_val_allows = ["-w", "--watch", "-n", "-e", "--stripe", "-r", "--refresh-match", "-R", "--refresh"]
+    no_val_allows.concat(["w", "watch", "n", "e", "stripe", "r", "refresh-match", "R", "refresh"])
+    list += list.pop.split(",")
+    list.each do |file_name|
+        full_path = conf_path + File::SEPARATOR + file_name
+
+        if FileTest.exist?(full_path) && !FileTest.directory?(full_path)
+            begin
+                f = File.open(full_path, File::RDONLY)
+                data = f.readlines
+                f.close
+            rescue => e
+                error_display("#{e.class}: #{e.message}", "File Open")
+            end
+
+            data.each do |option|
+                # This is comment
+                option.strip!
+                next if /^#/ =~ option
+                next if option == ""
+
+                op = option.split("=")
+                if op.size != 2 && no_val_allows.index(op[0]) == nil
+                    error_display(%(Wrong syntax '#{op.join("=")}' Check your options file: #{full_path}), "Configuration")
+                end
+
+                opname = ((/^-/ =~ op[0]) == nil) ? (op[0].size > 1 ? "--" : "-") + op[0] : op[0]
+                additions << opname
+                additions << op[1] if defined? op[1]
+            end
+        else
+            # Missing specified file
+            if (file_name != CONF_DEFAULT_NAME)
+                if FileTest.directory?(full_path)
+                    msg = %(This is directory: #{full_path})
+                else
+                    msg = %(Missing your specified options file: #{full_path})
+                end
+                error_display(msg, "Configuration")
+            end
+        end
+    end
+
+    # Parse options from options files
+    # Always prevail the options be specfied at command line
+    fg                = nil
+    bg                = nil
+    tx                = nil
+    pickups           = []
+    highlights        = []
+    is_watch          = false
+    last_lb           = true
+    enable_lf         = false
+    is_stripe         = false
+    refresh_pre_match = false
+    refresh           = false
+
+    begin
+        OptionParser.new do |opt|
+            opt.on("-f val", "--fg val",      ) { |val| fg = val }
+            opt.on("-b val", "--bg val",      ) { |val| bg = val }
+            opt.on("-t val", "--tx val",      ) { |val| tx = val }
+            opt.on("-p val", "--pickup format") { |val| pickups    << val }
+            opt.on("-H", "--highlight format" ) { |val| highlights << val }
+            opt.on("-w", "--watch",           ) { is_watch          = true  }
+            opt.on("-n",                      ) { last_lb           = false }
+            opt.on("-e",                      ) { enable_lf         = true  }
+            opt.on("--stripe",                ) { is_stripe         = true  }
+            opt.on("-r", "--refresh-match"    ) { refresh_pre_match = true  }
+            opt.on("-R", "--refresh"          ) { refresh           = true  }
+            opt.parse!(additions)
+        end
+        @fg ||= fg
+        @bg ||= bg
+        @tx ||= tx
+        @pickups    += pickups
+        @highlights += highlights
+        @is_watch          = true  if !@is_watch && is_watch
+        @last_lb           = false if @last_lb && !last_lb
+        @enable_lf         = true  if !@enable_lf && enable_lf
+        @is_stripe         = true  if !@is_stripe && is_stripe
+        @refresh_pre_match = true  if !@refresh_pre_match && refresh_pre_match
+        @refresh           = true  if !@refresh && refresh
+
+    rescue => err
+        msg1 = err.message
+        msg2 = %(You can't specify this option here, Please check your options files.)
+        error_display([msg1, msg2], "Configuration")
+    end
+end
+
+# Parse options
+# @return void
+def parse_conf
+    # find options
+    if ENV["COLORECHO"] != nil
+        conf_path = ENV["COLORECHO"]
+    elsif ENV["HOME"] == nil
+        conf_path = ""
+    else
+        conf_path  = ENV["HOME"]
+        conf_path += File::SEPARATOR if (/#{File::SEPARATOR}$/ =~ @conf_path) == nil
+        conf_path += ".colorecho"
+    end
+
+    if FileTest.directory?(conf_path)
+        # found options directory
+        @conf_list.unshift(CONF_DEFAULT_NAME)
+        options_conf = read_conf(conf_path, @conf_list)
+
+    elsif FileTest.exist?(conf_path)
+        # color_echo options path is not directory
+        if @conf_list.size > 0
+            msg1 = %('#{conf_path}' is not directory!)
+            msg2 = %(Couldn't find your options.)
+            error_display([msg1, msg2], "Configuration")
+        end
+    else
+        # no color_echo options directory
+        if @conf_list.size > 0
+            msg1 = %(Could't find a options directory of color_echo: #{conf_path})
+            msg2 = %(You can create options files in $HOME/.colorecho/ or specified directory by env variable $COLORECHO.)
+            error_display([msg1, msg2], "Configuration")
+        end
+    end
+end
+
+# parse the options
+# @return void
+def parse_options
+    @fg                = nil
+    @bg                = nil
+    @tx                = nil
+    @pickups           = []
+    @highlights        = []
+    @is_watch          = false
+    @last_lb           = true
+    @enable_lf         = false
+    @is_stripe         = false
+    @refresh_pre_match = false
+    @refresh           = false
+    @conf_list         = []
+
+    begin
+        @opt.parse!(ARGV)
+
+    rescue => err
+        msg  = %(Please take a look at usage.) + $/ * 2
+        msg += @opt.help
+        error_display(msg, "Parse")
+    end
+
+    # parse options
+    parse_conf
+
+    # cast String to Symbol
+    @fg, @bg, @tx = convert_symbol(@fg, @bg, @tx)
+
+    # set default stripe color if foreground was nil
+    @fg = DEFAULT_FG_STRIPE if @is_stripe && @fg == nil && @bg == nil && @tx == nil
+
+    # ignore --pickup option when specified --stripe option
+    if @pickups.size > 0 && @is_stripe
+        warn_display(%(--pickup option was ignored because you are specified --stripe option.), "Argument")
+        @pickups = []
+    end
+
+    # code for decoration
+    @code_decorate = %(CE.ch(@fg, @bg, @tx))
+
+    # parse pickups
+    if @pickups.size > 0
+        parse_pickups
+    end
+end
+
+# -----------
+# top level
+# -----------
+begin
+    require "optparse"
+rescue LoadError
+    error_display(%('optparse' is required for color_echo.), "Load")
+end
+@opt = OptionParser.new
+
+@opt.on("-s", "--symbol-list",       @explain_s)      { display_symbol_list }
+@opt.on("-l", "--index-list",        @explain_l)      { display_color_index }
+@opt.on("-f val", "--fg val",        @explain_f)      { |val| @fg = val }
+@opt.on("-b val", "--bg val",        @explain_b)      { |val| @bg = val }
+@opt.on("-t val", "--tx val",        @explain_t)      { |val| @tx = val }
+@opt.on("-p val", "--pickup format", @explain_p)      { |val| @pickups    << val }
+@opt.on("-H", "--highlight format",  @explain_H)      { |val| @highlights << val }
+@opt.on("-w", "--watch",             @explain_w)      { @is_watch          = true  }
+@opt.on("-n",                        @explain_n)      { @last_lb           = false }
+@opt.on("-e",                        @explain_e)      { @enable_lf         = true  }
+@opt.on("--stripe",                  @explain_stripe) { @is_stripe         = true  }
+@opt.on("-r", "--refresh-match",     @explain_r)      { @refresh_pre_match = true  }
+@opt.on("-R", "--refresh",           @explain_R)      { @refresh           = true  }
+@opt.on("-c conf_name",              @explain_c)      { |val| @conf_list << val }
+@opt.on("-v",                        @explain_v)      { version }
+@opt.on("-h", "--help",              @explain_h)      { usage }
+
+@opt.banner = <<EOS
+Usage:
+#{@explain_usage}
+Options:
+EOS
+
+# has stdin?
+has_stdin = select([STDIN], [], [], 0) != nil || FileTest.pipe?(STDIN)
+
+# no argument
+if !has_stdin && ARGV.size == 0
+    puts @opt.help
+    exit 0
+end
+
+# load color_echo liblary
+require_color_echo_get
+Version = CE::VERSION
+
+parse_options
+
+# need refresh?
+if @refresh
+    CE.enable_refresh
+elsif @refresh_pre_match
+    CE.enable_refresh(:prematch)
+end
+
+if @is_watch
+    # Interactive mode
+    @exit_words = ["quit", "exit", "bye"]
+    output_interactive
+else
+    if has_stdin
+        begin
+            target = STDIN.read
+        rescue Interrupt
+            error_display(%(No STDIN, Try to use -w option if you need Interactive mode.))
+        end
+
+        if ARGV.size > 0
+            print target
+            argv  = ARGV.join(" ")
+            argv += $/ if @last_lb
+            output(argv)
+        end
+    else
+        target  = ARGV.join(" ")
+    end
+
+    if @enable_lf
+        target.gsub!("\\r\\n", $/)
+        target.gsub!("\\n", $/)
+        target.gsub!("\\r", $/)
+    end
+
+    output(target)
+end

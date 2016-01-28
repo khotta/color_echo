@@ -8,12 +8,12 @@ Gem::Specification.new do |s|
     s.version               = CE::VERSION
     s.summary               = CE::SUMMARY
     s.description           = CE::DESCRIPTION
-    s.homepage              = CE::DOCS_PAGE
+    s.homepage              = CE::HOMEPAGE
     s.authors               = ["khotta"]
     s.email                 = ["khotta116@gmail.com"]
     s.license               = "MIT"
     s.post_install_message  = "#{$-0}Thank you for installing! =(^x^="
-    s.post_install_message += "#{$-0}See also #{CE::DOCS_PAGE}#{$-0}#{$-0}"
+    s.post_install_message += "#{$-0}See also #{CE::HOMEPAGE}#{$-0}#{$-0}"
 
     # include files to this gem package.
     s.files  = Dir["*.txt"]
@@ -34,6 +34,5 @@ Gem::Specification.new do |s|
     s.require_paths = ["lib"]
 
     # executable command
-    s.executables << "color_echo"
     s.executables << "colorecho"
 end

@@ -1,7 +1,8 @@
 begin
     require "stringio"
 rescue LoadError
-    warn "color_echo required 'stringio'."
+    warn "'stringio' is required for color_echo."
+    exit 1
 end
 
 require_relative "const"

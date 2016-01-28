@@ -6,7 +6,7 @@ class TestColorEcho < Minitest::Test
         exec %(CE.ch nil, :index66)
         puts @@dammy_string
 
-        exec %(CE.ch nil, nil, :underscore)
+        exec %(CE.ch nil, nil, :underline)
         puts @@dammy_string
 
         exec %(CE.ch nil, nil, :blink)
@@ -14,7 +14,7 @@ class TestColorEcho < Minitest::Test
 
         exec %(CE.off)
 
-        exec %(CE.ch nil, nil, [:underscore, :blink, :bold])
+        exec %(CE.ch nil, nil, [:underline, :blink, :bold])
         puts @@dammy_string
     end
 end

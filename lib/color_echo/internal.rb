@@ -42,15 +42,14 @@ module CE
     # @return self
     def reset_pickup
         @@pickup_list = {}
+        @@cnt_pickups = 0
         return self
     end
 
-    # reset hitline code
+    # reset highlight code
     # @return self
-    def reset_hitline
-        @@code_hitline_bg_color  = ""
-        @@code_hitline_fg_color  = ""
-        @@code_hitline_text_attr = ""
+    def reset_highlight
+        @@code_highlights = []
         return self
     end
 
@@ -75,14 +74,29 @@ module CE
 
     # return start escape sequence code
     # @return string
-    def get_start_code(type=nil)
+    def get_start_code
         if @@rainbow
             return @@code_rainbow
-        elsif type == :hitline
-            return @@code_hitline_fg_color + @@code_hitline_bg_color + @@code_hitline_text_attr
         else
             return @@code_fg_color + @@code_bg_color + @@code_text_attr
         end
+    end
+
+    # return start escape sequence code
+    # @param int index
+    # @return string
+    def get_highlight_code(index=0)
+        if @@code_highlights[index] == nil
+            code = @@code_highlights[0]
+            if code == nil
+                # e.g. no specify any -H option
+                return ""
+            else
+                return code
+            end
+        end
+
+        return @@code_highlights[index]
     end
 
     # @return String
@@ -148,37 +162,64 @@ module CE
             text    = cleanup_text(text)
         end
 
-        is_match = false
+        match_pattern_keys = []
+        # repeat as called pickup method
         @@pickup_list.each_pair do |key, hash|
             patterns    = hash[:patterns]
             code_pickup = hash[:code]
+            index       = hash[:index]
 
-            # repeat to each specified pickup pattern
+            # repeat as patterns
             patterns.each do |pattern|
-                # pattern is Regexp
                 if pattern.is_a?(Regexp)
-                    after_text = ""
+                    # pattern is Regexp
+                    if (pattern =~ text && !match_pattern_keys.index(index))
+                        match_pattern_keys << index
+                    end
+
+                    if match_pattern_keys.size > 1
+                        code_highlight = get_highlight_code(0)
+                    else
+                        code_highlight = get_highlight_code(index)
+                    end
+
                     # global match
+                    after_text = ""
                     (text.scan(pattern)).size.times do
                         pattern =~ text
-                        after_text += $` + get_reset_code + code_pickup + $& + get_reset_code + get_start_code + get_start_code(:hitline)
+                        after_text += $` + get_reset_code + code_pickup + $& + get_reset_code + get_start_code + code_highlight
                         text = $'
                     end
-                    text     = after_text + text
-                    is_match = ($& != nil) if (!is_match)
+                    text = after_text + text
 
-                # pattern is String
                 else
-                    res      = text.gsub!(pattern, get_reset_code + code_pickup + pattern + get_reset_code + get_start_code + get_start_code(:hitline))
-                    is_match = (res != nil) if (!is_match)
+                    # pattern is String
+                    if (text.index(pattern) != nil && !match_pattern_keys.index(index))
+                        match_pattern_keys << index
+                    end
+
+                    if match_pattern_keys.size > 1
+                        code_highlight = get_highlight_code(0)
+                    else
+                        code_highlight = get_highlight_code(index)
+                    end
+
+                    text.gsub!(pattern, get_reset_code + code_pickup + pattern + get_reset_code + get_start_code + code_highlight)
                 end
             end
         end
 
-        if is_match
-            text = get_start_code(:hitline) + text + get_reset_code
-        elsif @@refresh_pre_match
-            text = orgtext
+        if match_pattern_keys.size == 0
+            # not match
+            text = orgtext if @@refresh_pre_match
+            return text
+        end
+
+        if match_pattern_keys.size == 1
+            text = get_highlight_code(match_pattern_keys[0]) + text + get_reset_code
+        else
+            # many pattern matched, use first -H option
+            text = get_highlight_code(0) + text + get_reset_code
         end
 
         return text
@@ -189,7 +230,7 @@ module CE
     # @param symbol name
     # @return string
     def convert_to_code(module_name, name)
-        return "" if (name == nil || name == "")
+        return "" if (!name.is_a?(Symbol) || name == :nil)
 
         begin
             cname = name.to_s.swapcase

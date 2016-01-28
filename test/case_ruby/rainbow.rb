@@ -1,6 +1,6 @@
 class TestColorEcho < Minitest::Test
     def test_rainbow_puts
-        info "Not overwrite"
+        info "pure output"
         puts_patterns
 
         exec %(CE.rainbow)
@@ -8,14 +8,14 @@ class TestColorEcho < Minitest::Test
     end
 
     def test_rainbow_print
-        info "Not overwrite"
+        info "pure output"
         print_patterns
 
         exec %(CE.rainbow)
         print_patterns
     end
     def test_rainbow_p
-        info "Not overwrite"
+        info "pure output"
         p_patterns
 
         exec %(CE.rainbow)

@@ -1,31 +1,37 @@
-#
-# List of Test Cases
-#
 require 'minitest/autorun'
 require 'minitest/unit'
 
-require_relative "case/output"
-require_relative "case/ch"
-require_relative "case/fg"
-require_relative "case/bg"
-require_relative "case/tx"
-require_relative "case/off"
-require_relative "case/once"
-require_relative "case/pickup"
-require_relative "case/hitline"
-require_relative "case/rainbow"
-require_relative "case/refresh"
-require_relative "case/get"
-require_relative "case/cli"
+# List of test cases
+require_relative "case_ruby/output"
+require_relative "case_ruby/ch"
+require_relative "case_ruby/fg"
+require_relative "case_ruby/bg"
+require_relative "case_ruby/tx"
+require_relative "case_ruby/off"
+require_relative "case_ruby/once"
+require_relative "case_ruby/pickup"
+require_relative "case_ruby/highlight"
+require_relative "case_ruby/rainbow"
+require_relative "case_ruby/refresh"
+require_relative "case_ruby/get"
+require_relative "case_cli/display"
+require_relative "case_cli/highlight"
+require_relative "case_cli/pickup"
+require_relative "case_cli/invalid"
+require_relative "case_cli/pipe"
+require_relative "case_cli/redirect"
+require_relative "case_cli/refresh"
+require_relative "case_cli/std"
+require_relative "case_cli/stripe"
+require_relative "case_cli/watch"
+require_relative "case_cli/conf"
 
 def require_color_echo
     require "color_echo"
-    #require_relative "../lib/color_echo"
 end
 
 def require_color_echo_get
     require "color_echo/get"
-    #require_relative "../lib/color_echo/get"
 end
 
 class TestColorEcho < Minitest::Test
@@ -90,7 +96,7 @@ ut labore et dolore magna aliqua.
     end
 
     def set_colors
-        exec %(CE.ch :h_green, :h_red, :underscore)
+        exec %(CE.ch :h_white, :blue, :underline)
     end
 
     def output_line

@@ -2,7 +2,7 @@ module CE
     @@allow_output = true
 end
 
-# override Kernel methods
+# override Kernel module functions
 def print(*arg)
     CE.task.call(*arg)
 end
@@ -14,3 +14,12 @@ end
 def puts(*arg)
     CE.task.call(*arg)
 end
+
+# TODO
+#def printf(*arg)
+#    CE.task.call(*arg)
+#end
+
+#def putc(*arg)
+#    CE.task.call(*arg)
+#end

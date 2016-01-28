@@ -1,6 +1,6 @@
 class TestColorEcho < Minitest::Test
     def test_once
-        exec %(CE.once.ch :h_yellow, :h_red, :underscore)
+        exec %(CE.once.ch :h_yellow, :h_red, :underline)
         puts @@dammy_string
         puts @@dammy_string
 

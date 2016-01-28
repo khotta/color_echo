@@ -1,19 +1,36 @@
-@explain_v      = %(Show version of color_echo.)
-@explain_s      = %(Show symbol list that can to specify.)
-@explain_l      = %(Show color index list that can to specify.)
-@explain_p      = %(Decorate your specified wrods. You can use this option any number of times.)
-@explain_H      = %(Highlight the match lines by -p options word. format -H "fg_color, bg_color, text_attribute[,...]")
-@explain_f      = %(Specify the foreground color.)
-@explain_b      = %(Specify the background color.)
-@explain_t      = %(Specify the text attributes.)
-@explain_w      = %(Interactive mode. Break word is -> exit, quit, bye; Or Ctl + c)
-@explain_n      = %(Do not output the trailing newline.)
-@explain_e      = %(Enable interpretation of line feed.)
-@explain_h      = %(Show help message with example.)
-@explain_r      = %(Try to remove the sequence code from the given before matching pickups.)
-@explain_R      = %(Try to remove the sequence code from the given.)
-@explain_stripe = %(Decorate on every other line. pickup option is ignored.)
 @padding        = " " * 4
+@header_s       = %(-s, --symbol-list)
+@explain_s      = %(Shows symbol list that can to specify in foreground_color, background_color, text_attr.)
+@header_l       = %(-l, --index-list)
+@explain_l      = %(Shows color index list that can to specify in foreground_color, background_color.)
+@header_p       = %(-p, --pickup "pattern[,foreground_color[,background_color[,text_attribute]]]")
+@explain_p      = %(Decorates your specified pattern. You can use this option many times.)
+@header_H       = %(-H, --hightlight "foreground_color[,background_color[,text_attribute]]")
+@explain_H      = %(Highlight lines that match pattern which is specified by -p option.)
+@header_f       = %(-f, --fg color_name)
+@explain_f      = %(Specifies foreground color.)
+@header_b       = %(-b, --bg color_name)
+@explain_b      = %(Specifies background color.)
+@header_t       = %(-t, --tx text_attribute[,...])
+@explain_t      = %(Specifies background color.)
+@header_w       = %(-w, --watch)
+@explain_w      = %(Keeps wait for standard input.)
+@header_stripe  = %(--stripe)
+@explain_stripe = %(Decorates on every other line.)
+@header_r       = %(-r, --refresh-match)
+@explain_r      = %(Tries to delete sequence code from input that matches -p option’s pattern)
+@header_R       = %(-R, --refresh)
+@explain_R      = %(Tries to delete sequence code from input.)
+@header_c       = %(-c file_name,...)
+@explain_c      = %(Reads options from your specify file. You can specify many files as -c foo,bar,baz.)
+@header_n       = %(-n)
+@explain_n      = %(Do not output the trailing newline.)
+@header_e       = %(-e)
+@explain_e      = %(Enable interpretation of line feed.)
+@header_v       = %(-v)
+@explain_v      = %(Shows version of color_echo.)
+@header_h       = %(-h, --help)
+@explain_h      = %(Shows help message.)
 @explain_usage  = @padding * 2 + %(colorecho [options] message) + $/
 @explain_usage += @padding * 2 + %(colorecho [options] < /path/to/file) + $/
 @explain_usage += @padding * 2 + %(echo "message" | colorecho [options]) + $/
@@ -40,117 +57,102 @@ def usage
 
     EOS
 
-    headers    = ["* Usage", "* Options", "* Example"]
-    headers_op = [
-                    "-v:", "--symbol-list:", "--index-list:", "--pickup word [--pickup word ...]:", "--fg color_name:", "--bg color_name:",
-                    "--tx text_attribute[,...]:", "--watch:", "--stripe:", %(--hightlight "foreground_color[,background_color[,text_attribute]]:"),
-                    "--refresh:", "--refresh-pre-match:", "--help:", "-n:", "-e:"
-    ]
+    headers = ["* Usage", "* Options", "* Example"]
     CE.pickup(headers, :h_green)
-    CE.pickup(headers_op, :cyan)
 
     puts @padding + "* Usage"
 
     CE.ch :h_blue
-    puts @explain_usage + $/ + $/
+    puts @explain_usage + $/ * 2
     CE.off :fg
+
+    headers_op = [
+        @header_l,
+        @header_p,
+        @header_H,
+        @header_f,
+        @header_b,
+        @header_t,
+        @header_w,
+        @header_n,
+        @header_e,
+        @header_h,
+        @header_stripe,
+        @header_r,
+        @header_R,
+        @header_c,
+        @header_v,
+        @header_s
+    ]
+    CE.pickup(headers_op, :cyan)
 
     puts @padding + "* Options"
 
-    puts @padding * 2 + "--symbol-list:"
-    puts @padding * 3 + @explain_s
-    puts @padding * 3 + "short option is -s." + $/ + $/ 
+    puts @padding * 2 + @header_s
+    puts @padding * 3 + @explain_s + $/ * 2
     
-    puts @padding * 2 + "--index-list:"
-    puts @padding * 3 + @explain_l
-    puts @padding * 3 + "short option is -l." + $/ + $/ 
+    puts @padding * 2 + @header_l
+    puts @padding * 3 + @explain_l + $/ * 2
 
-    puts @padding * 2 + "--pickup word [--pickup word ...]:"
-    puts @padding * 3 + @explain_p
-    puts @padding * 3 + "Regular expressions can be used; like that -> /^foo/i"
-    puts @padding * 3 + "short option is -p." + $/ + $/ 
+    puts @padding * 2 + @header_p
+    puts @padding * 3 + @explain_p + $/ * 2
 
-    puts @padding * 2 + %(--hightlight "foreground_color[,background_color[,text_attribute]]:")
-    puts @padding * 3 + @explain_H
-    puts @padding * 3 + %(example -> echo "some message" | colorecho -H "nil,gray" -p /some patturn/ -f h_yellow)
-    puts @padding * 3 + "short option is -H." + $/ + $/
+    puts @padding * 2 + @header_H
+    puts @padding * 3 + @explain_H + $/ * 2
 
-    puts @padding * 2 + "--fg color_name:"
-    puts @padding * 3 + @explain_f
-    puts @padding * 3 + "short option is -f." + $/ + $/ 
+    puts @padding * 2 + @header_f
+    puts @padding * 3 + @explain_f + $/ * 2
 
-    puts @padding * 2 + "--bg color_name:"
-    puts @padding * 3 + @explain_b
-    puts @padding * 3 + "short option is -b." + $/ + $/ 
+    puts @padding * 2 + @header_b
+    puts @padding * 3 + @explain_b + $/ * 2
 
-    puts @padding * 2 + "--tx text_attribute[,...]:"
-    puts @padding * 3 + @explain_t
-    puts @padding * 3 + "short option is -t." + $/ + $/ 
+    puts @padding * 2 + @header_t
+    puts @padding * 3 + @explain_t + $/ * 2
 
-    puts @padding * 2 + "--watch:"
-    puts @padding * 3 + @explain_w
-    puts @padding * 3 + "short option is -w." + $/ + $/
+    puts @padding * 2 + @header_w
+    puts @padding * 3 + @explain_w + $/ * 2
 
-    puts @padding * 2 + "--stripe:"
-    puts @padding * 3 + @explain_stripe + $/ + $/
+    puts @padding * 2 + @header_stripe
+    puts @padding * 3 + @explain_stripe + $/ * 2
 
-    puts @padding * 2 + "--refresh-pre-match:"
-    puts @padding * 3 + @explain_r
-    puts @padding * 3 + "If it matches, Try to remove sequence code from it."
-    puts @padding * 3 + "short option is -r." + $/ + $/
+    puts @padding * 2 + @header_r
+    puts @padding * 3 + @explain_r + $/ * 2
 
-    puts @padding * 2 + "--refresh:"
-    puts @padding * 3 + @explain_R
-    puts @padding * 3 + "short option is -R." + $/ + $/
+    puts @padding * 2 + @header_R
+    puts @padding * 3 + @explain_R + $/ * 2
 
-    puts @padding * 2 + "-n:"
-    puts @padding * 3 + @explain_n + $/ + $/ 
+    puts @padding * 2 + @header_c
+    puts @padding * 3 + @explain_c + $/ * 2
 
-    puts @padding * 2 + "-e:"
-    puts @padding * 3 + @explain_e + $/ + $/ 
+    puts @padding * 2 + @header_n
+    puts @padding * 3 + @explain_n + $/ * 2 
 
-    puts @padding * 2 + "-v:"
-    puts @padding * 3 + @explain_v + $/ + $/
+    puts @padding * 2 + @header_e
+    puts @padding * 3 + @explain_e + $/ * 2 
 
-    puts @padding * 2 + "--help:"
-    puts @padding * 3 + @explain_h
-    puts @padding * 3 + "short option is -h." + $/ + $/
+    puts @padding * 2 + @header_v
+    puts @padding * 3 + @explain_v + $/ * 2
 
-    puts @padding + "* Example"
-
-    CE.once.ch :h_magenta
-    puts @padding * 2 + %(* color_echo can to highlight even when you following the log file by tailf, tail -f.)
-    puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -p "127.0.0.1" -t bold)
-    puts @padding * 3 + %(tailf /var/log/php/php_error.log | colorecho -w -p "foo.php" -p "Fatal error:" -f h_blue) + $/ + $/
-
-    CE.once.ch :h_magenta
-    puts @padding * 2 + %(* color_echo is useful to read the access log, etc.)
-    puts @padding * 3 + %(cat /var/log/httpd/access_log | colorecho -p "Sun Jan 18" -f h_cyan -t underscore | less -R)
-    puts @padding * 3 + %(colorecho -p "Sun Jan 18" -f h_cyan -t underscore < /var/log/httpd/access_log | less -R)
-    puts @padding * 3 + %((colorecho -f cyan -p /\\\\s2..\\\\s/ | colorecho -f h_red -p /\\\\s5..\\\\s/ | less -R) < /var/log/httpd/access_log)
-    puts @padding * 3 + %(sed -n 1,1000p /var/log/httpd/access_log | colorecho -f cyan -p /\\\\s2..\\\\s/ | colorecho -f h_red -p /\\\\s5..\\\\s/ | less -R) + $/ + $/
-
-    CE.once.ch :h_magenta
-    puts @padding * 2 + %(* It is a simple to use.)
-    puts @padding * 3 + %(colorecho Hello\\!\\! -f h_white -b index199)
-    puts @padding * 3 + %(colorecho Hello\\!\\! -t blink,bold -f magenta) + $/ + $/
-
-    CE.once.ch :h_magenta
-    puts @padding * 2 + %(* color_echo can to receive the standard input.)
-    puts @padding * 3 + %(echo FooFoOfOO | colorecho -t reverse_video)
-    puts @padding * 3 + %(echo FooFoOfOO | colorecho -f index130 -p /foo$/i | colorecho -f index180 -p /^foo/i)
-    puts @padding * 3 + %(netstat -na | colorecho -p ":80" | colorecho -p "127.0.0.1" -f h_cyan) + $/ + $/
-
-    CE.once.ch :h_magenta
-    puts @padding * 2 + %(* color_echo can to decorate on every other line.)
-    puts @padding * 3 + %(colorecho -f gray -t bold --stripe < /path/to/file)
-    puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -f black -b index150 -t bold --stripe) + $/ + $/
+    puts @padding * 2 + @header_h
+    puts @padding * 3 + @explain_h + $/ * 2
 
     CE.once.rainbow
-    puts @padding * 2 + %(* Enjoy colors!!)
-    puts @padding * 3 + %(tailf /var/log/httpd/access_log | colorecho -w -f index235 -r | colorecho -w -p "pattern1" -f index3 -t underscore,bold -H index85 -r | colorecho -w -p "pattern2" -f index28,nil -t underscore,bold -H index46 -r | colorecho -w -p "pattern3" -t bold,underscore -f index198 -H index178 -r) + $/ + $/
-
+    puts @padding * 2 + %(Let's enjoy colors!!) + $/ * 2
     exit 0
+end
+
+def warn_display(msg, header="Runtime")
+    warn(%(#{header} Warning:))
+    warn(" " * 4 + msg + $/ * 2)
+end
+
+def error_display(msg, header="Runtime")
+    msgls = msg.is_a?(Array) ? msg : [msg]
+    warn(%(#{header} Error:))
+    msgls.each do |msg|
+        warn(" " * 4 + msg + $/)
+    end
+    exit 1
 end
 
 # TODO need pager like 'less'?
@@ -174,7 +176,7 @@ def display_color_index
         mes += " " * 3
 
         if num % 8 == 0
-            mes += $/ + $/
+            mes += $/ * 2
             mes += @padding if num != 256
         end
     end
@@ -206,7 +208,7 @@ def display_symbol_list
     ]
     symbols_text_attr = [
         :bold,
-        :underscore,
+        :underline,
         :blink,
         :reverse_video,
         :concealed
@@ -222,7 +224,7 @@ def display_symbol_list
 
     header_colors     = "* foreground or background colors"
     header_text_attrs = "* text attributes"
-    CE.pickup([header_colors, header_text_attrs], :cyan, nil, [:underscore, :bold])
+    CE.pickup([header_colors, header_text_attrs], :cyan, nil, [:underline, :bold])
 
     puts @padding + header_colors
     symbols_color.each do |color_name|
@@ -233,7 +235,7 @@ def display_symbol_list
     end
 
     CE.off [:bg, :fg]
-    print $/ + $/
+    print $/ * 2
 
     puts @padding + header_text_attrs
     symbols_text_attr.each do |tx_name|

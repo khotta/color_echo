@@ -22,7 +22,7 @@ module CE
                 reset_bg
                 reset_tx
                 reset_pickup
-                reset_hitline
+                reset_highlight
                 reset_rainbow
             when :fg
                 reset_fg
@@ -32,8 +32,8 @@ module CE
                 reset_tx
             when :pickup
                 reset_pickup
-            when :hitline
-                reset_hitline
+            when :highlight
+                reset_highlight
             when :rainbow
                 reset_rainbow
             end
@@ -108,7 +108,7 @@ module CE
     # @param symbol bg
     # @param symbol tx
     # @return self
-    def pickup(target, fg=:red, bg=nil, *txs)
+    def pickup(target, fg=:cyan, bg=nil, *txs)
         key = target.object_id.to_s
         @@pickup_list[key] = {}
 
@@ -139,7 +139,9 @@ module CE
             end
         end
 
-        @@pickup_list[key][:code] = code_fg + code_bg + code_tx
+        @@pickup_list[key][:code]  = code_fg + code_bg + code_tx
+        @@pickup_list[key][:index] = @@cnt_pickups
+        @@cnt_pickups += 1
 
         return self
     end
@@ -155,34 +157,23 @@ module CE
 
     # change hit lines decoration
     # @return void
-    def hitline(fg=nil, bg=nil, *txs)
-        if fg.instance_of?(Symbol)
-            @@code_hitline_fg_color = convert_to_code("ForeGround", fg)
-        else
-            @@code_hitline_fg_color = ""
-        end
-
-        if bg.instance_of?(Symbol)
-            @@code_hitline_bg_color = convert_to_code("BackGround", bg)
-        else
-            @@code_hitline_bg_color = ""
-        end
+    def highlight(fg=nil, bg=nil, *txs)
+        fg = convert_to_code("ForeGround", fg)
+        bg = convert_to_code("BackGround", bg)
+        tx = ""
 
         if txs.size > 0
+            # if text attribute has input as array
             txs = txs[0] if txs[0].instance_of?(Array)
+
             txs.each do |name|
                 next if !name.is_a?(Symbol)
-                @@code_hitline_text_attr += convert_to_code("TextAttr", name)
+                tx += convert_to_code("TextAttr", name)
             end
         end
+        @@code_highlights << fg + bg + tx
 
         return self
-    end
-
-    # get escape sequence code of that hit record line
-    # @return string
-    def get_hitline_code
-        return @@code_hitline_fg_color + @@code_hitline_bg_color + @@code_hitline_text_attr
     end
 
     # get decorated text
@@ -190,14 +181,15 @@ module CE
     # @param string text
     def get(text)
         if @@allow_output
-            warn (%([WARNING] CE.get; If you want to use this module function; You have to require "color_echo/get" only!))
+            caller()[0] =~ /(.*?):(\d+)/
+            warn (%([WARNING] #{$1} #{$2}: You can't call CE.get. You must to read like -> require 'color_echo/get' ))
             return text
         end
 
         if !text.is_a?(String)
             text = text.to_s
         end
-        
+
         @@task.call(text)
     end
 
@@ -218,6 +210,19 @@ module CE
     def disable_refresh
         @@refresh = false
         @@refresh_pre_match = false
+        return self
+    end
+
+    # CE.get will be stateful
+    # @return self
+    def stateful
+        @@stateful_getter = true
+        return self
+    end
+
+    # CE.get will be stateless
+    def stateless
+        @@stateful_getter = false
         return self
     end
 

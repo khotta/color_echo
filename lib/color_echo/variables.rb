@@ -8,12 +8,14 @@ module CE
     @@code_bg_color          = ""
     @@code_fg_color          = ""
     @@code_text_attr         = ""
-    @@code_hitline_bg_color  = ""
-    @@code_hitline_fg_color  = ""
-    @@code_hitline_text_attr = ""
+    @@code_highlights        = []
     @@code_rainbow           = ""
+    # count number for times method
     @@cnt_limit              = 0
     @@pickup_list            = {}
+    # how much pattern having?
+    @@cnt_pickups            = 0
+    @@stateful_getter        = false
 
     @@print = method :print
     @@p     = method :p
@@ -39,8 +41,6 @@ module CE
             # change output destination to STDOUT
             $stdout = STDOUT
 
-            #is_hit_pickup = false
-
             # get output text
             if @@rainbow
                 output = add_rainbow(strio.string)
@@ -52,12 +52,10 @@ module CE
 
                 # decorate pickup
                 if @@pickup_list.size > 0
-                    #before_output = String.new(output)
                     output = add_pickup_code(output)
-                    #is_hit_pickup = before_output != output
                 end
 
-                # add start code in haed
+                # add start code in header
                 output = get_start_code + output
 
                 # add reset code in front of line feed
@@ -72,11 +70,11 @@ module CE
                     @@cnt_limit -= 1
                     # to reset
                     if @@cnt_limit == 0
-                        reset [:fg, :bg, :tx, :rainbow]
+                        reset
                     end
                 end
             else
-                reset
+                reset if !@@stateful_getter
                 return output
             end
 
@@ -90,7 +88,12 @@ module CE
                     eval("@@#{caller_locations(2).first.label}").call(*arg)
                 end
             else
-                return arg
+                # just return
+                output = ""
+                arg.each do |elem|
+                    output += elem
+                end
+                return output
             end
         end
     end

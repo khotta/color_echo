@@ -1,7 +1,7 @@
 class TestColorEcho < Minitest::Test
     def test_pickup_reg
         text = "HogexxxxxxxxxxHOGExxxxhogexxxxxxHoGexxxxxxXXXxxxxxhogexxxxxxxxxxxxxhoGe"
-        info "Dammy text is -> " + text
+        info "Test string is -> " + text
 
         exec %(CE.pickup(/hoge/))
         puts text
@@ -30,7 +30,7 @@ class TestColorEcho < Minitest::Test
         puts text
 
         exec %(CE.off)
-        exec %(CE.pickup([/^hoge/i, /hoge$/i, "XXX"], :index99, nil, :blink))
+        exec %(CE.pickup([/^hoge/i, /hoge$/i, "XXX"], :index99, nil, :bold))
         puts text
     end
 
@@ -54,7 +54,7 @@ that I neglect my talents.
         exec %(CE.fg(:yellow).pickup("and", :h_red))
         puts text
 
-        exec %(CE.pickup(["and", "my"], nil, nil, :underscore))
+        exec %(CE.pickup(["and", "my"], nil, nil, :underline))
         puts text
 
         exec %(CE.off)
@@ -64,7 +64,7 @@ that I neglect my talents.
         puts text
 
         exec %(CE.off)
-        exec %(CE.pickup(["and", "this", "so"], :index54, :index124, [:underscore, :blink]))
+        exec %(CE.pickup(["and", "this", "so"], :black, :white, [:underline, :bold]))
         puts text
     end
 end
