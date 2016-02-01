@@ -7,6 +7,14 @@ class TestColorEcho < Minitest::Test
         puts_patterns
     end
 
+    def test_rainbow_p
+        info "pure output"
+        p_patterns
+
+        exec %(CE.rainbow)
+        p_patterns
+    end
+
     def test_rainbow_print
         info "pure output"
         print_patterns
@@ -14,11 +22,20 @@ class TestColorEcho < Minitest::Test
         exec %(CE.rainbow)
         print_patterns
     end
-    def test_rainbow_p
-        info "pure output"
-        p_patterns
 
-        exec %(CE.rainbow)
-        p_patterns
+    def test_rainbow_printf
+        info "pure output"
+        dump_by_printf
+
+        set_colors
+        dump_by_printf
+    end
+
+    def test_rainbow_putc
+        info "pure output"
+        dump_by_putc
+
+        set_colors
+        dump_by_putc
     end
 end

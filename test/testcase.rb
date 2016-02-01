@@ -13,6 +13,7 @@ require_relative "case_ruby/pickup"
 require_relative "case_ruby/highlight"
 require_relative "case_ruby/rainbow"
 require_relative "case_ruby/refresh"
+require_relative "case_ruby/withdraw"
 require_relative "case_ruby/get"
 require_relative "case_cli/display"
 require_relative "case_cli/highlight"
@@ -96,7 +97,7 @@ ut labore et dolore magna aliqua.
     end
 
     def set_colors
-        exec %(CE.ch :h_white, :blue, :underline)
+        exec %(CE.ch :h_yellow, :blue, :underline)
     end
 
     def output_line
@@ -145,5 +146,19 @@ ut labore et dolore magna aliqua.
         output_line
         p @@dammy_long
         output_line
+    end
+
+    def dump_by_printf
+        printf("%s %i %s", "foo", 1, "bar")
+        print "\n"
+    end
+
+    def dump_by_putc
+        putc "foo"
+
+        256.times do |i|
+            putc i
+        end
+        print "\n"
     end
 end

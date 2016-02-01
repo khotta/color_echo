@@ -15,11 +15,10 @@ def puts(*arg)
     CE.task.call(*arg)
 end
 
-# TODO
-#def printf(*arg)
-#    CE.task.call(*arg)
-#end
+def printf(*arg)
+    CE.task.call(*arg)
+end
 
-#def putc(*arg)
-#    CE.task.call(*arg)
-#end
+def putc(*arg)
+    CE.task.call(*arg)
+end

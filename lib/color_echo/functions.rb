@@ -182,7 +182,7 @@ module CE
     def get(text)
         if @@allow_output
             caller()[0] =~ /(.*?):(\d+)/
-            warn (%([WARNING] #{$1} #{$2}: You can't call CE.get. You must to read like -> require 'color_echo/get' ))
+            warn (%([WARNING] #{$1} #{$2}: You can't call CE.get. You must read like -> require 'color_echo/get' ))
             return text
         end
 
@@ -224,6 +224,22 @@ module CE
     def stateless
         @@stateful_getter = false
         return self
+    end
+
+    # @param symbol arg
+    # @return array
+    def withdraw(*arg)
+        deleted = []
+        arg.each do |target|
+            deleted << @@assgined.delete(target)
+        end
+
+        return deleted
+    end
+
+    # @return array
+    def get_assigned
+        return @@assgined
     end
 
     # method alias
