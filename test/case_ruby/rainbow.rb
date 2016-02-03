@@ -27,7 +27,7 @@ class TestColorEcho < Minitest::Test
         info "pure output"
         dump_by_printf
 
-        set_colors
+        exec %(CE.rainbow)
         dump_by_printf
     end
 
@@ -35,7 +35,7 @@ class TestColorEcho < Minitest::Test
         info "pure output"
         dump_by_putc
 
-        set_colors
+        exec %(CE.rainbow)
         dump_by_putc
     end
 end

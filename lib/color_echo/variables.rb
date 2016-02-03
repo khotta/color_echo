@@ -47,7 +47,7 @@ module CE
             called = caller_locations(2).first.label
         end
 
-        if available? && @@assgined.index(called.intern)
+        if available? && called == "get" || @@assgined.index(called.intern)
             task_available(called, arg)
         else
             # no available "color echo"

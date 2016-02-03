@@ -250,7 +250,7 @@ def read_conf(conf_path, list)
 
                 opname = ((/^-/ =~ op[0]) == nil) ? (op[0].size > 1 ? "--" : "-") + op[0] : op[0]
                 additions << opname
-                additions << op[1] if defined? op[1]
+                additions << op[1] if (defined? op[1]) && op[1] != nil
             end
         else
             # Missing specified file
@@ -294,6 +294,7 @@ def read_conf(conf_path, list)
             opt.on("-R", "--refresh"          ) { refresh           = true  }
             opt.parse!(additions)
         end
+
         @fg ||= fg
         @bg ||= bg
         @tx ||= tx

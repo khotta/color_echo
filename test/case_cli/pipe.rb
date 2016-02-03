@@ -4,7 +4,7 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd = %(echo FooFoOfOO | colorecho -p /foo$/i,green | colorecho -f magenta -p /^foo/i,red -f yellow)
+        cmd = %(echo FooFoOfOO | colorecho -p /foo$/i,green | colorecho -p /^foo/i,red -f yellow)
         history cmd
         puts `#{cmd}`
 

@@ -1,4 +1,22 @@
 class TestColorEcho < Minitest::Test
+    def test_cli_conf_join
+        dir  = ENV["HOME"] + "/.colorecho"
+
+        delete_target(dir)
+        Dir.mkdir(dir)
+        info %(Generated directory -> #{dir})
+
+        write_conf dir + "/default", <<-EOS
+stripe
+fg=yellow
+        EOS
+
+        cmd = %(colorecho -e "Color\nEcho\nColor\nEcho\nColor\nEcho")
+        history cmd
+        puts `#{cmd}`
+        info %(expect: yellow and white stripe)
+    end
+
     # Usually case
     def test_cli_conf_combination
         dir  = ENV["HOME"] + "/.colorecho"
@@ -221,11 +239,7 @@ r
         history cmd
         puts `#{cmd}`
 
-        write_conf path, <<-EOS
-w
-        EOS
-        cmd = %(colorecho -c default)
-        info %(Please execute as tailf /path/to/file | colorecho)
+        info %(Write 'w' to .colorecho/default and execute as tailf /path/to/file | colorecho)
     end
 
     # Exception case

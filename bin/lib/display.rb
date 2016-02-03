@@ -51,9 +51,8 @@ def usage
 
     CE.once.ch :yellow
     puts <<-EOS
-    #{CE::LIBS_NAME} - #{CE::SUMMARY}
+    #{CE::LIBS_NAME} - #{CE::DESCRIPTION}
     VERSION: #{CE::VERSION}
-    README: #{CE::DOCS_PAGE}
 
     EOS
 

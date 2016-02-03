@@ -40,7 +40,7 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
-        cmd  = %(colorecho -e "#{pt}" -p "a,red,white,bold,underline" -f black -b white -t blink)
+        cmd  = %(colorecho -e "#{pt}" -p "a,red,white,bold,underline" -f black -b white -t underline)
         history cmd
         puts `#{cmd}`
 
@@ -48,5 +48,8 @@ class TestColorEcho < Minitest::Test
         history cmd
         puts `#{cmd}`
 
+        cmd  = %(colorecho -e "#{pt}" -f gray -p /Foo/,red -p OO,green -p BAR,yellow -p Az,magenta,nil,bold)
+        history cmd
+        puts `#{cmd}`
     end
 end
