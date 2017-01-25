@@ -2,7 +2,7 @@
 Decorates command line output with ANSI escape sequence.   
 
 Documents and all informations are as below =(^x^=    
-http://colorecho.net    
+http://colorecho.github.io
 
 See on rubygems: https://rubygems.org/gems/color_echo
 
